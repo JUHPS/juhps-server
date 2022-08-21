@@ -12,29 +12,6 @@
 namespace jujimeizuo {
 
 class Logger;
-// 日志事件
-class LogEvent {
-public:
-typedef std:shared_ptr<LogEvent> ptr;
-	LogEvent() ;
-
-	const char* getFile() const { return m_file; }
-	int32_t getLine() const { return m_line; }
-	uint32_t getElapse() const { return m_elapse; }
-	uint32_t ThreadId() const { return m_threadId; }
-	uint32_t getFiberId() const { return m_fiberId; }
-	uint64_t getTime() const { return m_time; }
-	const std::string& getContest() const { return m_content; }
-
-private:
-	const char* m_file = nullptr; 	// 文件名
-	int32_t m_line = 0;			  	// 行号
-	uint32_t m_elapse = 0;			// 程序启动开始到现在的毫秒数
-	uint32_t m_threadId = 0;		// 线程id
-	uint32_t m_fiberId = 0;			// 协程id
-	uint64_t m_time;				// 时间戳
-	std::string m_content;
-};
 
 // 日志级别
 class LogLevel {
@@ -50,27 +27,61 @@ public:
 	static const char* ToString(LogLevel::Level level);
 };
 
-// 日志格式器
+// 日志事件
+class LogEvent {
+public:
+	typedef std::shared_ptr<LogEvent> ptr;
+	LogEvent(const char* file, int32_t line, uint32_t elapse
+			, uint32_t thread_id, uint32_t fiber_id, uint64_t time) ;
+
+	const char* getFile() const { return m_file; }
+	int32_t getLine() const { return m_line; }
+	uint32_t getElapse() const { return m_elapse; }
+	uint32_t getThreadId() const { return m_threadId; }
+	uint32_t getFiberId() const { return m_fiberId; }
+	uint64_t getTime() const { return m_time; }
+	const std::string& getThreadName() const { return m_threadName;}
+	std::string getContent() const { return m_ss.str(); }
+	std::shared_ptr<Logger> getLogger() const { return m_logger;}
+	LogLevel::Level getLevel() const { return m_level;}
+	std::stringstream& getSS() { return m_ss; }
+private:
+	const char* m_file = nullptr; 		// 文件名
+	int32_t m_line = 0;			  		// 行号
+	uint32_t m_elapse = 0;				// 程序启动开始到现在的毫秒数
+	uint32_t m_threadId = 0;			// 线程id
+	uint32_t m_fiberId = 0;				// 协程id
+	uint64_t m_time = 0;				// 时间戳
+	std::string m_threadName;			// 线程名称
+	std::stringstream m_ss;				// 日志内容流
+	std::shared_ptr<Logger> m_logger; 	// 日志器
+	LogLevel::Level m_level;			// 日志等级
+};
+
+
+// 日志格式化
 class LogFormatter {
 public:
 	typedef std::shared_ptr<LogFormatter> ptr;
 	LogFormatter(const std::string& pattern);
 
 	std::string format(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event);
-private:
+	std::ostream& format(std::ostream& os, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event);
+public:
 	class FormatItem {
 	public:
 		typedef std::shared_ptr<FormatItem> ptr;
-		FormatItem(const std::string& fmt = "") {};
 		virtual ~FormatItem() {}
 		virtual void format(std::ostream& os, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) = 0;
 	};
 
 	void init();
 
+	bool isError() const { return m_error; }
 private:
 	std::string m_pattern;
 	std::vector<FormatItem::ptr> m_items;
+	bool m_error = false;
 };
 
 // 日志输出地
@@ -112,6 +123,7 @@ private:
 	std::string m_name;							// 日志名称
 	LogLevel::Level m_level;					// 日志级别
 	std::list<LogAppender::ptr> m_appenders;  	// Appender集合
+	LogFormatter::ptr m_formatter;
 };
 
 // 输出到控制台的Appender

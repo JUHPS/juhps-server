@@ -2,6 +2,7 @@
 #include <map>
 #include <iostream>
 #include <functional>
+#include <time.h>
 #include <string.h>
 
 namespace jujimeizuo {
@@ -73,14 +74,6 @@ public:
 	}
 };
 
-class ThreadNameFormatItem : public LogFormatter::FormatItem {
-public:
-    ThreadNameFormatItem(const std::string& str = "") {}
-    void format(std::ostream& os, Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event) override {
-        os << event->getThreadName();
-    }
-};
-
 class DateTimeFormatItem : public LogFormatter::FormatItem {
 public:
 	DateTimeFormatItem(const std::string& format = "%Y-%m-%d %H:%M:%S")
@@ -91,7 +84,12 @@ public:
 	}
 
 	void format(std::ostream& os,Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event) override {
-		os << event -> getTime();
+		struct tm tm;
+		time_t time = event -> getTime();
+		localtime_r(&time, &tm);
+		char buf[64];
+		strftime(buf, sizeof(buf), m_format.c_str(), &tm);
+		os << buf;
 	}
 private:
 	std::string m_format;
@@ -132,15 +130,30 @@ private:
 	std::string m_string;
 };
 
+LogEvent::LogEvent(const char* file, int32_t line, uint32_t elapse
+			, uint32_t thread_id, uint32_t fiber_id, uint64_t time)
+	: m_file(file)
+	, m_line(line)
+	, m_elapse(elapse)
+	, m_threadId(thread_id)
+	, m_fiberId(fiber_id)
+	, m_time(time) {
+}
+
 Logger::Logger(const std::string& name)
-	: m_name(name) {
+	: m_name(name)
+	, m_level(LogLevel::DEBUG) {
+	m_formatter.reset(new LogFormatter("%d [%p] %f <%l:%m> %n"));
 }
 
 void Logger::addAppender(LogAppender::ptr appender) {
+	if (!appender -> getFormatter()) {
+		appender -> setFormatter(m_formatter);
+	}
 	m_appenders.push_back(appender);
 }
 void Logger::delAppender(LogAppender::ptr appender) {
-	for (auto it = m_appenders.begin; it != m_appenders.end(); ++it) {
+	for (auto it = m_appenders.begin(); it != m_appenders.end(); ++it) {
 		if (*it == appender) {
 			m_appenders.erase(it);
 			break ;
@@ -153,7 +166,7 @@ void Logger::log(LogLevel::Level level, LogEvent::ptr event){
 	if (level >= m_level) {
 		auto self = shared_from_this();
 		for (auto& i : m_appenders) {
-			i -> log(self, level, enent);
+			i -> log(self, level, event);
 		}
 	}
 }
@@ -188,7 +201,7 @@ void FileLogAppender::log(std::shared_ptr<Logger> logger, LogLevel::Level level,
 	}
 }
 
-bool FileLogAppender:reopen() {
+bool FileLogAppender::reopen() {
 	if (m_filestream) {
 		m_filestream.close();
 	}
@@ -253,14 +266,14 @@ void LogFormatter::init() {
  			if (fmt_status == 0) {
 				if (m_pattern[n] == '{') {
 					str = m_pattern.substr(i + 1, n - i - 1);
-					fmt.fmt_status = 1; // 解析格式
+					fmt_status = 1; // 解析格式
 					fmt_begin = n;
 					++n;
 					continue ;
 				}
 			} else if (fmt_status == 1) {
 				if (m_pattern[n] == '}') {
-					fmt = m_pattern.substr(fmt.begin + 1, n - fmt.begin - 1);
+					fmt = m_pattern.substr(fmt_begin + 1, n - fmt_begin - 1);
 					fmt_status = 0;
 					++n;
 					break ;
@@ -279,7 +292,7 @@ void LogFormatter::init() {
 				vec.push_back(std::make_tuple(nstr, std::string(), 0));
 				nstr.clear();
 			}
-			vec.push_back(std:make_tuple(str, fmt, 1));
+			vec.push_back(std::make_tuple(str, fmt, 1));
 			i = n - 1;
 		} else if (fmt_status == 1) {
 			std::cout << "pattern parse error: " << m_pattern << " - " << m_pattern.substr(i) << std::endl;
@@ -294,7 +307,7 @@ void LogFormatter::init() {
 
 	static std::map<std::string, std::function<FormatItem::ptr(const std::string& str)> > s_format_items = {
 #define XX(str, C) \
-		{#str, [](const std:string& fmt) { return FormatItem::ptr(new C(fmt)); }}
+		{#str, [](const std::string& fmt) { return FormatItem::ptr(new C(fmt)); }}
 
 		XX(m, MessageFormatItem),           //m:消息
         XX(p, LevelFormatItem),             //p:日志级别
@@ -305,9 +318,9 @@ void LogFormatter::init() {
         XX(d, DateTimeFormatItem),          //d:时间
         XX(f, FilenameFormatItem),          //f:文件名
         XX(l, LineFormatItem),              //l:行号
-        XX(T, TabFormatItem),               //T:Tab
-        XX(F, FiberIdFormatItem),           //F:协程id
-        XX(N, ThreadNameFormatItem),        //N:线程名称
+        // XX(T, TabFormatItem),               //T:Tab
+        // XX(F, FiberIdFormatItem),           //F:协程id
+        // XX(N, ThreadNameFormatItem),        //N:线程名称
 #undef XX
 	};
 
