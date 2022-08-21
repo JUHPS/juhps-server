@@ -1,4 +1,0 @@
-/Users/fengzetao/Desktop/WebServer/build/CMakeFiles/rebuild_cache.dir
-/Users/fengzetao/Desktop/WebServer/build/CMakeFiles/edit_cache.dir
-/Users/fengzetao/Desktop/WebServer/build/CMakeFiles/test.dir
-/Users/fengzetao/Desktop/WebServer/build/CMakeFiles/src.dir
