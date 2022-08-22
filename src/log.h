@@ -13,7 +13,9 @@ namespace jujimeizuo {
 
 class Logger;
 
-// 日志级别
+/**
+ * @brief 日志级别
+ */
 class LogLevel {
 public:
 	enum Level {
@@ -27,24 +29,39 @@ public:
 	static const char* ToString(LogLevel::Level level);
 };
 
-// 日志事件
+/**
+ * @brief 日志事件
+ */
 class LogEvent {
 public:
 	typedef std::shared_ptr<LogEvent> ptr;
+
+	/**
+     * @brief 构造函数
+     * @param[in] logger 日志器
+     * @param[in] level 日志级别
+     * @param[in] file 文件名
+     * @param[in] line 文件行号
+     * @param[in] elapse 程序启动依赖的耗时(毫秒)
+     * @param[in] thread_id 线程id
+     * @param[in] fiber_id 协程id
+     * @param[in] time 日志事件(秒)
+     * @param[in] thread_name 线程名称
+     */
 	LogEvent(const char* file, int32_t line, uint32_t elapse
 			, uint32_t thread_id, uint32_t fiber_id, uint64_t time) ;
 
-	const char* getFile() const { return m_file; }
-	int32_t getLine() const { return m_line; }
-	uint32_t getElapse() const { return m_elapse; }
-	uint32_t getThreadId() const { return m_threadId; }
-	uint32_t getFiberId() const { return m_fiberId; }
-	uint64_t getTime() const { return m_time; }
-	const std::string& getThreadName() const { return m_threadName;}
-	std::string getContent() const { return m_ss.str(); }
-	std::shared_ptr<Logger> getLogger() const { return m_logger;}
-	LogLevel::Level getLevel() const { return m_level;}
-	std::stringstream& getSS() { return m_ss; }
+	const char* getFile() 				const { return m_file; }
+	int32_t getLine() 					const { return m_line; }
+	uint32_t getElapse() 				const { return m_elapse; }
+	uint32_t getThreadId() 				const { return m_threadId; }
+	uint32_t getFiberId() 				const { return m_fiberId; }
+	uint64_t getTime() 					const { return m_time; }
+	const std::string& getThreadName() 	const { return m_threadName;}
+	std::string getContent() 			const { return m_ss.str(); }
+	std::shared_ptr<Logger> getLogger() const { return m_logger; }
+	LogLevel::Level getLevel() 			const { return m_level; }
+	std::stringstream& getSS() 			{ return m_ss; }
 private:
 	const char* m_file = nullptr; 		// 文件名
 	int32_t m_line = 0;			  		// 行号
@@ -65,34 +82,76 @@ public:
 	typedef std::shared_ptr<LogFormatter> ptr;
 	LogFormatter(const std::string& pattern);
 
+	/**
+     * @brief 返回格式化日志文本
+     * @param[in] logger 日志器
+     * @param[in] level 日志级别
+     * @param[in] event 日志事件
+     */
 	std::string format(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event);
-	std::ostream& format(std::ostream& os, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event);
+	std::ostream& format(std::ostream& ofs, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event);
 public:
+	/**
+	 * @brief 日志内容项格式化
+	 */
 	class FormatItem {
 	public:
 		typedef std::shared_ptr<FormatItem> ptr;
+		/**
+         * @brief 析构函数
+         */
 		virtual ~FormatItem() {}
+		/**
+         * @brief 格式化日志到流
+         * @param[in, out] os 日志输出流
+         * @param[in] logger 日志器
+         * @param[in] level 日志等级
+         * @param[in] event 日志事件
+         */
 		virtual void format(std::ostream& os, std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) = 0;
 	};
 
+	/**
+     * @brief 初始化,解析日志模板
+     */
 	void init();
 
+	/**
+	 * @brief 是否有错误
+	 */
 	bool isError() const { return m_error; }
 private:
+	// 日志格式模版
 	std::string m_pattern;
+	// 日志格式解析后格式
 	std::vector<FormatItem::ptr> m_items;
+	// 是否有错误
 	bool m_error = false;
 };
 
-// 日志输出地
+/**
+ * @brief 日志输出目标
+ */
 class LogAppender {
 public:
 	typedef std::shared_ptr<LogAppender> ptr;
 	virtual ~LogAppender() {}
 
+	/**
+     * @brief 写入日志
+     * @param[in] logger 日志器
+     * @param[in] level 日志级别
+     * @param[in] event 日志事件
+     */
 	virtual void log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) = 0;
 
+	/**
+     * @brief 更改日志格式器
+     */
 	void setFormatter(LogFormatter::ptr val) { m_formatter = val; }
+	/**
+	 * @brief 获取日志格式器
+	 */
 	LogFormatter::ptr getFormatter() const { return m_formatter; }
 protected:
 	LogLevel::Level m_level;
@@ -104,20 +163,66 @@ class Logger : public std::enable_shared_from_this<Logger> {
 public:
 	typedef std::shared_ptr<Logger> ptr;
 
+	/**
+     * @brief 构造函数
+     * @param[in] name 日志器名称
+     */
 	Logger(const std::string& name = "root") ;
+	
+	/**
+     * @brief 写日志
+     * @param[in] level 日志级别
+     * @param[in] event 日志事件
+     */
 	void log(LogLevel::Level level, LogEvent::ptr event);
 
+	/**
+     * @brief 写debug级别日志
+     * @param[in] event 日志事件
+     */
 	void debug(LogEvent::ptr event);
+	
+	/**
+     * @brief 写info级别日志
+     * @param[in] event 日志事件
+     */
 	void info(LogEvent::ptr event);
+	
+	/**
+     * @brief 写warn级别日志
+     * @param[in] event 日志事件
+     */
 	void warn(LogEvent::ptr event);
+	
+	/**
+     * @brief 写error级别日志
+     * @param[in] event 日志事件
+     */
 	void error(LogEvent::ptr event);
+	
+	/**
+     * @brief 写fatal级别日志
+     * @param[in] event 日志事件
+     */
 	void fatal(LogEvent::ptr event);
 
+	/**
+     * @brief 添加日志目标
+     * @param[in] appender 日志目标
+     */
 	void addAppender(LogAppender::ptr appender);
+
+	/**
+     * @brief 删除日志目标
+     * @param[in] appender 日志目标
+     */
 	void delAppender(LogAppender::ptr appender);
 	LogLevel::Level getLevel() const { return m_level; }
 	void setLevel(LogLevel::Level val) { m_level = val; }
 
+	/**
+     * @brief 返回日志名称
+     */
 	const std::string& getName() const { return m_name; }
 private:
 	std::string m_name;							// 日志名称
@@ -126,15 +231,18 @@ private:
 	LogFormatter::ptr m_formatter;
 };
 
-// 输出到控制台的Appender
+/**
+ * @brief 输出到控制台的Appender
+ */
 class StdoutLogAppender : public LogAppender {
 public:
 	typedef std::shared_ptr<StdoutLogAppender> ptr;
-	virtual void log(Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event) override;
-private:
+	void log(Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event) override;
 };
 
-// 定义输出到文件的Appender
+/**
+ * @brief 输出到文件的Appender
+ */
 class FileLogAppender : public LogAppender {
 public:
 	typedef std::shared_ptr<FileLogAppender> ptr;
