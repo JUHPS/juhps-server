@@ -29,3 +29,5 @@ stamp-h1
 depcomp
 *.xcodeproj
 build/*
+.DS_Store
+lib/*
