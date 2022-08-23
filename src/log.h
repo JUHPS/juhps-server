@@ -8,6 +8,80 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <map>
+#include "singleton.h"
+
+/**
+ * @brief 使用流式方式将日志级别level的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_LEVEL(logger, level) \
+	if (logger -> getLevel() <= level) \
+		jujimeizuo::LogEventWrap(jujimeizuo::LogEvent::ptr(new jujimeizuo::LogEvent(logger, level, \
+				__FILE__, __LINE__, 0, jujimeizuo::GetThreadId(), \
+			jujimeizuo::GetFiberId(), time(0)))).getSS()
+
+
+/**
+ * @brief 使用流式方式将日志级别debug的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_DEBUG(logger) JUJIMEIZUO_LOG_LEVEL(logger, jujimeizuo::LogLevel::DEBUG)
+
+/**
+ * @brief 使用流式方式将日志级别info的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_INFO(logger) JUJIMEIZUO_LOG_LEVEL(logger, jujimeizuo::LogLevel::INFO)
+
+/**
+ * @brief 使用流式方式将日志级别warn的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_WARN(logger) JUJIMEIZUO_LOG_LEVEL(logger, jujimeizuo::LogLevel::WARN)
+
+/**
+ * @brief 使用流式方式将日志级别error的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_ERROR(logger) JUJIMEIZUO_LOG_LEVEL(logger, jujimeizuo::LogLevel::ERROR)
+
+/**
+ * @brief 使用流式方式将日志级别fatal的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_FATAL(logger) JUJIMEIZUO_LOG_LEVEL(logger, jujimeizuo::LogLevel::FATAL)
+
+
+/**
+ * @brief 使用格式化方式将日志级别level的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_FMT_LEVEL(logger, level, fmt, ...) \
+	if (logger -> getLevel() <= level) \
+	jujimeizuo::LogEventWrap(jujimeizuo::LogEvent::ptr(new jujimeizuo::LogEvent(logger, level, \
+				__FILE__, __LINE__, 0, jujimeizuo::GetThreadId(), \
+			jujimeizuo::GetFiberId(), time(0)))).getEvent() -> format(fmt, __VA_ARGS__)	
+
+
+/**
+ * @brief 使用格式化方式将日志级别debug的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_FMT_DEBUG(logger, fmt, ...) JUJIMEIZUO_LOG_FMT_LEVEL(logger, jujimeizuo::LogLevel::DEBUG, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别info的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_FMT_INFO(logger, fmt, ...)  JUJIMEIZUO_LOG_FMT_LEVEL(logger, jujimeizuo::LogLevel::INFO, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别warn的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_FMT_WARN(logger, fmt, ...)  JUJIMEIZUO_LOG_FMT_LEVEL(logger, jujimeizuo::LogLevel::WARN, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别error的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_FMT_ERROR(logger, fmt, ...) JUJIMEIZUO_LOG_FMT_LEVEL(logger, jujimeizuo::LogLevel::ERROR, fmt, __VA_ARGS__)
+
+/**
+ * @brief 使用格式化方式将日志级别fatal的日志写入到logger
+ */
+#define JUJIMEIZUO_LOG_FMT_FATAL(logger, fmt, ...) JUJIMEIZUO_LOG_FMT_LEVEL(logger, jujimeizuo::LogLevel::FATAL, fmt, __VA_ARGS__)
+
 
 namespace jujimeizuo {
 
@@ -48,9 +122,10 @@ public:
      * @param[in] time 日志事件(秒)
      * @param[in] thread_name 线程名称
      */
-	LogEvent(const char* file, int32_t line, uint32_t elapse
+	LogEvent(std::shared_ptr<Logger> logger,LogLevel::Level level
+			, const char* file, int32_t line, uint32_t elapse
 			, uint32_t thread_id, uint32_t fiber_id, uint64_t time) ;
-
+	
 	const char* getFile() 				const { return m_file; }
 	int32_t getLine() 					const { return m_line; }
 	uint32_t getElapse() 				const { return m_elapse; }
@@ -62,6 +137,9 @@ public:
 	std::shared_ptr<Logger> getLogger() const { return m_logger; }
 	LogLevel::Level getLevel() 			const { return m_level; }
 	std::stringstream& getSS() 			{ return m_ss; }
+
+	void format(const char* fmt, ...);
+	void format(const char* fmt, va_list al);
 private:
 	const char* m_file = nullptr; 		// 文件名
 	int32_t m_line = 0;			  		// 行号
@@ -75,6 +153,20 @@ private:
 	LogLevel::Level m_level;			// 日志等级
 };
 
+/**
+ * @brief 日志事件包装器
+ */
+class LogEventWrap {
+public:
+	LogEventWrap(LogEvent::ptr e);
+	~LogEventWrap();
+
+	LogEvent::ptr getEvent() const { return m_event; }
+	std::stringstream& getSS();
+private:
+	LogEvent::ptr m_event;
+
+};
 
 // 日志格式化
 class LogFormatter {
@@ -149,13 +241,24 @@ public:
      * @brief 更改日志格式器
      */
 	void setFormatter(LogFormatter::ptr val) { m_formatter = val; }
+	
 	/**
 	 * @brief 获取日志格式器
 	 */
 	LogFormatter::ptr getFormatter() const { return m_formatter; }
+	
+	/**
+     * @brief 获取日志级别
+     */
+	LogLevel::Level getLevel() const { return m_level; }
+	
+	/**
+     * @brief 设置日志级别
+     */
+	void setLevel(LogLevel::Level val) { m_level = val; }
 protected:
-	LogLevel::Level m_level;
-	LogFormatter::ptr m_formatter;
+	LogLevel::Level m_level = LogLevel::DEBUG;	// 日志级别
+	LogFormatter::ptr m_formatter;				// 日志格式器
 };
 
 // 日志器
@@ -257,26 +360,24 @@ private:
 
 };
 
+/**
+ * @brief 日志器管理类
+ */
+class LoggerManger {
+public:
+	LoggerManger();
+	Logger::ptr getLogger(const std::string& name);
+
+	void init();
+private:
+	std::map<std::string, Logger::ptr> m_loggers;
+	Logger::ptr m_root;
+};
+
+typedef jujimeizuo::Singleton<LoggerManger> LoggerMgr;
+
+
 };
 
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

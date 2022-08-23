@@ -7,6 +7,7 @@ set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -ggdb -std=c++11 -Wall -Wno-deprecated -
 
 set(LIB_SRC
 	src/log.cc
+	src/util.cc
 	)
 
 add_library(src SHARED ${LIB_SRC})
