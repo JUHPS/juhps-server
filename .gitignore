@@ -31,3 +31,4 @@ depcomp
 build/*
 .DS_Store
 lib/*
+bin/test*

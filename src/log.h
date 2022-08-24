@@ -9,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include "util.h"
 #include "singleton.h"
 
 /**
@@ -81,6 +82,12 @@
  * @brief 使用格式化方式将日志级别fatal的日志写入到logger
  */
 #define JUJIMEIZUO_LOG_FMT_FATAL(logger, fmt, ...) JUJIMEIZUO_LOG_FMT_LEVEL(logger, jujimeizuo::LogLevel::FATAL, fmt, __VA_ARGS__)
+
+/**
+ * @brief 获取主日志器
+ */
+#define JUJIMEIZUO_LOG_ROOT() jujimeizuo::LoggerMgr::GetInstance() -> getRoot()
+
 
 
 namespace jujimeizuo {
@@ -369,6 +376,7 @@ public:
 	Logger::ptr getLogger(const std::string& name);
 
 	void init();
+	Logger::ptr getRoot() const { return m_root; }
 private:
 	std::map<std::string, Logger::ptr> m_loggers;
 	Logger::ptr m_root;
