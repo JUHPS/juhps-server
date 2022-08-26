@@ -1,6 +1,5 @@
 #include "../src/config.h"
 #include "../src/log.h"
-#include "yaml-cpp/yaml.h"
 
 jujimeizuo::ConfigVar<int>::ptr g_int_value_config =
 	jujimeizuo::Config::Lookup("system.port", (int)8080, "system port");
@@ -35,14 +34,23 @@ void test_yaml() {
 	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/log.yml");
 	print_yaml(root, 0);
 
-//	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << root;
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << root.Scalar();
+}
+
+void test_config() {
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "before: " << g_int_value_config -> getValue();
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "before: " << g_float_value_config -> toString();
+
+	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/log.yml");
+	jujimeizuo::Config::LoadFromYaml(root);
+
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_int_value_config -> getValue();
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_float_value_config -> toString();
+	
 }
 
 int main(int argc, char** argv) {
-
-	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << g_int_value_config -> getValue();
-	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << g_float_value_config -> toString();
-	
-	test_yaml();
+	// test_yaml();
+	test_config();
 	return 0;
 }

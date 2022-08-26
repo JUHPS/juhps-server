@@ -64,6 +64,23 @@ JUJIMEIZUO_LOG_INFO(l) << "xxx";
 
 ### Usage
 
+### yaml-cpp
+
+```c++
+YAML::Node node = YAML::LoadFile(const string& filename);
+
+if (node.IsMap()) {
+	for (auto it = node.begin(); it != node.end(); ++it) ;
+}
+
+if (node.IsSequence()) {
+	for (size_t i = 0; i < node.size(); ++i) ;
+}
+
+if (node.IsScalar());
+
+```
+
 
 
 

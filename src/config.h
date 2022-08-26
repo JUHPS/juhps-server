@@ -4,9 +4,10 @@
 #include <memory>
 #include <string>
 #include <sstream>
-#include <boost/lexical_cast.hpp>
-#include "log.h"
 #include <unordered_map>
+#include <boost/lexical_cast.hpp>
+#include <yaml-cpp/yaml.h>
+#include "log.h"
 
 namespace jujimeizuo {
 
@@ -19,6 +20,7 @@ public:
 	ConfigVarBase(const std::string& name, const std::string& description = "")
 		: m_name(name)
 		, m_description(description) {
+			std::transform(m_name.begin(), m_name.end(), m_name.begin(), ::tolower);
 		}
 	virtual ~ConfigVarBase() {}
 
@@ -114,7 +116,6 @@ public:
 		s_datas[name] = v;
 		return v;
 	}
-
 	/**
      * @brief 查找配置参数
      * @param[in] name 配置参数名称
@@ -128,6 +129,15 @@ public:
 		}
 		return std::dynamic_pointer_cast<ConfigVar<T> >(it -> second);
 	}
+	/**
+     * @brief 使用YAML::Node初始化配置模块
+     */
+	static void LoadFromYaml(const YAML::Node& root);
+	/**
+     * @brief 查找配置参数,返回配置参数的基类
+     * @param[in] name 配置参数名称
+     */
+	static ConfigVarBase::ptr LookupBase(const std::string& name);
 private:
 	static ConfigVarMap s_datas;
 };

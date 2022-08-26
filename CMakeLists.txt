@@ -2,14 +2,16 @@ cmake_minimum_required(VERSION 3.0)
 project(WebServer)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -ggdb -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function")
+set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -fPIC -ggdb -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function")
+set(CMAKE_C_FLAGS "$ENV{CXXFLAGS} -O3 -fPIC -ggdb -std=c11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations")
+
 
 include_directories(.)
 include_directories(/usr/local/include)
-
 link_directories(/usr/local/lib)
 
 find_package(Boost REQUIRED)
+
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
@@ -26,7 +28,7 @@ add_library(src SHARED ${LIB_SRC})
 
 add_executable(test tests/test.cc)
 add_dependencies(test src)
-target_link_libraries(test src)
+target_link_libraries(test src yaml-cpp)
 
 add_executable(test_config tests/test_config.cc)
 add_dependencies(test_config src)
