@@ -55,7 +55,7 @@ JUJIMEIZUO_LOG_INFO(l) << "xxx";
 
 ## 2. 配置系统
 
-采用约定由于配置的思想。定义即可使用。不需要单独去解析。支持变更通知功能。使用YAML文件做为配置内容。支持STL容器(vector)
+采用约定由于配置的思想。定义即可使用。不需要单独去解析。支持变更通知功能。使用YAML文件做为配置内容。支持STL容器(vector, list, set, unoredered_set, map, unordered_map等等)
 
 ### Class
 - `ConfigVarBase`: 配置变量的基类
@@ -81,8 +81,16 @@ if (node.IsScalar());
 
 ```
 
+### 用unordered_map来做配置
 
+```C++
+jujimeizuo::ConfigVar<std::unordered_map<std::string, int> >::ptr g_str_int_unordered_map_value_config =
+	jujimeizuo::Config::Lookup("system.str_int_unordered_map", std::unordered_map<std::string, int>{{"k", 2}}, "system str int unordered_map");
+```
 
+```bash
+2022-09-01 00:03:24     4294967295      0       [INFO]  [root]  /Users/fengzetao/Desktop/WebServer/tests/test_config.cc:142     after str_int_unordered_map: {k2 - 20}
+```
 
 ## Author
 
