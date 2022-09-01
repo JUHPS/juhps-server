@@ -55,13 +55,13 @@ JUJIMEIZUO_LOG_INFO(l) << "xxx";
 
 ## 2. 配置系统
 
-采用约定由于配置的思想。定义即可使用。不需要单独去解析。支持变更通知功能。使用YAML文件做为配置内容。支持STL容器(vector, list, set, unoredered_set, map, unordered_map等等)
+采用约定由于配置的思想。定义即可使用。不需要单独去解析。支持变更通知功能。使用YAML文件做为配置内容。支持STL容器(vector, list, set, unoredered_set, map, unordered_map等等),支持自定义类型的支持（需要实现序列化和反序列化方法)
 
 ### Class
 - `ConfigVarBase`: 配置变量的基类
 - `ConfigVar`: 配置参数模板子类
 - `Config`: ConfigVar的管理类
-- `LexicalCast`: 类型转换模板类
+- `LexicalCast`: 类型转换模板类（片特化）
 ### Usage
 
 ### yaml-cpp

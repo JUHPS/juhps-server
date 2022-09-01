@@ -5,6 +5,9 @@
 jujimeizuo::ConfigVar<int>::ptr g_int_value_config =
 	jujimeizuo::Config::Lookup("system.port", (int)8080, "system port");
 
+jujimeizuo::ConfigVar<float>::ptr g_int_valuex_config =
+	jujimeizuo::Config::Lookup("system.port", (float)8080, "system port");
+
 jujimeizuo::ConfigVar<float>::ptr g_float_value_config =
 	jujimeizuo::Config::Lookup("system.value", (float)10.2f, "system value");
 
@@ -142,8 +145,89 @@ void test_config() {
 	XX_M(g_str_int_unordered_map_value_config, str_int_unordered_map, after);
 }
 
+class Person {
+public:
+	Person() {}
+	std::string m_name;
+	int m_age = 0;
+	bool m_sex = 0;
+
+	std::string toString() const {
+		std::stringstream ss;
+		ss << "[Person name=" << m_name
+		   << " age=" << m_age
+		   << " sex=" << m_sex
+		   << "]";
+		return ss.str();
+	}
+};
+
+namespace jujimeizuo {
+
+template <>
+class LexicalCast<std::string, Person> {
+public:
+	Person operator()(const std::string& v) {
+		YAML::Node node = YAML::Load(v);
+		Person p;
+		p.m_name = node["name"].as<std::string>();
+		p.m_age = node["age"].as<int>();
+		p.m_sex = node["sex"].as<bool>();
+		return p;
+	}
+};
+
+template <>
+class LexicalCast<Person, std::string> {
+public:
+	std::string operator()(const Person& p) {
+		YAML::Node node;
+		node["name"] = p.m_name;
+		node["age"] = p.m_age;
+		node["sex"] = p.m_sex;
+		std::stringstream ss;
+		ss << node;
+		return ss.str();
+	}
+};
+
+}
+
+jujimeizuo::ConfigVar<Person>::ptr g_person =
+	jujimeizuo::Config::Lookup("class.person", Person(), "class person");
+
+jujimeizuo::ConfigVar<std::map<std::string, Person> >::ptr g_person_map =
+	jujimeizuo::Config::Lookup("class.map", std::map<std::string, Person>(), "class person");
+
+jujimeizuo::ConfigVar<std::map<std::string, std::vector<Person> > >::ptr g_person_vec_map =
+	jujimeizuo::Config::Lookup("class.vec_map", std::map<std::string, std::vector<Person> >(), "class person");
+
+void test_class() {
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "before: " << g_person -> getValue().toString() << " - " << g_person -> toString();
+	
+#define XX_PM(g_var, prefix) \
+	{ \
+		auto m = g_var -> getValue(); \
+		for (auto& i : m) { \
+			JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << #prefix << ": " << i.first << " - " << i.second.toString(); \
+		} \
+		JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << #prefix << ": size=" << m.size(); \
+	}
+
+	XX_PM(g_person_map, "class.map before");
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "before: " << g_person_vec_map -> toString();
+
+	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/log.yml");
+	LoadFromYaml(root);
+
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_person -> getValue().toString() << " - " << g_person -> toString();
+	XX_PM(g_person_map, "class.map after");
+	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_person_vec_map -> toString();
+}
+
 int main(int argc, char** argv) {
 	// test_yaml();
-	test_config();
+	// test_config();
+	test_class();
 	return 0;
 }

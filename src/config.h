@@ -35,6 +35,7 @@ public:
 
 	virtual std::string toString() = 0;
 	virtual bool fromString(const std::string& val) = 0;
+	virtual std::string getTypename() const = 0;
 protected:
 	std::string m_name;
 	std::string m_description;
@@ -310,14 +311,16 @@ public:
 			setValue(FromStr()(val));
 		}	catch(std::exception& e) {
 			JUJIMEIZUO_LOG_ERROR(JUJIMEIZUO_LOG_ROOT()) << "ConfigVar::toString exception"
-				<< e.what() << " convert: string to" << typeid(m_val).name();
+				<< e.what() << " convert: string to" << typeid(m_val).name()
+				<< " name=" << m_name
+				<< " - " << val;
 		}
 		return false;
 	}
 
 	const T getValue() const { return m_val; }
 	void setValue(const T& v) { m_val = v; }
-
+	std::string getTypename() const override { return typeid(T).name(); }
 private:
 	T m_val;
 };
@@ -343,6 +346,19 @@ public:
 	template <class T>
 	static typename ConfigVar<T>::ptr Lookup(const std::string& name,
 			const T& default_value, const std::string& description = "") {
+		auto it = s_datas.find(name);
+		if (it != s_datas.end()) {
+			auto tmp = std::dynamic_pointer_cast<ConfigVar<T> >(it -> second);
+			if (tmp) {
+				JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "Lookup name=" << name << " exists";
+				return tmp;
+			} else {
+				JUJIMEIZUO_LOG_ERROR(JUJIMEIZUO_LOG_ROOT()) << "Lookup name=" << name << " exists but type not "
+						<< typeid(T).name() << " real_type=" << it -> second -> getTypename()
+						<< " " << it -> second -> toString();
+				return nullptr;
+			}
+		}
 		auto tmp = Lookup<T>(name);
 		if (tmp) {
 			JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "Lookup name=" << name << "exists";
