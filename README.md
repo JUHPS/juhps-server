@@ -53,9 +53,11 @@ JUJIMEIZUO_LOG_INFO(l) << "xxx";
 2022-08-24 00:13:51     4294967295      0       [INFO]  [root]  /Users/fengzetao/Desktop/WebServer/tests/test.cc:30     xxx
 ```
 
-## 2. 配置系统
+## 2. 配置模块
 
-采用约定由于配置的思想。定义即可使用。不需要单独去解析。支持变更通知功能。使用YAML文件做为配置内容。支持STL容器(vector, list, set, unoredered_set, map, unordered_map等等),支持自定义类型的支持（需要实现序列化和反序列化方法)
+采用约定由于配置的思想。定义即可使用。不需要单独去解析。支持变更通知功能。使用YAML文件做为配置内容。支持STL容器(vector, list, set, unoredered_set, map, unordered_map等等),支持自定义类型（需要实现序列化和反序列化方法)
+
+配置的事件机制，当一个配置项发生修改的时候，可以反向通知对应的代码，回调。
 
 ### Class
 - `ConfigVarBase`: 配置变量的基类
