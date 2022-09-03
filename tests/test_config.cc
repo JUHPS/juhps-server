@@ -94,8 +94,16 @@ void LoadFromYaml(const YAML::Node& root) {
 	}
 }
 
+
+
+
+
+
+
+
+
 void test_yaml() {
-	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/log.yml");
+	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/test.yml");
 	print_yaml(root, 0);
 
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << root.Scalar();
@@ -131,7 +139,7 @@ void test_config() {
 	XX_M(g_str_int_map_value_config, str_int_map, before);
 	XX_M(g_str_int_unordered_map_value_config, str_int_unordered_map, before);
 
-	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/log.yml");
+	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/test.yml");
 	LoadFromYaml(root);
 
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_int_value_config -> getValue();
@@ -228,7 +236,7 @@ void test_class() {
 	XX_PM(g_person_map, "class.map before");
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "before: " << g_person_vec_map -> toString();
 
-	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/log.yml");
+	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/test.yml");
 	LoadFromYaml(root);
 
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_person -> getValue().toString() << " - " << g_person -> toString();

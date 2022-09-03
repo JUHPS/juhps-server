@@ -14,14 +14,15 @@ ConfigVarBase::ptr Config::LookupBase(const std::string& name) {
 // 						  std::list<std::pair<std::string, const YAML::Node>>& output) {
 // 	if(prefix.find_first_not_of("abcdefghikjlmnopqrstuvwxyz._012345678")
 // 			!= std::string::npos) {
-// 		JUJIMEIZUO_LOG_ERROR(JUJIMEIZUO_LOG_ROOT()) << "Config invalid name: " << prefix << " : " << node;
+// 		JUJIMEIZUO_LOG_ERROR(JUJIMEIZUO_LOG_ROOT()) << "Config invalid name: " << prefix << " : ";
 // 		return;
 // 	}
+
 // 	output.push_back(std::make_pair(prefix, node));
 // 	if (node.IsMap()) {
 // 		for (auto it = node.begin(); it != node.end(); ++it) {
-// 			ListAllMember(prefix.empty() ? it -> first.Scalar() 
-// 					: prefix + "." + it -> first.Scalar(), it -> second, output);
+// 			ListAllMember(prefix.empty() ? it -> first.Scalar()
+//                     : prefix + "." + it -> first.Scalar(), it->second, output);
 // 		}
 // 	}
 // }

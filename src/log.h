@@ -88,11 +88,16 @@
  */
 #define JUJIMEIZUO_LOG_ROOT() jujimeizuo::LoggerMgr::GetInstance() -> getRoot()
 
+/**
+ * @brief 获取name的日志器
+ */
+#define JUJIMEIZUO_LOG_NAME(name) jujimeizuo::LoggerMgr::GetInstance() -> getLogger(name)
 
 
 namespace jujimeizuo {
 
 class Logger;
+class LoggerManager;
 
 /**
  * @brief 日志级别
@@ -100,6 +105,7 @@ class Logger;
 class LogLevel {
 public:
 	enum Level {
+		UNKNOW = 0,
 		DEBUG = 1,
 		INFO = 2,
 		WARN = 3,
@@ -270,6 +276,7 @@ protected:
 
 // 日志器
 class Logger : public std::enable_shared_from_this<Logger> {
+friend class LoggerManger;
 public:
 	typedef std::shared_ptr<Logger> ptr;
 
@@ -338,7 +345,8 @@ private:
 	std::string m_name;							// 日志名称
 	LogLevel::Level m_level;					// 日志级别
 	std::list<LogAppender::ptr> m_appenders;  	// Appender集合
-	LogFormatter::ptr m_formatter;
+	LogFormatter::ptr m_formatter;				// 日志格式器
+	Logger::ptr m_root;							// 主日志器
 };
 
 /**
