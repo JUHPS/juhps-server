@@ -21,6 +21,9 @@
 - `LogFormatter`: 日志格式化
 - `LogAppender`: 日志输出目标
 - `LoggerManger`: 日志管理器
+- `LogDefine`
+- `LogAppenderDefine`
+- `LexicalCast`
 
 ### Usage
 
