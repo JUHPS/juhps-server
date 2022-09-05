@@ -27,6 +27,22 @@ const char* LogLevel::ToString(LogLevel::Level level) {
     return "UNKNOW";
 }
 
+LogLevel::Level LogLevel::FromString(const std::string& str) {
+#define XX(name) \
+	if (str == #name) { \
+		return LogLevel::name; \
+	}
+
+	XX(DEBUG);
+    XX(INFO);
+    XX(WARN);
+    XX(ERROR);
+    XX(FATAL);
+
+    return LogLevel::UNKNOW;
+#undef XX
+}
+
 LogEventWrap::LogEventWrap(LogEvent::ptr e)
 	:m_event(e) {
 }
@@ -198,6 +214,25 @@ Logger::Logger(const std::string& name)
 	m_formatter.reset(new LogFormatter("%d{%Y-%m-%d %H:%M:%S}%T%t%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"));
 }
 
+void Logger::setFormatter(LogFormatter::ptr val) {
+	m_formatter = val;
+}
+
+void Logger::setFormatter(const std::string& val) {
+	jujimeizuo::LogFormatter::ptr new_val(new jujimeizuo::LogFormatter(val));
+	if (new_val -> isError()) {
+		std::cout << "Logger setFormatter name=" << m_name
+				  << " value=" << val << " invalid formatter"
+				  << std::endl;
+		return;
+	}
+	m_formatter = new_val;
+}
+
+LogFormatter::ptr Logger::getFormatter() {
+	return m_formatter;
+}
+
 void Logger::addAppender(LogAppender::ptr appender) {
 	if (!appender -> getFormatter()) {
 		appender -> setFormatter(m_formatter);
@@ -212,6 +247,10 @@ void Logger::delAppender(LogAppender::ptr appender) {
 			break ;
 		}
 	}
+}
+
+void Logger::clearAppenders() {
+	m_appenders.clear();
 }
 
 void Logger::log(LogLevel::Level level, LogEvent::ptr event){
@@ -452,6 +491,81 @@ struct LogDefine {
 	}
 };
 
+template<>
+class LexicalCast<std::string, std::set<LogDefine> > {
+public:
+	std::set<LogDefine> operator()(const std::string& v) {
+		YAML::Node node = YAML::Load(v);
+		std::set<LogDefine> vec;
+		for (size_t i = 0; i < node.size(); i++) {
+			const auto& n = node[i];
+			if (!n["name"].IsDefined()) {
+				std::cout << "log config error: name is null," << n
+						  << std::endl;
+				continue ;
+			}
+
+			LogDefine ld;
+			ld.name = n["name"].as<std::string>();
+			ld.level = n["level"].IsDefined() ? n["level"].as<std::string>() : "";
+			id.level = LogLevel::FromString(n["level"].IsDefined() ? n["level"].as<std::string>() : "");
+			if (n["formatter"].IsDefined()) {
+				ld.formatter = n["formatter"].as<std::string>();
+			}
+
+			if (n["appenders"].IsDefined()) {
+				for (size_t x = 0; x < n["appenders"].size(); ++x) {
+					auto a = n["appenders"][x];
+					if (!a["type"].IsDefined()) {
+						std::cout << "log config error: appender type is null," << a
+						  		  << std::endl;
+						continue ;
+					}
+					std::string type = a["type"].as<std::string>();
+					LogAppenderDefine lad;
+					if (type == "FileLogAppender") {
+						lad.type = 1;
+						if (n["file"].IsDefined()) {
+							std::cout << "log config error: fileappender file is null," << a
+						  		  << std::endl;
+						  	continue ;
+						}
+						lad.file = n["file"].as<std::string>();
+						if (n["formatter"].IsDefined()) {
+							lad.formatter = n["formatter"].as<std::string>();
+						}
+					} else if (type == "StdoutLogAppender") {
+						lad.type = 2;
+
+					} else {
+						std::cout << "log config error: appender type is invalid," << a
+						  		  << std::endl;
+					}
+				}
+				ld.appenders.push_back(lad);
+			}
+		}
+		return ld;
+	}
+};
+
+/**
+ * @brief 类型转换模板类片特化(std::vector<T> 转换成 YAML String)
+ */
+template <class T>
+class LexicalCast<std::set<LogDefine>, std::string> {
+public:
+	std::string operator()(const std::set<LogDefine>& v) {
+		YAML::Node node;
+		for (auto& i : v) {
+			node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
+		}
+		std::stringstream ss;
+		ss << node;
+		return ss.str();
+	}
+};
+
 jujimeizuo::ConfigVar<std::set<LogDefine> > g_log_defines =
 	jujimeizuo::Config::Lookup("logs", std::set<LogDefine>(), "logs config");
 
@@ -459,6 +573,47 @@ struct LogIniter {
 	LogIniter() {
 		g_log_defines -> addListener(0xF1E231, [](const std::set<LogDefine>& old_value,
 					const std::set<LogDefine>& new_value) {
+			JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "on_logger_conf_changed";
+			for (auto& i : new_value) {
+				auto it = old_value.find(i);
+				jujimeizuo::Logger::ptr logger;
+				if (it == old_value.end()) {
+					// 新增Logger
+					logger.reset(new jujimeizuo::Logger(i.name));
+				} else {
+					if (!(i == *it)) {
+						// 修改logger
+						logger = JUJIMEIZUO_LOG_NAME(i.name);
+					}
+				}
+
+				logger -> setLevel(i.level);
+				if (!i.formatter.empty()) {
+					logger -> setFormatter(i.formatter);
+				}
+
+				logger -> clearAppenders();
+				for (auto& a : i.appenders) {
+					jujimeizuo::LogAppender::ptr ap;
+					if (a.type == 1) {
+						ap.reset(new FileLogAppender(a.file));
+					} else if (a.type == 2) {
+						ap.reset(new StdoutLogAppender);
+					}
+					ap -> setLevel(a.level);
+					logger -> addAppender(ap);
+				}
+			}
+
+			for (auto& i : old_value) {
+				auto it = new_value.find(i);
+				if (it == new_value.end()) {
+					// 删除logger
+					auto logger = JUJIMEIZUO_LOG_NAME(i.name);
+					logger -> setLevel((LogLevel::Level) 0);
+					logger -> clearAppenders();
+				}
+			}
 		});
 	}
 };

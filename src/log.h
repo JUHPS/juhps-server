@@ -113,7 +113,17 @@ public:
 		FATAL = 5
 	};
 
+	/**
+     * @brief 将日志级别转成文本输出
+     * @param[in] level 日志级别
+     */
 	static const char* ToString(LogLevel::Level level);
+
+	/**
+     * @brief 将文本转换成日志级别
+     * @param[in] str 日志级别文本
+     */
+	static LogLevel::Level FromString(const std::string& str);
 };
 
 /**
@@ -334,13 +344,44 @@ public:
      * @param[in] appender 日志目标
      */
 	void delAppender(LogAppender::ptr appender);
+
+	/**
+     * @brief 清空日志目标
+     */
+    void clearAppenders();
+    /**
+    * @brief 返回日志级别
+    */
 	LogLevel::Level getLevel() const { return m_level; }
+
+	/**
+     * @brief 设置日志级别
+     */
 	void setLevel(LogLevel::Level val) { m_level = val; }
 
 	/**
      * @brief 返回日志名称
      */
 	const std::string& getName() const { return m_name; }
+
+	/**
+     * @brief 设置日志格式器
+     */
+	void setFormatter(LogFormatter::ptr val);
+	/**
+     * @brief 设置日志格式模板
+     */
+	void setFormatter(const std::string& val);
+
+	/**
+     * @brief 获取日志格式器
+     */
+	LogFormatter::ptr getFormatter();
+
+	/**
+     * @brief 将日志器的配置转成YAML String
+     */
+	std::string toYamlString();
 private:
 	std::string m_name;							// 日志名称
 	LogLevel::Level m_level;					// 日志级别
