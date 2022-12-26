@@ -52,6 +52,8 @@ void print_yaml(const YAML::Node node, int level) {
 	}
 }
 
+
+
 static void ListAllMember(const std::string& prefix,
 						  const YAML::Node& node,
 						  std::list<std::pair<std::string, const YAML::Node>>& output) {
@@ -247,6 +249,6 @@ void test_class() {
 int main(int argc, char** argv) {
 	// test_yaml();
 	// test_config();
-	test_class();
+	// test_class();
 	return 0;
 }

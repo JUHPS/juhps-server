@@ -5,8 +5,8 @@
 #include <string>
 #include <sstream>
 #include <unordered_map>
-#include <boost/lexical_cast.hpp>
-#include <yaml-cpp/yaml.h>
+#include "boost/lexical_cast.hpp"
+#include "yaml-cpp/yaml.h"
 #include "log.h"
 #include <vector>
 #include <list>

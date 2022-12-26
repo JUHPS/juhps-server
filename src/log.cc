@@ -507,8 +507,7 @@ public:
 
 			LogDefine ld;
 			ld.name = n["name"].as<std::string>();
-			ld.level = n["level"].IsDefined() ? n["level"].as<std::string>() : "";
-			id.level = LogLevel::FromString(n["level"].IsDefined() ? n["level"].as<std::string>() : "");
+			ld.level = LogLevel::FromString(n["level"].IsDefined() ? n["level"].as<std::string>() : "");
 			if (n["formatter"].IsDefined()) {
 				ld.formatter = n["formatter"].as<std::string>();
 			}
@@ -536,29 +535,47 @@ public:
 						}
 					} else if (type == "StdoutLogAppender") {
 						lad.type = 2;
-
 					} else {
 						std::cout << "log config error: appender type is invalid," << a
 						  		  << std::endl;
+						continue ;
 					}
+					ld.appenders.push_back(lad);
 				}
-				ld.appenders.push_back(lad);
 			}
+			vec.insert(ld);
 		}
-		return ld;
+		return vec;
 	}
 };
 
 /**
  * @brief 类型转换模板类片特化(std::vector<T> 转换成 YAML String)
  */
-template <class T>
+template <>
 class LexicalCast<std::set<LogDefine>, std::string> {
 public:
 	std::string operator()(const std::set<LogDefine>& v) {
 		YAML::Node node;
 		for (auto& i : v) {
-			node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
+			YAML::Node n;
+			n["name"] = i.name;
+			n["level"] = LogLevel::ToString(i.level);
+			if (i.formatter.empty()) {
+				n["level"] = i.formatter;
+			}
+			for (auto& a : i.appenders) {
+				YAML::Node na;
+				if (a.type == 1) {
+					na["type"] = "FileLogAppender";
+					na["file"] = a.file;
+				} else if (a.type == 2) {
+					na["type"] = "StdoutLogAppender";
+				}
+				na["level"] = LogLevel::ToString(a.level);
+				n["appenders"].push_back(na);
+			}
+			node.push_back(n);
 		}
 		std::stringstream ss;
 		ss << node;
@@ -566,7 +583,7 @@ public:
 	}
 };
 
-jujimeizuo::ConfigVar<std::set<LogDefine> > g_log_defines =
+jujimeizuo::ConfigVar<std::set<LogDefine> >::ptr g_log_defines =
 	jujimeizuo::Config::Lookup("logs", std::set<LogDefine>(), "logs config");
 
 struct LogIniter {
