@@ -24,28 +24,57 @@ namespace jujimeizuo {
 class ConfigVarBase {
 public:
 	typedef std::shared_ptr<ConfigVarBase> ptr;
+    /**
+     * @brief 构造函数
+     * @param[in] name 配置参数名称[0-9a-z_.]
+     * @param[in] description 配置参数描述
+     */
 	ConfigVarBase(const std::string& name, const std::string& description = "")
 		: m_name(name)
 		, m_description(description) {
 			std::transform(m_name.begin(), m_name.end(), m_name.begin(), ::tolower);
 		}
+    
+    /**
+     * @brief 析构函数
+     */
 	virtual ~ConfigVarBase() {}
 
-	const std::string& getName() const { return m_name; }
+	/**
+     * @brief 返回配置参数名称
+     */
+    const std::string& getName() const { return m_name; }
+
+    /**
+     * @brief 返回配置参数的描述
+     */
 	const std::string& getDescription() const { return m_description; }
 
+    /**
+     * @brief 转成字符串
+     */
 	virtual std::string toString() = 0;
+
+    /**
+     * @brief 从字符串初始化值
+     */
 	virtual bool fromString(const std::string& val) = 0;
+
+    /**
+     * @brief 返回配置参数值的类型名称
+     */
 	virtual std::string getTypename() const = 0;
 protected:
+    /// 配置参数的名称
 	std::string m_name;
-	std::string m_description;
+	/// 配置参数的描述
+    std::string m_description;
 };
 
 /**
  * @brief 类型转换模板类(F 源类型, T 目标类型)
  */
-template <class F, class T>
+template<class F, class T>
 class LexicalCast {
 public:
     /**
@@ -62,217 +91,221 @@ public:
 /**
  * @brief 类型转换模板类片特化(YAML String 转换成 std::vector<T>)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::string, std::vector<T> > {
 public:
-	std::vector<T> operator()(const std::string& v) {
-		YAML::Node node = YAML::Load(v);
-		typename std::vector<T> vec;
-		std::stringstream ss;
-		for (size_t i = 0; i < node.size(); i++) {
-			ss.str("");
-			ss << node[i];
-			vec.push_back(LexicalCast<std::string, T>()(ss.str()));
-		}
-		return vec;
-	}
+    std::vector<T> operator()(const std::string& v) {
+        YAML::Node node = YAML::Load(v);
+        typename std::vector<T> vec;
+        std::stringstream ss;
+        for(size_t i = 0; i < node.size(); ++i) {
+            ss.str("");
+            ss << node[i];
+            vec.push_back(LexicalCast<std::string, T>()(ss.str()));
+        }
+        return vec;
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(std::vector<T> 转换成 YAML String)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::vector<T>, std::string> {
 public:
-	std::string operator()(const std::vector<T>& v) {
-		YAML::Node node(YAML::NodeType::Sequence);
-		for (auto& i : v) {
-			node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
-		}
-		std::stringstream ss;
-		ss << node;
-		return ss.str();
-	}
+    std::string operator()(const std::vector<T>& v) {
+        YAML::Node node(YAML::NodeType::Sequence);
+        for(auto& i : v) {
+            node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
+        }
+        std::stringstream ss;
+        ss << node;
+        return ss.str();
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(YAML String 转换成 std::list<T>)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::string, std::list<T> > {
 public:
-	std::list<T> operator()(const std::string& v) {
-		YAML::Node node = YAML::Load(v);
-		typename std::list<T> vec;
-		std::stringstream ss;
-		for (size_t i = 0; i < node.size(); i++) {
-			ss.str("");
-			ss << node[i];
-			vec.push_back(LexicalCast<std::string, T>()(ss.str()));
-		}
-		return vec;
-	}
+    std::list<T> operator()(const std::string& v) {
+        YAML::Node node = YAML::Load(v);
+        typename std::list<T> vec;
+        std::stringstream ss;
+        for(size_t i = 0; i < node.size(); ++i) {
+            ss.str("");
+            ss << node[i];
+            vec.push_back(LexicalCast<std::string, T>()(ss.str()));
+        }
+        return vec;
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(std::list<T> 转换成 YAML String)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::list<T>, std::string> {
 public:
-	std::string operator()(const std::list<T>& v) {
-		YAML::Node node(YAML::NodeType::Sequence);
-		for (auto& i : v) {
-			node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
-		}
-		std::stringstream ss;
-		ss << node;
-		return ss.str();
-	}
+    std::string operator()(const std::list<T>& v) {
+        YAML::Node node(YAML::NodeType::Sequence);
+        for(auto& i : v) {
+            node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
+        }
+        std::stringstream ss;
+        ss << node;
+        return ss.str();
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(YAML String 转换成 std::set<T>)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::string, std::set<T> > {
 public:
-	std::set<T> operator()(const std::string& v) {
-		YAML::Node node = YAML::Load(v);
-		typename std::set<T> vec;
-		std::stringstream ss;
-		for (size_t i = 0; i < node.size(); i++) {
-			ss.str("");
-			ss << node[i];
-			vec.insert(LexicalCast<std::string, T>()(ss.str()));
-		}
-		return vec;
-	}
+    std::set<T> operator()(const std::string& v) {
+        YAML::Node node = YAML::Load(v);
+        typename std::set<T> vec;
+        std::stringstream ss;
+        for(size_t i = 0; i < node.size(); ++i) {
+            ss.str("");
+            ss << node[i];
+            vec.insert(LexicalCast<std::string, T>()(ss.str()));
+        }
+        return vec;
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(std::set<T> 转换成 YAML String)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::set<T>, std::string> {
 public:
-	std::string operator()(const std::set<T>& v) {
-		YAML::Node node(YAML::NodeType::Sequence);
-		for (auto& i : v) {
-			node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
-		}
-		std::stringstream ss;
-		ss << node;
-		return ss.str();
-	}
+    std::string operator()(const std::set<T>& v) {
+        YAML::Node node(YAML::NodeType::Sequence);
+        for(auto& i : v) {
+            node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
+        }
+        std::stringstream ss;
+        ss << node;
+        return ss.str();
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(YAML String 转换成 std::unordered_set<T>)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::string, std::unordered_set<T> > {
 public:
-	std::unordered_set<T> operator()(const std::string& v) {
-		YAML::Node node = YAML::Load(v);
-		typename std::unordered_set<T> vec;
-		std::stringstream ss;
-		for (size_t i = 0; i < node.size(); i++) {
-			ss.str("");
-			ss << node[i];
-			vec.insert(LexicalCast<std::string, T>()(ss.str()));
-		}
-		return vec;
-	}
+    std::unordered_set<T> operator()(const std::string& v) {
+        YAML::Node node = YAML::Load(v);
+        typename std::unordered_set<T> vec;
+        std::stringstream ss;
+        for(size_t i = 0; i < node.size(); ++i) {
+            ss.str("");
+            ss << node[i];
+            vec.insert(LexicalCast<std::string, T>()(ss.str()));
+        }
+        return vec;
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(std::unordered_set<T> 转换成 YAML String)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::unordered_set<T>, std::string> {
 public:
-	std::string operator()(const std::unordered_set<T>& v) {
-		YAML::Node node(YAML::NodeType::Sequence);
-		for (auto& i : v) {
-			node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
-		}
-		std::stringstream ss;
-		ss << node;
-		return ss.str();
-	}
+    std::string operator()(const std::unordered_set<T>& v) {
+        YAML::Node node(YAML::NodeType::Sequence);
+        for(auto& i : v) {
+            node.push_back(YAML::Load(LexicalCast<T, std::string>()(i)));
+        }
+        std::stringstream ss;
+        ss << node;
+        return ss.str();
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(YAML String 转换成 std::map<std::string, T>)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::string, std::map<std::string, T> > {
 public:
-	std::map<std::string, T> operator()(const std::string& v) {
-		YAML::Node node = YAML::Load(v);
-		typename std::map<std::string, T> vec;
-		std::stringstream ss;
-		for (auto it = node.begin(); it != node.end(); ++it) {
-			ss.str("");
-			ss << it -> second;
-			vec.insert(std::make_pair(it -> first.Scalar(), LexicalCast<std::string, T>()(ss.str())));
-		}
-		return vec;
-	}
+    std::map<std::string, T> operator()(const std::string& v) {
+        YAML::Node node = YAML::Load(v);
+        typename std::map<std::string, T> vec;
+        std::stringstream ss;
+        for(auto it = node.begin();
+                it != node.end(); ++it) {
+            ss.str("");
+            ss << it->second;
+            vec.insert(std::make_pair(it->first.Scalar(),
+                        LexicalCast<std::string, T>()(ss.str())));
+        }
+        return vec;
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(std::map<std::string, T> 转换成 YAML String)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::map<std::string, T>, std::string> {
 public:
-	std::string operator()(const std::map<std::string, T>& v) {
-		YAML::Node node(YAML::NodeType::Map);
-		for (auto& i : v) {
-			node[i.first] = YAML::Load(LexicalCast<T, std::string>()(i.second));
-		}
-		std::stringstream ss;
-		ss << node;
-		return ss.str();
-	}
+    std::string operator()(const std::map<std::string, T>& v) {
+        YAML::Node node(YAML::NodeType::Map);
+        for(auto& i : v) {
+            node[i.first] = YAML::Load(LexicalCast<T, std::string>()(i.second));
+        }
+        std::stringstream ss;
+        ss << node;
+        return ss.str();
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(YAML String 转换成 std::unordered_map<std::string, T>)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::string, std::unordered_map<std::string, T> > {
 public:
-	std::unordered_map<std::string, T> operator()(const std::string& v) {
-		YAML::Node node = YAML::Load(v);
-		typename std::unordered_map<std::string, T> vec;
-		std::stringstream ss;
-		for (auto it = node.begin(); it != node.end(); ++it) {
-			ss.str("");
-			ss << it -> second;
-			vec.insert(std::make_pair(it -> first.Scalar(), LexicalCast<std::string, T>()(ss.str())));
-		}
-		return vec;
-	}
+    std::unordered_map<std::string, T> operator()(const std::string& v) {
+        YAML::Node node = YAML::Load(v);
+        typename std::unordered_map<std::string, T> vec;
+        std::stringstream ss;
+        for(auto it = node.begin();
+                it != node.end(); ++it) {
+            ss.str("");
+            ss << it->second;
+            vec.insert(std::make_pair(it->first.Scalar(),
+                        LexicalCast<std::string, T>()(ss.str())));
+        }
+        return vec;
+    }
 };
 
 /**
  * @brief 类型转换模板类片特化(std::unordered_map<std::string, T> 转换成 YAML String)
  */
-template <class T>
+template<class T>
 class LexicalCast<std::unordered_map<std::string, T>, std::string> {
 public:
-	std::string operator()(const std::unordered_map<std::string, T>& v) {
-		YAML::Node node(YAML::NodeType::Map);
-		for (auto& i : v) {
-			node[i.first] = YAML::Load(LexicalCast<T, std::string>()(i.second));
-		}
-		std::stringstream ss;
-		ss << node;
-		return ss.str();
-	}
+    std::string operator()(const std::unordered_map<std::string, T>& v) {
+        YAML::Node node(YAML::NodeType::Map);
+        for(auto& i : v) {
+            node[i.first] = YAML::Load(LexicalCast<T, std::string>()(i.second));
+        }
+        std::stringstream ss;
+        ss << node;
+        return ss.str();
+    }
 };
 
 /**
@@ -390,11 +423,12 @@ public:
 				return nullptr;
 			}
 		}
-		auto tmp = Lookup<T>(name);
-		if (tmp) {
-			JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "Lookup name=" << name << "exists";
-			return tmp;
-		}
+
+		// auto tmp = Lookup<T>(name);
+		// if (tmp) {
+		// 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "Lookup name=" << name << "exists";
+		// 	return tmp;
+		// }
 		if (name.find_first_not_of("abcdefghikjlmnopqrstuvwxyz._012345678")
 				!= std::string::npos) {
 			JUJIMEIZUO_LOG_ERROR(JUJIMEIZUO_LOG_ROOT()) << "Lookup name invalid " << name;
@@ -430,6 +464,10 @@ public:
      */
 	static ConfigVarBase::ptr LookupBase(const std::string& name);
 private:
+
+    /**
+     * @brief 返回所有的配置项
+     */
 	static ConfigVarMap& GetDatas() {
 		static ConfigVarMap s_datas;
 		return s_datas;

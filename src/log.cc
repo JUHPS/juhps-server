@@ -5,6 +5,7 @@
 #include <time.h>
 #include <string.h>
 #include "config.h"
+#include <cstdarg>
 
 namespace jujimeizuo {
 
@@ -256,7 +257,7 @@ void Logger::clearAppenders() {
 void Logger::log(LogLevel::Level level, LogEvent::ptr event){
 	if (level >= m_level) {
 		auto self = shared_from_this();
-		if (m_appenders.empty()) {
+		if (!m_appenders.empty()) {
 			for (auto& i : m_appenders) {
 				i -> log(self, level, event);
 			}
@@ -492,96 +493,99 @@ struct LogDefine {
 };
 
 template<>
-class LexicalCast<std::string, std::set<LogDefine> > {
+class LexicalCast<std::string, LogDefine> {
 public:
-	std::set<LogDefine> operator()(const std::string& v) {
-		YAML::Node node = YAML::Load(v);
-		std::set<LogDefine> vec;
-		for (size_t i = 0; i < node.size(); i++) {
-			const auto& n = node[i];
-			if (!n["name"].IsDefined()) {
-				std::cout << "log config error: name is null," << n
-						  << std::endl;
-				continue ;
-			}
+    LogDefine operator()(const std::string& v) {
+        YAML::Node n = YAML::Load(v);
+        LogDefine ld;
+        if(!n["name"].IsDefined()) {
+            std::cout << "log config error: name is null, " << n
+                      << std::endl;
+            throw std::logic_error("log config name is null");
+        }
+        ld.name = n["name"].as<std::string>();
+        ld.level = LogLevel::FromString(n["level"].IsDefined() ? n["level"].as<std::string>() : "");
+        if(n["formatter"].IsDefined()) {
+            ld.formatter = n["formatter"].as<std::string>();
+        }
 
-			LogDefine ld;
-			ld.name = n["name"].as<std::string>();
-			ld.level = LogLevel::FromString(n["level"].IsDefined() ? n["level"].as<std::string>() : "");
-			if (n["formatter"].IsDefined()) {
-				ld.formatter = n["formatter"].as<std::string>();
-			}
+        if(n["appenders"].IsDefined()) {
+            //std::cout << "==" << ld.name << " = " << n["appenders"].size() << std::endl;
+            for(size_t x = 0; x < n["appenders"].size(); ++x) {
+                auto a = n["appenders"][x];
+                if(!a["type"].IsDefined()) {
+                    std::cout << "log config error: appender type is null, " << a
+                              << std::endl;
+                    continue;
+                }
+                std::string type = a["type"].as<std::string>();
+                LogAppenderDefine lad;
+                if(type == "FileLogAppender") {
+                    lad.type = 1;
+                    if(!a["file"].IsDefined()) {
+                        std::cout << "log config error: fileappender file is null, " << a
+                              << std::endl;
+                        continue;
+                    }
+                    lad.file = a["file"].as<std::string>();
+                    if(a["formatter"].IsDefined()) {
+                        lad.formatter = a["formatter"].as<std::string>();
+                    }
+                } else if(type == "StdoutLogAppender") {
+                    lad.type = 2;
+                    if(a["formatter"].IsDefined()) {
+                        lad.formatter = a["formatter"].as<std::string>();
+                    }
+                } else {
+                    std::cout << "log config error: appender type is invalid, " << a
+                              << std::endl;
+                    continue;
+                }
 
-			if (n["appenders"].IsDefined()) {
-				for (size_t x = 0; x < n["appenders"].size(); ++x) {
-					auto a = n["appenders"][x];
-					if (!a["type"].IsDefined()) {
-						std::cout << "log config error: appender type is null," << a
-						  		  << std::endl;
-						continue ;
-					}
-					std::string type = a["type"].as<std::string>();
-					LogAppenderDefine lad;
-					if (type == "FileLogAppender") {
-						lad.type = 1;
-						if (n["file"].IsDefined()) {
-							std::cout << "log config error: fileappender file is null," << a
-						  		  << std::endl;
-						  	continue ;
-						}
-						lad.file = n["file"].as<std::string>();
-						if (n["formatter"].IsDefined()) {
-							lad.formatter = n["formatter"].as<std::string>();
-						}
-					} else if (type == "StdoutLogAppender") {
-						lad.type = 2;
-					} else {
-						std::cout << "log config error: appender type is invalid," << a
-						  		  << std::endl;
-						continue ;
-					}
-					ld.appenders.push_back(lad);
-				}
-			}
-			vec.insert(ld);
-		}
-		return vec;
-	}
+                ld.appenders.push_back(lad);
+            }
+        }
+        return ld;
+    }
 };
 
-/**
- * @brief 类型转换模板类片特化(std::vector<T> 转换成 YAML String)
- */
-template <>
-class LexicalCast<std::set<LogDefine>, std::string> {
+template<>
+class LexicalCast<LogDefine, std::string> {
 public:
-	std::string operator()(const std::set<LogDefine>& v) {
-		YAML::Node node;
-		for (auto& i : v) {
-			YAML::Node n;
-			n["name"] = i.name;
-			n["level"] = LogLevel::ToString(i.level);
-			if (i.formatter.empty()) {
-				n["level"] = i.formatter;
-			}
-			for (auto& a : i.appenders) {
-				YAML::Node na;
-				if (a.type == 1) {
-					na["type"] = "FileLogAppender";
-					na["file"] = a.file;
-				} else if (a.type == 2) {
-					na["type"] = "StdoutLogAppender";
-				}
-				na["level"] = LogLevel::ToString(a.level);
-				n["appenders"].push_back(na);
-			}
-			node.push_back(n);
-		}
-		std::stringstream ss;
-		ss << node;
-		return ss.str();
-	}
+    std::string operator()(const LogDefine& i) {
+        YAML::Node n;
+        n["name"] = i.name;
+        if(i.level != LogLevel::UNKNOW) {
+            n["level"] = LogLevel::ToString(i.level);
+        }
+        if(!i.formatter.empty()) {
+            n["formatter"] = i.formatter;
+        }
+
+        for(auto& a : i.appenders) {
+            YAML::Node na;
+            if(a.type == 1) {
+                na["type"] = "FileLogAppender";
+                na["file"] = a.file;
+            } else if(a.type == 2) {
+                na["type"] = "StdoutLogAppender";
+            }
+            if(a.level != LogLevel::UNKNOW) {
+                na["level"] = LogLevel::ToString(a.level);
+            }
+
+            if(!a.formatter.empty()) {
+                na["formatter"] = a.formatter;
+            }
+
+            n["appenders"].push_back(na);
+        }
+        std::stringstream ss;
+        ss << n;
+        return ss.str();
+    }
 };
+
 
 jujimeizuo::ConfigVar<std::set<LogDefine> >::ptr g_log_defines =
 	jujimeizuo::Config::Lookup("logs", std::set<LogDefine>(), "logs config");
