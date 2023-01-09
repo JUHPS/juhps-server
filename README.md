@@ -101,6 +101,8 @@ jujimeizuo::ConfigVar<std::unordered_map<std::string, int> >::ptr g_str_int_unor
 2022-09-01 00:03:24     4294967295      0       [INFO]  [root]  /Users/fengzetao/Desktop/WebServer/tests/test_config.cc:142     after str_int_unordered_map: {k2 - 20}
 ```
 
+### setFormatter
+当yml里没有格式要求时，logger初始化时m_hasFormatter为false，当后续代码中用setFormatter修改格式时，会将所有的m_hasFormatter为false的formatter修改为用户修改的格式。
 
 ## Author
 

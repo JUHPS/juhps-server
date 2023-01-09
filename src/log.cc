@@ -232,7 +232,6 @@ Logger::Logger(const std::string& name)
 void Logger::setFormatter(LogFormatter::ptr val) {
 	m_formatter = val;
     for (auto& i : m_appenders) {
-        // std::cout << i -> m_hasFormatter << " " << i -> m_formatter -> getPattern() << "  |  " << m_formatter -> getPattern() << std::endl;
         if (!i -> m_hasFormatter) {
             i -> m_formatter = m_formatter;
         }

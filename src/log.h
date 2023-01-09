@@ -426,8 +426,8 @@ public:
      */
 	bool reopen();
 private:
-	std::string m_filename;
-	std::ofstream m_filestream;
+	std::string m_filename;         // 文件路径
+	std::ofstream m_filestream;     // 文件流
 
 };
 
@@ -459,10 +459,13 @@ public:
      */
     std::string toYamlString();
 private:
-	std::map<std::string, Logger::ptr> m_loggers;
-	Logger::ptr m_root;
+	std::map<std::string, Logger::ptr> m_loggers;   // 日志器容器
+	Logger::ptr m_root;                             // 主日志器
 };
 
+/**
+ * @brief 日志器管理类单例模式
+*/
 typedef jujimeizuo::Singleton<LoggerManager> LoggerMgr;
 
 
