@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 2.8)
 project(WebServer)
+
+include(cmake/utils.cmake)
 
 add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -25,6 +27,7 @@ set(LIB_SRC
 	)
 
 add_library(src SHARED ${LIB_SRC})
+force_redefine_file_macro_for_sources(src) #__FILE__
 #add_library(WebServer_static STATIC ${LIB_SRC})
 #SET_TARGET_PROPERTIES (WebServer_static PROPERTIES OUTPUT_NAME "WebServer")
 
@@ -36,10 +39,12 @@ set(LIBS
 
 add_executable(test tests/test.cc)
 add_dependencies(test src)
+force_redefine_file_macro_for_sources(test) #__FILE__
 target_link_libraries(test src "${LIBS}")
 
 add_executable(test_config tests/test_config.cc)
 add_dependencies(test_config src)
+force_redefine_file_macro_for_sources(test_config) #__FILE__
 target_link_libraries(test_config src "${LIBS}")
 
 

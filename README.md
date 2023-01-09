@@ -21,9 +21,7 @@
 - `LogFormatter`: 日志格式化
 - `LogAppender`: 日志输出目标
 - `LoggerManger`: 日志管理器
-- `LogDefine`
-- `LogAppenderDefine`
-- `LexicalCast`
+- `LoggerMgr`: 日志器管理类单例模式
 
 ### Usage
 
@@ -66,8 +64,14 @@ JUJIMEIZUO_LOG_INFO(l) << "xxx";
 - `ConfigVarBase`: 配置变量的基类
 - `ConfigVar`: 配置参数模板子类
 - `Config`: ConfigVar的管理类
-- `LexicalCast`: 类型转换模板类（片特化）
+- `LexicalCast`: 类型转换模板类（偏特化）
+
 ### Usage
+
+```bash
+YAML::Node root = YAML::LoadFile("url/*.yml");
+jujimeizuo::Config::LoadFromYaml(root);
+```
 
 ### yaml-cpp
 
@@ -96,6 +100,7 @@ jujimeizuo::ConfigVar<std::unordered_map<std::string, int> >::ptr g_str_int_unor
 ```bash
 2022-09-01 00:03:24     4294967295      0       [INFO]  [root]  /Users/fengzetao/Desktop/WebServer/tests/test_config.cc:142     after str_int_unordered_map: {k2 - 20}
 ```
+
 
 ## Author
 

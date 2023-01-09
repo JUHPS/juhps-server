@@ -205,6 +205,8 @@ void test_log() {
     std::cout << "====================================" << std::endl;
     std::cout << root << std::endl;
     JUJIMEIZUO_LOG_INFO(system_log) << "hello system" << std::endl;
+    system_log -> setFormatter("%d - %m%n");
+    JUJIMEIZUO_LOG_INFO(system_log) << "hello system" << std::endl;
 }
 
 
