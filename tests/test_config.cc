@@ -1,5 +1,6 @@
 #include "../src/config.h"
 #include "../src/log.h"
+#include <yaml-cpp/yaml.h>
 #include <iostream>
 
 jujimeizuo::ConfigVar<int>::ptr g_int_value_config =
@@ -54,7 +55,7 @@ void print_yaml(const YAML::Node node, int level) {
 
 
 void test_yaml() {
-	YAML::Node root = YAML::LoadFile("/root/WebServer/bin/conf/test.yml");
+	YAML::Node root = YAML::LoadFile("/root/WebServer/bin/conf/log.yml");
 	print_yaml(root, 0);
 
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << root.Scalar();
@@ -92,7 +93,6 @@ void test_config() {
 
 	YAML::Node root = YAML::LoadFile("/root/WebServer/bin/conf/test.yml");
     jujimeizuo::Config::LoadFromYaml(root);
-    // LoadFromYaml(root);
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_int_value_config -> getValue();
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_float_value_config -> toString();
 
@@ -179,7 +179,7 @@ void test_class() {
 		JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << #prefix << ": size=" << m.size(); \
 	}
 
-	g_person -> addListener(10, [](const Person& old_value, const Person& new_value) {
+	g_person -> addListener([](const Person& old_value, const Person& new_value) {
 		JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "old_value=" << old_value.toString()
 				<< "new_value=" << new_value.toString();
 	});
@@ -187,17 +187,31 @@ void test_class() {
 	XX_PM(g_person_map, "class.map before");
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "before: " << g_person_vec_map -> toString();
 
-	YAML::Node root = YAML::LoadFile("/Users/fengzetao/Desktop/WebServer/bin/conf/test.yml");
+	YAML::Node root = YAML::LoadFile("/root/WebServer/bin/conf/test.yml");
 	jujimeizuo::Config::LoadFromYaml(root);
-    // LoadFromYaml(root);
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_person -> getValue().toString() << " - " << g_person -> toString();
 	XX_PM(g_person_map, "class.map after");
 	JUJIMEIZUO_LOG_INFO(JUJIMEIZUO_LOG_ROOT()) << "after: " << g_person_vec_map -> toString();
 }
 
+void test_log() {
+    static jujimeizuo::Logger::ptr system_log = JUJIMEIZUO_LOG_NAME("system");
+    JUJIMEIZUO_LOG_INFO(system_log) << "hello system" << std::endl;
+    std::cout << jujimeizuo::LoggerMgr::GetInstance() -> toYamlString() << std::endl;
+    YAML::Node root = YAML::LoadFile("/root/WebServer/bin/conf/log.yml");
+    jujimeizuo::Config::LoadFromYaml(root);
+    std::cout << "====================================" << std::endl;
+    std::cout << jujimeizuo::LoggerMgr::GetInstance() -> toYamlString() << std::endl;
+    std::cout << "====================================" << std::endl;
+    std::cout << root << std::endl;
+    JUJIMEIZUO_LOG_INFO(system_log) << "hello system" << std::endl;
+}
+
+
 int main(int argc, char** argv) {
 	// test_yaml();
-	test_config();
+	// test_config();
 	// test_class();
-	return 0;
+    test_log();
+    return 0;
 }

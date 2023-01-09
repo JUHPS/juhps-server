@@ -235,6 +235,10 @@ public:
 	 * @brief 是否有错误
 	 */
 	bool isError() const { return m_error; }
+    /**
+     * @brief 返回日志模板
+     */
+    const std::string getPattern() const { return m_pattern; }
 private:
 	// 日志格式模版
 	std::string m_pattern;
@@ -260,6 +264,10 @@ public:
      */
 	virtual void log(std::shared_ptr<Logger> logger, LogLevel::Level level, LogEvent::ptr event) = 0;
 
+    /**
+     * @brief 将日志输出目标的配置转成YAML String
+    */
+    virtual std::string toYamlString() = 0;
 	/**
      * @brief 更改日志格式器
      */
@@ -286,7 +294,7 @@ protected:
 
 // 日志器
 class Logger : public std::enable_shared_from_this<Logger> {
-friend class LoggerManger;
+friend class LoggerManager;
 public:
 	typedef std::shared_ptr<Logger> ptr;
 
@@ -397,6 +405,7 @@ class StdoutLogAppender : public LogAppender {
 public:
 	typedef std::shared_ptr<StdoutLogAppender> ptr;
 	void log(Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event) override;
+    std::string toYamlString() override;
 };
 
 /**
@@ -407,8 +416,12 @@ public:
 	typedef std::shared_ptr<FileLogAppender> ptr;
 	FileLogAppender(const std::string& filename);
 	virtual void log(Logger::ptr logger, LogLevel::Level level, LogEvent::ptr event) override;
+    std::string toYamlString() override;
 
-	// 重新打开文件，文件打开成功返回true
+    /**
+     * @brief 重新打开日志文件
+     * @return 成功返回true
+     */
 	bool reopen();
 private:
 	std::string m_filename;
@@ -419,19 +432,36 @@ private:
 /**
  * @brief 日志器管理类
  */
-class LoggerManger {
+class LoggerManager {
 public:
-	LoggerManger();
+    /**
+     * @brief 构造函数
+     */
+	LoggerManager();
+    /**
+     * @brief 获取日志器
+     * @param[in] name 日志器名称
+     */
 	Logger::ptr getLogger(const std::string& name);
 
+    /**
+     * @brief 初始化
+     */
 	void init();
+    /**
+     * @brief 返回主日志器
+     */
 	Logger::ptr getRoot() const { return m_root; }
+    /**
+     * @brief 将所有的日志器配置转成YAML String
+     */
+    std::string toYamlString();
 private:
 	std::map<std::string, Logger::ptr> m_loggers;
 	Logger::ptr m_root;
 };
 
-typedef jujimeizuo::Singleton<LoggerManger> LoggerMgr;
+typedef jujimeizuo::Singleton<LoggerManager> LoggerMgr;
 
 
 };
