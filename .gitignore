@@ -34,3 +34,5 @@ lib/*
 bin/test*
 *.pdf
 .vscode
+.tests
+.bin/conf
