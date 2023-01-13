@@ -11,6 +11,7 @@
 #include <map>
 #include "util.h"
 #include "singleton.h"
+#include "thread.h"
 
 /**
  * @brief 使用流式方式将日志级别level的日志写入到logger
@@ -255,6 +256,7 @@ class LogAppender {
 friend class Logger;
 public:
 	typedef std::shared_ptr<LogAppender> ptr;
+    typedef Spinlock MutexType;
 	virtual ~LogAppender() {}
 
 	/**
@@ -277,7 +279,7 @@ public:
 	/**
 	 * @brief 获取日志格式器
 	 */
-	LogFormatter::ptr getFormatter() const { return m_formatter; }
+	LogFormatter::ptr getFormatter();
 	
 	/**
      * @brief 获取日志级别
@@ -291,7 +293,8 @@ public:
 protected:
 	LogLevel::Level m_level = LogLevel::DEBUG;	// 日志级别
     bool m_hasFormatter = false;                // 是否有自己的日志格式器
-	LogFormatter::ptr m_formatter;				// 日志格式器
+	MutexType m_mutex;                              // Mutex
+    LogFormatter::ptr m_formatter;				// 日志格式器
 };
 
 // 日志器
@@ -299,6 +302,7 @@ class Logger : public std::enable_shared_from_this<Logger> {
 friend class LoggerManager;
 public:
 	typedef std::shared_ptr<Logger> ptr;
+    typedef Spinlock MutexType;
 
 	/**
      * @brief 构造函数
@@ -395,6 +399,7 @@ public:
 private:
 	std::string m_name;							// 日志名称
 	LogLevel::Level m_level;					// 日志级别
+    MutexType m_mutex;                              // Mutex
 	std::list<LogAppender::ptr> m_appenders;  	// Appender集合
 	LogFormatter::ptr m_formatter;				// 日志格式器
 	Logger::ptr m_root;							// 主日志器
@@ -428,7 +433,7 @@ public:
 private:
 	std::string m_filename;         // 文件路径
 	std::ofstream m_filestream;     // 文件流
-
+    uint64_t m_lastTime = 0;        // 上次重新打开时间
 };
 
 /**
@@ -436,6 +441,7 @@ private:
  */
 class LoggerManager {
 public:
+    typedef Spinlock MutexType;
     /**
      * @brief 构造函数
      */
@@ -459,6 +465,7 @@ public:
      */
     std::string toYamlString();
 private:
+    MutexType m_mutex;                                  // Mutex
 	std::map<std::string, Logger::ptr> m_loggers;   // 日志器容器
 	Logger::ptr m_root;                             // 主日志器
 };
