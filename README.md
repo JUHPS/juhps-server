@@ -104,6 +104,42 @@ jujimeizuo::ConfigVar<std::unordered_map<std::string, int> >::ptr g_str_int_unor
 ### setFormatter
 当yml里没有格式要求时，logger初始化时m_hasFormatter为false，当后续代码中用setFormatter修改格式时，会将所有的m_hasFormatter为false的formatter修改为用户修改的格式。
 
-## Author
+## 3. 线程模块
 
-[sylar](https://github.com/sylar-yin/sylar)
+封装了pthread里面的一些常用功能，Thread,Semaphore,Mutex,RWMutex,Spinlock等对象，可以方便开发中对线程日常使用
+为什么不使用c++11里面的thread，本框架是使用C++11开发，不使用thread，是因为thread其实也是基于pthread实现的。并且C++11里面没有提供读写互斥量，RWMutex，Spinlock等，在高并发场景，这些对象是经常需要用到的。所以选择了自己封装pthread
+
+### Class
+
+- `Thread`: 线程类
+- `Semaphere`: 计数信号量
+- `ScopedLockImpl`: 锁的封装接口
+- `Mutex`: 互斥锁
+- `RWMutex`: 读写锁
+- `Spinlock`: 自旋锁
+- `CASLock`: 原子锁
+
+### Usage
+
+#### 锁的使用
+
+在日志系统与配置系统使用互斥量是为了保证线程安全，因为日志系统写多读少所以使用Mutex，其中Spinlock的性能最好，在配置系统中是读多写少，所以使用的是读写锁RWmutex。
+
+```C++
+RWMutexType::Lock lock(m_mutex);
+```
+
+```C++
+RWMutexType::ReadLock lock(GetMutex());
+```
+
+#### GetMutex
+
+为了初始化的顺序，将每个Config里对应的锁定为静态变量，为了在获取锁之前就已经定义了锁。
+
+```C++
+static RWMutexType& GetMutex() {
+    static RWMutexType s_mutex;
+    return s_mutex;
+}
+```

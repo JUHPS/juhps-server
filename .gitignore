@@ -34,5 +34,5 @@ lib/*
 bin/test*
 *.pdf
 .vscode
-.tests
+tests
 bin/conf
