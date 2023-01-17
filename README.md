@@ -1,5 +1,5 @@
 <div align='center' >
-	<font size='70'>WebServer</font>
+	<font size='70'>server</font>
 </div>
 
 ## 1. 日志模块
