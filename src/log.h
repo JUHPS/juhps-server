@@ -398,7 +398,7 @@ public:
 private:
 	std::string m_name;							// 日志名称
 	LogLevel::Level m_level;					// 日志级别
-    MutexType m_mutex;                              // Mutex
+	MutexType m_mutex;                          // Mutex
 	std::list<LogAppender::ptr> m_appenders;  	// Appender集合
 	LogFormatter::ptr m_formatter;				// 日志格式器
 	Logger::ptr m_root;							// 主日志器
@@ -464,7 +464,7 @@ public:
      */
     std::string toYamlString();
 private:
-    MutexType m_mutex;                                  // Mutex
+    MutexType m_mutex;                              // Mutex
 	std::map<std::string, Logger::ptr> m_loggers;   // 日志器容器
 	Logger::ptr m_root;                             // 主日志器
 };
