@@ -41,10 +41,10 @@ set(LIBS
 
 message("*****", ${LIBS})
 
-add_executable(test tests/test.cc)
-add_dependencies(test src)
-force_redefine_file_macro_for_sources(test) #__FILE__
-target_link_libraries(test src "${LIBS}")
+add_executable(test_logger tests/test_logger.cc)
+add_dependencies(test_logger src)
+force_redefine_file_macro_for_sources(test_logger) #__FILE__
+target_link_libraries(test_logger src "${LIBS}")
 
 add_executable(test_config tests/test_config.cc)
 add_dependencies(test_config src)
@@ -55,6 +55,11 @@ add_executable(test_thread tests/test_thread.cc)
 add_dependencies(test_thread src)
 force_redefine_file_macro_for_sources(test_thread) #__FILE__
 target_link_libraries(test_thread src "${LIBS}")
+
+add_executable(test_util tests/test_util.cc)
+add_dependencies(test_util src)
+force_redefine_file_macro_for_sources(test_util) #__FILE__
+target_link_libraries(test_util src "${LIBS}")
 
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
