@@ -88,7 +88,6 @@ Fiber::~Fiber() {
 
     JUJIMEIZUO_LOG_DEBUG(g_logger) << "Fiber::~Fiber id=" << m_id
                                 << "total=" << s_fiber_count;
-
 }
 
 void Fiber::reset(std::function<void()> cb) {
@@ -113,7 +112,6 @@ void Fiber::swapIn() {
     SetThis(this);
     JUJIMEIZUO_ASSERT(m_state != EXEC);
     m_state = EXEC;
-
     if (swapcontext(&t_threadFiber->m_ctx, &m_ctx)) {
         JUJIMEIZUO_ASSERT_E(false, "swapcontext");
     }
@@ -121,7 +119,7 @@ void Fiber::swapIn() {
 
 void Fiber::swapOut() {
     SetThis(t_threadFiber.get());
-    if (swapcontext(&t_threadFiber->m_ctx, &m_ctx)) {
+    if (swapcontext(&m_ctx, &t_threadFiber->m_ctx)) {
         JUJIMEIZUO_ASSERT_E(false, "swapcontext");
     }
 }
@@ -150,8 +148,8 @@ void Fiber::YieldToReady() {
 void Fiber::YieldToHold() {
     Fiber::ptr cur = GetThis();
     JUJIMEIZUO_ASSERT(cur -> m_state == EXEC);
-    // cur -> m_state = HOLD;
-    cur -> swapOut(); 
+    cur -> m_state = HOLD;
+    cur -> swapOut();
 }
 
 uint64_t Fiber::TotalFibers() {
@@ -165,14 +163,16 @@ void Fiber::MainFunc() {
         cur -> m_cb();
         cur -> m_cb = nullptr;
         cur -> m_state = TERM;
-    } catch(const std::exception& ex) {
+    } catch(std::exception& ex) {
         cur -> m_state = EXCEPT;
         JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except: " << ex.what();
     } catch(...) {
         cur -> m_state = EXCEPT;
         JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except";
     }
-    
+    // auto raw_cur = cur.get();
+    // cur.reset();
+    // raw_cur -> swapOut();
 }
 
 }
