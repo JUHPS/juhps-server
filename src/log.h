@@ -20,7 +20,7 @@
 	if (logger -> getLevel() <= level) \
 		jujimeizuo::LogEventWrap(jujimeizuo::LogEvent::ptr(new jujimeizuo::LogEvent(logger, level, \
 				__FILE__, __LINE__, 0, jujimeizuo::GetThreadId(), \
-			jujimeizuo::GetFiberId(), time(0)))).getSS()
+			jujimeizuo::GetFiberId(), time(0), jujimeizuo::Thread::GetName()))).getSS()
 
 
 /**
@@ -56,7 +56,7 @@
 	if (logger -> getLevel() <= level) \
 	jujimeizuo::LogEventWrap(jujimeizuo::LogEvent::ptr(new jujimeizuo::LogEvent(logger, level, \
 				__FILE__, __LINE__, 0, jujimeizuo::GetThreadId(), \
-			jujimeizuo::GetFiberId(), time(0)))).getEvent() -> format(fmt, __VA_ARGS__)	
+			jujimeizuo::GetFiberId(), time(0), jujimeizuo::Thread::GetName()))).getEvent() -> format(fmt, __VA_ARGS__)	
 
 
 /**
@@ -148,7 +148,8 @@ public:
      */
 	LogEvent(std::shared_ptr<Logger> logger,LogLevel::Level level
 			, const char* file, int32_t line, uint32_t elapse
-			, uint32_t thread_id, uint32_t fiber_id, uint64_t time) ;
+			, uint32_t thread_id, uint32_t fiber_id, uint64_t time
+			, const std::string& thread_name);
 	
 	const char* getFile() 				const { return m_file; }
 	int32_t getLine() 					const { return m_line; }

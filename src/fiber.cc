@@ -87,7 +87,7 @@ Fiber::~Fiber() {
     }
 
     JUJIMEIZUO_LOG_DEBUG(g_logger) << "Fiber::~Fiber id=" << m_id
-                                << "total=" << s_fiber_count;
+                                << " total=" << s_fiber_count;
 }
 
 void Fiber::reset(std::function<void()> cb) {
@@ -170,9 +170,11 @@ void Fiber::MainFunc() {
         cur -> m_state = EXCEPT;
         JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except";
     }
-    // auto raw_cur = cur.get();
-    // cur.reset();
-    // raw_cur -> swapOut();
+    auto raw_cur = cur.get();
+    cur.reset();
+    raw_cur -> swapOut();
+
+    JUJIMEIZUO_ASSERT_E(false, "never reach");
 }
 
 }

@@ -40,7 +40,6 @@ set(LIBS
     pthread
     )
 
-message("*****", ${LIBS})
 
 add_executable(test_logger tests/test_logger.cc)
 add_dependencies(test_logger src)
