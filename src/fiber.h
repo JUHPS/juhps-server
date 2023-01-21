@@ -65,6 +65,10 @@ public:
      * @brief 返回协程id
      */
     uint64_t getId() const { return m_id; }
+    /**
+     * @brief 返回协程状态
+     */
+    State getState() const { return m_state;}
 public:
     /**
      * @brief 设置当前线程的运行协程
