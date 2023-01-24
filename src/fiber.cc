@@ -2,6 +2,7 @@
 #include "config.h"
 #include "macro.h"
 #include "log.h"
+#include "scheduler.h"
 #include <atomic>
 
 namespace jujimeizuo {
@@ -108,18 +109,33 @@ void Fiber::reset(std::function<void()> cb) {
     m_state = INIT;
 }
 
+void Fiber::call() {
+    SetThis(this);
+    m_state = EXEC;
+    if(swapcontext(&t_threadFiber->m_ctx, &m_ctx)) {
+        JUJIMEIZUO_ASSERT_E(false, "swapcontext");
+    }
+}
+
+void Fiber::back() {
+    SetThis(t_threadFiber.get());
+    if(swapcontext(&m_ctx, &t_threadFiber->m_ctx)) {
+        JUJIMEIZUO_ASSERT_E(false, "swapcontext");
+    }
+}
+
 void Fiber::swapIn() {
     SetThis(this);
     JUJIMEIZUO_ASSERT(m_state != EXEC);
     m_state = EXEC;
-    if (swapcontext(&t_threadFiber->m_ctx, &m_ctx)) {
+    if (swapcontext(&Scheduler::GetMainFiber()->m_ctx, &m_ctx)) {
         JUJIMEIZUO_ASSERT_E(false, "swapcontext");
     }
 }
 
 void Fiber::swapOut() {
-    SetThis(t_threadFiber.get());
-    if (swapcontext(&m_ctx, &t_threadFiber->m_ctx)) {
+    SetThis(Scheduler::GetMainFiber());
+    if (swapcontext(&m_ctx, &Scheduler::GetMainFiber()->m_ctx)) {
         JUJIMEIZUO_ASSERT_E(false, "swapcontext");
     }
 }
@@ -165,16 +181,22 @@ void Fiber::MainFunc() {
         cur -> m_state = TERM;
     } catch(std::exception& ex) {
         cur -> m_state = EXCEPT;
-        JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except: " << ex.what();
+        JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except: " << ex.what()
+            << "fiber_id=" << cur->getId()
+            << std::endl
+            << BacktraceToString();
     } catch(...) {
         cur -> m_state = EXCEPT;
-        JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except";
+        JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except"
+            << "fiber_id=" << cur->getId()
+            << std::endl
+            << BacktraceToString();
     }
     auto raw_cur = cur.get();
     cur.reset();
     raw_cur -> swapOut();
 
-    JUJIMEIZUO_ASSERT_E(false, "never reach");
+    JUJIMEIZUO_ASSERT_E(false, "never reach fiber_id=" + std::to_string(raw_cur->getId()));
 }
 
 }

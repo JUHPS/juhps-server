@@ -8,10 +8,13 @@
 
 namespace jujimeizuo {
 
+class Scheduler;
+
 /**
  * @brief 协程类
 */
 class Fiber : public std::enable_shared_from_this<Fiber> {
+friend Scheduler;
 public:
     typedef std::shared_ptr<Fiber> ptr;
 
@@ -51,6 +54,17 @@ public:
      * @post getState() = INIT
      */
     void reset(std::function<void()> cb);
+    /**
+     * @brief 将当前线程切换到执行状态
+     * @pre 执行的为当前线程的主协程
+     */
+    void call();
+    /**
+     * @brief 将当前线程切换到后台
+     * @pre 执行的为该协程
+     * @post 返回到线程的主协程
+     */
+    void back();
     /**
      * @brief 将当前协程切换到运行状态
      * @pre getState() != EXEC
