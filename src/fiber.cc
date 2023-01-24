@@ -51,7 +51,7 @@ Fiber::Fiber() {
     JUJIMEIZUO_LOG_DEBUG(g_logger) << "Fiber::Fiber main";
 }
 
-Fiber::Fiber(std::function<void()> cb, size_t stacksize)
+Fiber::Fiber(std::function<void()> cb, size_t stacksize, bool use_caller)
     : m_id(++s_fiber_id)
     , m_cb(cb) {
     ++s_fiber_count;
@@ -65,7 +65,12 @@ Fiber::Fiber(std::function<void()> cb, size_t stacksize)
     m_ctx.uc_stack.ss_sp = m_stack;
     m_ctx.uc_stack.ss_size = m_stacksize;
 
-    makecontext(&m_ctx, &Fiber::MainFunc, 0);
+    if (!use_caller) {
+        makecontext(&m_ctx, &Fiber::MainFunc, 0);
+    } else {
+        makecontext(&m_ctx, &Fiber::MainFunc, 0);
+    }
+
     JUJIMEIZUO_LOG_DEBUG(g_logger) << "Fiber::Fiber id=" << m_id;
 }
 
@@ -172,7 +177,7 @@ uint64_t Fiber::TotalFibers() {
     return s_fiber_count;
 }
 
-void Fiber::MainFunc() {
+void Fiber::CallerMainFunc() {
     Fiber::ptr cur = GetThis();
     JUJIMEIZUO_ASSERT(cur);
     try {
@@ -195,6 +200,33 @@ void Fiber::MainFunc() {
     auto raw_cur = cur.get();
     cur.reset();
     raw_cur -> swapOut();
+
+    JUJIMEIZUO_ASSERT_E(false, "never reach fiber_id=" + std::to_string(raw_cur->getId()));
+}
+
+void Fiber::MainFunc() {
+    Fiber::ptr cur = GetThis();
+    JUJIMEIZUO_ASSERT(cur);
+    try {
+        cur -> m_cb();
+        cur -> m_cb = nullptr;
+        cur -> m_state = TERM;
+    } catch(std::exception& ex) {
+        cur -> m_state = EXCEPT;
+        JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except: " << ex.what()
+            << "fiber_id=" << cur->getId()
+            << std::endl
+            << BacktraceToString();
+    } catch(...) {
+        cur -> m_state = EXCEPT;
+        JUJIMEIZUO_LOG_ERROR(g_logger) << "Fiber Except"
+            << "fiber_id=" << cur->getId()
+            << std::endl
+            << BacktraceToString();
+    }
+    auto raw_cur = cur.get();
+    cur.reset();
+    raw_cur -> back();
 
     JUJIMEIZUO_ASSERT_E(false, "never reach fiber_id=" + std::to_string(raw_cur->getId()));
 }

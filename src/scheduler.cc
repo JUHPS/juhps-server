@@ -122,7 +122,7 @@ void Scheduler::setThis() {
 }
 
 void Scheduler::run() {
-    JUJIMEIZUO_LOG_DEBUG(g_logger) << "run";
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << m_name << "run";
     setThis();
     if (GetThreadId() != m_rootThread) {
         t_scheduler_fiber = Fiber::GetThis().get();
@@ -146,11 +146,12 @@ void Scheduler::run() {
                     continue ;
                 }
             
-                JUJIMEIZUO_ASSERT(it->fiber||it->cb);
+                JUJIMEIZUO_ASSERT(it->fiber || it->cb);
                 if (it->fiber && it->fiber->getState() == Fiber::EXEC) {
                     ++it;
                     continue ;
                 }
+
                 ft = *it;
                 m_fibers.erase(it++);
                 ++m_activeThreadCount;
@@ -187,7 +188,7 @@ void Scheduler::run() {
             if (cb_fiber->getState() == Fiber::READY) {
                 schedule(cb_fiber);
                 cb_fiber.reset();
-            } else if (cb_fiber->getState() == Fiber::EXCEPT && cb_fiber->getState() == Fiber::TERM) {
+            } else if (cb_fiber->getState() == Fiber::EXCEPT || cb_fiber->getState() == Fiber::TERM) {
                 cb_fiber->reset(nullptr);  
             } else {
                 cb_fiber->m_state = Fiber::HOLD;

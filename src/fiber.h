@@ -43,7 +43,7 @@ public:
      * @param[in] stacksize 协程栈大小
      * @param[in] use_caller 是否在MainFiber上调度
      */
-    Fiber(std::function<void()> cb, size_t stacksize = 0);
+    Fiber(std::function<void()> cb, size_t stacksize = 0, bool use_caller = false);
     /**
      * @brief 析构函数
     */
@@ -112,6 +112,11 @@ public:
      * @post 执行完成返回到线程主协程
      */
     static void MainFunc();
+    /**
+     * @brief 协程执行函数
+     * @post 执行完成返回到线程调度协程
+     */
+    static void CallerMainFunc();
     /**
      * @brief 获取当前协程的id
      */
