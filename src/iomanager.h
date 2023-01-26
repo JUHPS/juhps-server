@@ -109,6 +109,19 @@ protected:
     bool stopping() override;
     void idle() override;
 
+
+    /**
+     * @brief 重置socket句柄上下文的容器大小
+     * @param[in] size 容量大小
+     */
+    void contextResize(size_t size);
+
+    /**
+     * @brief 判断是否可以停止
+     * @param[out] timeout 最近要出发的定时器事件间隔
+     * @return 返回是否可以停止
+     */
+    bool stopping(uint64_t& timeout);
 private:
     int m_epfd = 0;                                     // epoll 文件句柄
     int m_tickleFds[2];                                 // pipe 文件句柄
