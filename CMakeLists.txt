@@ -23,6 +23,7 @@ endif()
 set(LIB_SRC
     src/config.cc
     src/fiber.cc
+    src/iomanager.cc
 	src/log.cc
     src/scheduler.cc
     src/thread.cc
@@ -71,6 +72,11 @@ add_executable(test_scheduler tests/test_scheduler.cc)
 add_dependencies(test_scheduler src)
 force_redefine_file_macro_for_sources(test_scheduler) #__FILE__
 target_link_libraries(test_scheduler src "${LIBS}")
+
+add_executable(test_iomanager tests/test_iomanager.cc)
+add_dependencies(test_iomanager src)
+force_redefine_file_macro_for_sources(test_iomanager) #__FILE__
+target_link_libraries(test_iomanager src "${LIBS}")
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

@@ -110,6 +110,10 @@ protected:
      * @brief 设置当前的协程调度器
      */
     void setThis();
+    /**
+     * @brief 是否有空闲线程
+     */
+    bool hasIdleThreads() { return m_idleThreadCount > 0; }
 private:
     /**
      * @brief 协程调度启动(无锁)
