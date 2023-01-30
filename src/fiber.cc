@@ -68,7 +68,7 @@ Fiber::Fiber(std::function<void()> cb, size_t stacksize, bool use_caller)
     if (!use_caller) {
         makecontext(&m_ctx, &Fiber::MainFunc, 0);
     } else {
-        makecontext(&m_ctx, &Fiber::MainFunc, 0);
+        makecontext(&m_ctx, &Fiber::CallerMainFunc, 0);
     }
 
     JUJIMEIZUO_LOG_DEBUG(g_logger) << "Fiber::Fiber id=" << m_id;
@@ -169,7 +169,7 @@ void Fiber::YieldToReady() {
 void Fiber::YieldToHold() {
     Fiber::ptr cur = GetThis();
     JUJIMEIZUO_ASSERT(cur -> m_state == EXEC);
-    cur -> m_state = HOLD;
+    // cur -> m_state = HOLD;
     cur -> swapOut();
 }
 
@@ -199,7 +199,7 @@ void Fiber::CallerMainFunc() {
     }
     auto raw_cur = cur.get();
     cur.reset();
-    raw_cur -> swapOut();
+    raw_cur -> back();
 
     JUJIMEIZUO_ASSERT_E(false, "never reach fiber_id=" + std::to_string(raw_cur->getId()));
 }
@@ -226,7 +226,7 @@ void Fiber::MainFunc() {
     }
     auto raw_cur = cur.get();
     cur.reset();
-    raw_cur -> back();
+    raw_cur -> swapOut();
 
     JUJIMEIZUO_ASSERT_E(false, "never reach fiber_id=" + std::to_string(raw_cur->getId()));
 }

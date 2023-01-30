@@ -12,7 +12,6 @@ static thread_local Fiber* t_scheduler_fiber = nullptr;
 Scheduler::Scheduler(size_t threads, bool use_caller, const std::string& name)
     : m_name(name) {
     JUJIMEIZUO_ASSERT(threads > 0);
-    
     if (use_caller) {
         Fiber::GetThis();
         --threads;

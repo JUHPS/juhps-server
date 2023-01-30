@@ -31,11 +31,11 @@ void IOManager::FdContext::resetContext(EventContext& ctx) {
 }
 
 void IOManager::FdContext::triggerEvent(IOManager::Event event) {
-    //SYLAR_LOG_INFO(g_logger) << "fd=" << fd
+    //JUJIMEIZUO_LOG_INFO(g_logger) << "fd=" << fd
     //    << " triggerEvent event=" << event
     //    << " events=" << events;
     JUJIMEIZUO_ASSERT(events & event);
-    //if(SYLAR_UNLIKELY(!(event & event))) {
+    //if(JUJIMEIZUO_UNLIKELY(!(event & event))) {
     //    return;
     //}
     events = (Event)(events & ~event);
@@ -50,7 +50,7 @@ void IOManager::FdContext::triggerEvent(IOManager::Event event) {
 }
 
 IOManager::IOManager(size_t threads, bool use_caller, const std::string& name)
-    : Scheduler(threads, use_caller, name) {
+    :Scheduler(threads, use_caller, name) {
     m_epfd = epoll_create(5000);
     JUJIMEIZUO_ASSERT(m_epfd > 0);
 
@@ -58,10 +58,10 @@ IOManager::IOManager(size_t threads, bool use_caller, const std::string& name)
     JUJIMEIZUO_ASSERT(!rt);
 
     epoll_event event;
-    memset(&event, 0, sizeof(event));
+    memset(&event, 0, sizeof(epoll_event));
     event.events = EPOLLIN | EPOLLET;
     event.data.fd = m_tickleFds[0];
-    
+
     rt = fcntl(m_tickleFds[0], F_SETFL, O_NONBLOCK);
     JUJIMEIZUO_ASSERT(!rt);
 
@@ -87,7 +87,7 @@ IOManager::~IOManager() {
 }
 
 void IOManager::contextResize(size_t size) {
-    m_fdContexts.reserve(size);
+    m_fdContexts.resize(size);
 
     for (size_t i = 0; i < m_fdContexts.size(); ++i) {
         if (!m_fdContexts[i]) {
@@ -147,7 +147,6 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
         JUJIMEIZUO_ASSERT_E(event_ctx.fiber->getState() == Fiber::EXEC
                       ,"state=" << event_ctx.fiber->getState());
     }
-    
     return 0;
 }
 
