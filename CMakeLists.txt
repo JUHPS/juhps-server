@@ -27,6 +27,7 @@ set(LIB_SRC
 	src/log.cc
     src/scheduler.cc
     src/thread.cc
+    src/timer.cc
 	src/util.cc
     )
 

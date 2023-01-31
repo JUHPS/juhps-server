@@ -2,10 +2,11 @@
 #define __SRC_IOMANAGER_H__
 
 #include "scheduler.h"
+#include "timer.h"
 
 namespace jujimeizuo {
 
-class IOManager : public Scheduler {
+class IOManager : public Scheduler, public TimerManager {
 public:
     typedef std::shared_ptr<IOManager> ptr;
     typedef RWMutex RWMutexType;
@@ -108,7 +109,7 @@ protected:
     void tickle() override;
     bool stopping() override;
     void idle() override;
-
+    void onTimerInsertedAtFront() override;
 
     /**
      * @brief 重置socket句柄上下文的容器大小
