@@ -3,8 +3,9 @@
 
 #include "config.h"
 #include "fiber.h"
-#include "hook.h"
 #include "fd_manager.h"
+#include "hook.h"
+#include "iomanager.h"
 #include "log.h"
 #include "macro.h"
 #include "scheduler.h"
