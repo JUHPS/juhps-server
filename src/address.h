@@ -14,6 +14,8 @@
 
 namespace jujimeizuo {
 
+class IPAddress;
+
 /**
  * @brief 网络地址的基类,抽象类
  */
@@ -120,7 +122,7 @@ public:
     /**
      * @brief 等于函数
      */
-    bool operator=(const Address& rhs) const;
+    bool operator==(const Address& rhs) const;
     /**
      * @brief 不等于函数
      */

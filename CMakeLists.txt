@@ -22,6 +22,7 @@ if(Boost_FOUND)
 endif()
 
 set(LIB_SRC
+    src/address.cc
     src/config.cc
     src/fd_manager.cc
     src/fiber.cc
@@ -86,6 +87,11 @@ add_executable(test_hook tests/test_hook.cc)
 add_dependencies(test_hook src)
 force_redefine_file_macro_for_sources(test_hook) #__FILE__
 target_link_libraries(test_hook src "${LIBS}")
+
+add_executable(test_address tests/test_address.cc)
+add_dependencies(test_address src)
+force_redefine_file_macro_for_sources(test_address) #__FILE__
+target_link_libraries(test_address src "${LIBS}")
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

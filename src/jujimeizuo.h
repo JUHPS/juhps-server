@@ -1,6 +1,7 @@
 #ifndef __SRC_JUJIMEIZUO_H__
 #define __SRC_JUJIMEIZUO_H__
 
+#include "address.h"
 #include "config.h"
 #include "fiber.h"
 #include "fd_manager.h"
