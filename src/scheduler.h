@@ -7,6 +7,7 @@
 #include <iostream>
 #include "fiber.h"
 #include "thread.h"
+#include "noncopyable.h"
 
 namespace jujimeizuo {
 

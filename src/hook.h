@@ -19,7 +19,6 @@ namespace jujimeizuo {
      * @brief 设置当前线程的hook状态
      */
     void set_hook_enable(bool flag);
-
 }
 
 extern "C" {
@@ -44,8 +43,7 @@ extern connect_fun connect_f;
 typedef int (*accept_fun)(int s, struct sockaddr *addr, socklen_t *addrlen);
 extern accept_fun accept_f;
 
-
-// read
+//read
 typedef ssize_t (*read_fun)(int fd, void *buf, size_t count);
 extern read_fun read_f;
 
@@ -61,7 +59,7 @@ extern recvfrom_fun recvfrom_f;
 typedef ssize_t (*recvmsg_fun)(int sockfd, struct msghdr *msg, int flags);
 extern recvmsg_fun recvmsg_f;
 
-// write
+//write
 typedef ssize_t (*write_fun)(int fd, const void *buf, size_t count);
 extern write_fun write_f;
 

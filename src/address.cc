@@ -11,15 +11,15 @@ namespace jujimeizuo {
 
 static jujimeizuo::Logger::ptr g_logger = JUJIMEIZUO_LOG_NAME("system");
 
-template <class T>
+template<class T>
 static T CreateMask(uint32_t bits) {
     return (1 << (sizeof(T) * 8 - bits)) - 1;
 }
 
-template <class T>
+template<class T>
 static uint32_t CountBytes(T value) {
     uint32_t result = 0;
-    for (; value; ++result) {
+    for(; value; ++result) {
         value &= value - 1;
     }
     return result;
@@ -202,12 +202,12 @@ std::string Address::toString() const {
 }
 
 Address::ptr Address::Create(const sockaddr* addr, socklen_t addrlen) {
-    if (addr == nullptr) {
+    if(addr == nullptr) {
         return nullptr;
     }
 
     Address::ptr result;
-    switch (addr->sa_family) {
+    switch(addr->sa_family) {
         case AF_INET:
             result.reset(new IPv4Address(*(const sockaddr_in*)addr));
             break;
@@ -224,11 +224,11 @@ Address::ptr Address::Create(const sockaddr* addr, socklen_t addrlen) {
 bool Address::operator<(const Address& rhs) const {
     socklen_t minlen = std::min(getAddrLen(), rhs.getAddrLen());
     int result = memcmp(getAddr(), rhs.getAddr(), minlen);
-    if (result < 0) {
+    if(result < 0) {
         return true;
-    } else if (result > 0) {
+    } else if(result > 0) {
         return false;
-    } else if (getAddrLen() < rhs.getAddrLen()) {
+    } else if(getAddrLen() < rhs.getAddrLen()) {
         return true;
     }
     return false;
@@ -246,11 +246,12 @@ bool Address::operator!=(const Address& rhs) const {
 IPAddress::ptr IPAddress::Create(const char* address, uint16_t port) {
     addrinfo hints, *results;
     memset(&hints, 0, sizeof(addrinfo));
+
     hints.ai_flags = AI_NUMERICHOST;
     hints.ai_family = AF_UNSPEC;
 
     int error = getaddrinfo(address, NULL, &hints, &results);
-    if (error) {
+    if(error) {
         JUJIMEIZUO_LOG_DEBUG(g_logger) << "IPAddress::Create(" << address
             << ", " << port << ") error=" << error
             << " errno=" << errno << " errstr=" << strerror(errno);
@@ -318,12 +319,13 @@ std::ostream& IPv4Address::insert(std::ostream& os) const {
 }
 
 IPAddress::ptr IPv4Address::broadcastAddress(uint32_t prefix_len) {
-    if (prefix_len > 32) {
+    if(prefix_len > 32) {
         return nullptr;
     }
 
     sockaddr_in baddr(m_addr);
-    baddr.sin_addr.s_addr |= byteswapOnLittleEndian(CreateMask<uint32_t>(prefix_len));
+    baddr.sin_addr.s_addr |= byteswapOnLittleEndian(
+            CreateMask<uint32_t>(prefix_len));
     return IPv4Address::ptr(new IPv4Address(baddr));
 }
 
@@ -475,11 +477,11 @@ UnixAddress::UnixAddress(const std::string& path) {
     m_addr.sun_family = AF_UNIX;
     m_length = path.size() + 1;
 
-    if (!path.empty() && path[0] == '\0') {
+    if(!path.empty() && path[0] == '\0') {
         --m_length;
     }
 
-    if (m_length > sizeof(m_addr.sun_path)) {
+    if(m_length > sizeof(m_addr.sun_path)) {
         throw std::logic_error("path too long");
     }
     memcpy(m_addr.sun_path, path.c_str(), m_length);

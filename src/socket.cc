@@ -70,7 +70,7 @@ Socket::~Socket() {
 
 int64_t Socket::getSendTimeout() {
     FdCtx::ptr ctx = FdMgr::GetInstance()->get(m_sock);
-    if (ctx) {
+    if(ctx) {
         return ctx->getTimeout(SO_SNDTIMEO);
     }
     return -1;
@@ -96,7 +96,7 @@ void Socket::setRecvTimeout(int64_t v) {
 
 bool Socket::getOption(int level, int option, void* result, socklen_t* len) {
     int rt = getsockopt(m_sock, level, option, result, (socklen_t*)len);
-    if (rt) {
+    if(rt) {
         JUJIMEIZUO_LOG_DEBUG(g_logger) << "getOption sock=" << m_sock
             << " level=" << level << " option=" << option
             << " errno=" << errno << " errstr=" << strerror(errno);
@@ -118,12 +118,12 @@ bool Socket::setOption(int level, int option, const void* result, socklen_t len)
 Socket::ptr Socket::accept() {
     Socket::ptr sock(new Socket(m_family, m_type, m_protocol));
     int newsock = ::accept(m_sock, nullptr, nullptr);
-    if (newsock == -1) {
+    if(newsock == -1) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "accept(" << m_sock << ") errno="
             << errno << " errstr=" << strerror(errno);
         return nullptr;
     }
-    if (sock->init(newsock)) {
+    if(sock->init(newsock)) {
         return sock;
     }
     return nullptr;
@@ -131,7 +131,7 @@ Socket::ptr Socket::accept() {
 
 bool Socket::init(int sock) {
     FdCtx::ptr ctx = FdMgr::GetInstance()->get(sock);
-    if (ctx && ctx->isSocket() && !ctx->isClose()) {
+    if(ctx && ctx->isSocket() && !ctx->isClose()) {
         m_sock = sock;
         m_isConnected = true;
         initSock();
@@ -143,14 +143,15 @@ bool Socket::init(int sock) {
 }
 
 bool Socket::bind(const Address::ptr addr) {
-    if (!isValid()) {
+    //m_localAddress = addr;
+    if(!isValid()) {
         newSock();
-        if (JUJIMEIZUO_UNLIKELY(!isValid())) {
+        if(JUJIMEIZUO_UNLIKELY(!isValid())) {
             return false;
         }
     }
 
-    if (JUJIMEIZUO_UNLIKELY(addr->getFamily() != m_family)) {
+    if(JUJIMEIZUO_UNLIKELY(addr->getFamily() != m_family)) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "bind sock.family("
             << m_family << ") addr.family(" << addr->getFamily()
             << ") not equal, addr=" << addr->toString();
@@ -158,16 +159,16 @@ bool Socket::bind(const Address::ptr addr) {
     }
 
     UnixAddress::ptr uaddr = std::dynamic_pointer_cast<UnixAddress>(addr);
-    if (uaddr) {
+    if(uaddr) {
         Socket::ptr sock = Socket::CreateUnixTCPSocket();
-        if (sock->connect(uaddr)) {
+        if(sock->connect(uaddr)) {
             return false;
         } else {
             // jujimeizuo::FSUtil::Unlink(uaddr->getPath(), true);
         }
     }
 
-    if (::bind(m_sock, addr->getAddr(), addr->getAddrLen())) {
+    if(::bind(m_sock, addr->getAddr(), addr->getAddrLen())) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "bind error errrno=" << errno
             << " errstr=" << strerror(errno);
         return false;
@@ -177,7 +178,7 @@ bool Socket::bind(const Address::ptr addr) {
 }
 
 bool Socket::reconnect(uint64_t timeout_ms) {
-    if (!m_remoteAddress) {
+    if(!m_remoteAddress) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "reconnect m_remoteAddress is null";
         return false;
     }
@@ -187,9 +188,9 @@ bool Socket::reconnect(uint64_t timeout_ms) {
 
 bool Socket::connect(const Address::ptr addr, uint64_t timeout_ms) {
     m_remoteAddress = addr;
-    if (!isValid()) {
+    if(!isValid()) {
         newSock();
-        if (JUJIMEIZUO_UNLIKELY(!isValid())) {
+        if(JUJIMEIZUO_UNLIKELY(!isValid())) {
             return false;
         }
     }
@@ -326,12 +327,12 @@ int Socket::recvFrom(iovec* buffers, size_t length, Address::ptr from, int flags
 }
 
 Address::ptr Socket::getRemoteAddress() {
-    if (m_remoteAddress) {
+    if(m_remoteAddress) {
         return m_remoteAddress;
     }
 
     Address::ptr result;
-    switch (m_family) {
+    switch(m_family) {
         case AF_INET:
             result.reset(new IPv4Address());
             break;
@@ -340,17 +341,18 @@ Address::ptr Socket::getRemoteAddress() {
             break;
         case AF_UNIX:
             result.reset(new UnixAddress());
+            break;
         default:
             result.reset(new UnknownAddress(m_family));
             break;
     }
     socklen_t addrlen = result->getAddrLen();
-    if (getpeername(m_sock, result->getAddr(), &addrlen)) {
+    if(getpeername(m_sock, result->getAddr(), &addrlen)) {
         //JUJIMEIZUO_LOG_ERROR(g_logger) << "getpeername error sock=" << m_sock
         //    << " errno=" << errno << " errstr=" << strerror(errno);
         return Address::ptr(new UnknownAddress(m_family));
     }
-    if (m_family == AF_UNIX) {
+    if(m_family == AF_UNIX) {
         UnixAddress::ptr addr = std::dynamic_pointer_cast<UnixAddress>(result);
         addr->setAddrLen(addrlen);
     }
