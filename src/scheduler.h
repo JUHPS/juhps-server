@@ -205,6 +205,14 @@ protected:
     int m_rootThread = 0;                               // 主线程id(use_caller)
 };
 
+class SchedulerSwitcher : public Noncopyable {
+public:
+    SchedulerSwitcher(Scheduler* target = nullptr);
+    ~SchedulerSwitcher();
+private:
+    Scheduler* m_caller;
+};
+
 }
 
 #endif

@@ -12,6 +12,53 @@ namespace jujimeizuo {
 
 static jujimeizuo::Logger::ptr g_logger = JUJIMEIZUO_LOG_NAME("system");
 
+enum EpollCtlOp {
+};
+
+static std::ostream& operator<< (std::ostream& os, const EpollCtlOp& op) {
+    switch((int)op) {
+#define XX(ctl) \
+        case ctl: \
+            return os << #ctl;
+        XX(EPOLL_CTL_ADD);
+        XX(EPOLL_CTL_MOD);
+        XX(EPOLL_CTL_DEL);
+        default:
+            return os << (int)op;
+    }
+#undef XX
+}
+
+static std::ostream& operator<< (std::ostream& os, EPOLL_EVENTS events) {
+    if(!events) {
+        return os << "0";
+    }
+    bool first = true;
+#define XX(E) \
+    if(events & E) { \
+        if(!first) { \
+            os << "|"; \
+        } \
+        os << #E; \
+        first = false; \
+    }
+    XX(EPOLLIN);
+    XX(EPOLLPRI);
+    XX(EPOLLOUT);
+    XX(EPOLLRDNORM);
+    XX(EPOLLRDBAND);
+    XX(EPOLLWRNORM);
+    XX(EPOLLWRBAND);
+    XX(EPOLLMSG);
+    XX(EPOLLERR);
+    XX(EPOLLHUP);
+    XX(EPOLLRDHUP);
+    XX(EPOLLONESHOT);
+    XX(EPOLLET);
+#undef XX
+    return os;
+}
+
 IOManager::FdContext::EventContext& IOManager::FdContext::getContext(IOManager::Event event) {
     switch(event) {
         case IOManager::READ:
@@ -79,8 +126,8 @@ IOManager::~IOManager() {
     close(m_tickleFds[0]);
     close(m_tickleFds[1]);
 
-    for (size_t i = 0; i < m_fdContexts.size(); ++i) {
-        if (m_fdContexts[i]) {
+    for(size_t i = 0; i < m_fdContexts.size(); ++i) {
+        if(m_fdContexts[i]) {
             delete m_fdContexts[i];
         }
     }
@@ -89,8 +136,8 @@ IOManager::~IOManager() {
 void IOManager::contextResize(size_t size) {
     m_fdContexts.resize(size);
 
-    for (size_t i = 0; i < m_fdContexts.size(); ++i) {
-        if (!m_fdContexts[i]) {
+    for(size_t i = 0; i < m_fdContexts.size(); ++i) {
+        if(!m_fdContexts[i]) {
             m_fdContexts[i] = new FdContext;
             m_fdContexts[i]->fd = i;
         }
@@ -111,7 +158,7 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
     }
 
     FdContext::MutexType::Lock lock2(fd_ctx->mutex);
-    if(fd_ctx->events & event) {
+    if(JUJIMEIZUO_UNLIKELY(fd_ctx->events & event)) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "addEvent assert fd=" << fd
                     << " event=" << (EPOLL_EVENTS)event
                     << " fd_ctx.event=" << (EPOLL_EVENTS)fd_ctx->events;
@@ -126,9 +173,9 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << ", " << fd << ", " << epevent.events << "):"
+            << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
             << rt << " (" << errno << ") (" << strerror(errno) << ") fd_ctx->events="
-            << fd_ctx->events;
+            << (EPOLL_EVENTS)fd_ctx->events;
         return -1;
     }
 
@@ -159,7 +206,7 @@ bool IOManager::delEvent(int fd, Event event) {
     lock.unlock();
 
     FdContext::MutexType::Lock lock2(fd_ctx->mutex);
-    if(!(fd_ctx->events & event)) {
+    if(JUJIMEIZUO_UNLIKELY(!(fd_ctx->events & event))) {
         return false;
     }
 
@@ -172,7 +219,7 @@ bool IOManager::delEvent(int fd, Event event) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << ", " << fd << ", " << epevent.events << "):"
+            << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
             << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false;
     }
@@ -193,7 +240,7 @@ bool IOManager::cancelEvent(int fd, Event event) {
     lock.unlock();
 
     FdContext::MutexType::Lock lock2(fd_ctx->mutex);
-    if(!(fd_ctx->events & event)) {
+    if(JUJIMEIZUO_UNLIKELY(!(fd_ctx->events & event))) {
         return false;
     }
 
@@ -206,7 +253,7 @@ bool IOManager::cancelEvent(int fd, Event event) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << ", " << fd << ", " << epevent.events << "):"
+            << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
             << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false;
     }
@@ -237,7 +284,7 @@ bool IOManager::cancelAll(int fd) {
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if(rt) {
         JUJIMEIZUO_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-            << op << ", " << fd << ", " << epevent.events << "):"
+            << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
             << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false;
     }
@@ -260,8 +307,8 @@ IOManager* IOManager::GetThis() {
 }
 
 void IOManager::tickle() {
-    if (!hasIdleThreads()) {
-        return ;
+    if(!hasIdleThreads()) {
+        return;
     }
     int rt = write(m_tickleFds[1], "T", 1);
     JUJIMEIZUO_ASSERT(rt == 1);
@@ -281,64 +328,72 @@ bool IOManager::stopping() {
 }
 
 void IOManager::idle() {
-    JUJIMEIZUO_LOG_INFO(g_logger) << "idle";
-    const uint64_t MAX_EVENTS = 64;
-    epoll_event* events = new epoll_event[MAX_EVENTS]();
-    std::shared_ptr<epoll_event> shared_events(events, [](epoll_event* ptr) {
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "idle";
+    const uint64_t MAX_EVNETS = 256;
+    epoll_event* events = new epoll_event[MAX_EVNETS]();
+    std::shared_ptr<epoll_event> shared_events(events, [](epoll_event* ptr){
         delete[] ptr;
     });
 
-    while (true) {
+    while(true) {
         uint64_t next_timeout = 0;
-        if (stopping(next_timeout)) {
-            JUJIMEIZUO_LOG_INFO(g_logger) << "name=" << getName() << " idle stopping exit";
-            break ;
+        if(JUJIMEIZUO_UNLIKELY(stopping(next_timeout))) {
+            JUJIMEIZUO_LOG_INFO(g_logger) << "name=" << getName()
+                                     << " idle stopping exit";
+            break;
         }
 
         int rt = 0;
         do {
             static const int MAX_TIMEOUT = 3000;
-            if (next_timeout != ~0ull) {
-                next_timeout = (int)next_timeout > MAX_TIMEOUT ? MAX_TIMEOUT : next_timeout;
+            if(next_timeout != ~0ull) {
+                next_timeout = (int)next_timeout > MAX_TIMEOUT
+                                ? MAX_TIMEOUT : next_timeout;
             } else {
                 next_timeout = MAX_TIMEOUT;
             }
-            rt = epoll_wait(m_epfd, events, MAX_TIMEOUT, (int)next_timeout);
-            if (rt < 0 && errno == EINTR) {
+            rt = epoll_wait(m_epfd, events, MAX_EVNETS, (int)next_timeout);
+            if(rt < 0 && errno == EINTR) {
             } else {
-                break ;
+                break;
             }
-        } while (true);
+        } while(true);
 
         std::vector<std::function<void()> > cbs;
         listExpiredCb(cbs);
-        if (!cbs.empty()) {
+        if(!cbs.empty()) {
+            //JUJIMEIZUO_LOG_DEBUG(g_logger) << "on timer cbs.size=" << cbs.size();
             schedule(cbs.begin(), cbs.end());
             cbs.clear();
         }
 
-        for (int i = 0; i < rt; ++i) {
+        //if(JUJIMEIZUO_UNLIKELY(rt == MAX_EVNETS)) {
+        //    JUJIMEIZUO_LOG_INFO(g_logger) << "epoll wait events=" << rt;
+        //}
+
+        for(int i = 0; i < rt; ++i) {
             epoll_event& event = events[i];
-            if (event.data.fd == m_tickleFds[0]) {
+            if(event.data.fd == m_tickleFds[0]) {
                 uint8_t dummy[256];
-                while (read(m_tickleFds[0], &dummy, sizeof(dummy)) > 0);
-                continue ;
+                while(read(m_tickleFds[0], dummy, sizeof(dummy)) > 0);
+                continue;
             }
 
             FdContext* fd_ctx = (FdContext*)event.data.ptr;
             FdContext::MutexType::Lock lock(fd_ctx->mutex);
-            if (event.events & (EPOLLERR | EPOLLHUP)) {
-                event.events |= EPOLLIN | EPOLLOUT;
+            if(event.events & (EPOLLERR | EPOLLHUP)) {
+                event.events |= (EPOLLIN | EPOLLOUT) & fd_ctx->events;
             }
             int real_events = NONE;
-            if (event.events & EPOLLIN) {
+            if(event.events & EPOLLIN) {
                 real_events |= READ;
             }
-            if (event.events & EPOLLOUT) {
+            if(event.events & EPOLLOUT) {
                 real_events |= WRITE;
             }
-            if ((fd_ctx->events & real_events) == NONE) {
-                continue ;
+
+            if((fd_ctx->events & real_events) == NONE) {
+                continue;
             }
 
             int left_events = (fd_ctx->events & ~real_events);
@@ -346,18 +401,20 @@ void IOManager::idle() {
             event.events = EPOLLET | left_events;
 
             int rt2 = epoll_ctl(m_epfd, op, fd_ctx->fd, &event);
-            if (rt2) {
+            if(rt2) {
                 JUJIMEIZUO_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
-                    << op << ", " << fd_ctx->fd << ", " << event.events << "):"
+                    << (EpollCtlOp)op << ", " << fd_ctx->fd << ", " << (EPOLL_EVENTS)event.events << "):"
                     << rt2 << " (" << errno << ") (" << strerror(errno) << ")";
                 continue;
             }
 
-            if (real_events & READ) {
+            //JUJIMEIZUO_LOG_INFO(g_logger) << " fd=" << fd_ctx->fd << " events=" << fd_ctx->events
+            //                         << " real_events=" << real_events;
+            if(real_events & READ) {
                 fd_ctx->triggerEvent(READ);
                 --m_pendingEventCount;
             }
-            if (real_events & WRITE) {
+            if(real_events & WRITE) {
                 fd_ctx->triggerEvent(WRITE);
                 --m_pendingEventCount;
             }
