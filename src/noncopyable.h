@@ -7,7 +7,7 @@ namespace jujimeizuo {
  * @brief 对象无法拷贝赋值
 */
 class Noncopyable {
-
+public:
     /**
      * @brief 默认构造函数
     */
