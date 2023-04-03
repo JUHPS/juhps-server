@@ -1,5 +1,5 @@
-#ifndef __JUJIMEIZUO_BYTEARRAY_H__
-#define __JUJIMEIZUO_BYTEARRAY_H__
+#ifndef __SRC_BYTEARRAY_H__
+#define __SRC_BYTEARRAY_H__
 
 #include <memory>
 #include <string>

@@ -27,6 +27,19 @@ set(LIB_SRC
     src/config.cc
     src/fd_manager.cc
     src/fiber.cc
+    src/http/http.cc
+    src/http/http_connection.cc
+    src/http/http_parser.cc
+    src/http/http_session.cc
+    src/http/http_server.cc
+    src/http/servlet.cc
+    src/http/servlets/config_servlet.cc
+    src/http/servlets/status_servlet.cc
+    src/http/session_data.cc
+    src/http/ws_connection.cc
+    src/http/ws_session.cc
+    src/http/ws_server.cc
+    src/http/ws_servlet.cc
     src/hook.cc
     src/iomanager.cc
 	src/log.cc
@@ -47,6 +60,11 @@ set(LIBS
     src
     yaml-cpp
     pthread
+    jsoncpp
+    ${ZLIB_LIBRARIES}
+    ${OPENSSL_LIBRARIES}
+    ${PROTOBUF_LIBRARIES}
+    zookeeper_mt
     )
 
 
