@@ -25,6 +25,8 @@ set(LIB_SRC
     src/address.cc
     src/bytearray.cc
     src/config.cc
+    src/env.cc
+    src/daemon.cc
     src/fd_manager.cc
     src/fiber.cc
     src/http/http.cc
@@ -42,12 +44,32 @@ set(LIB_SRC
     src/http/ws_servlet.cc
     src/hook.cc
     src/iomanager.cc
+    src/library.cc
 	src/log.cc
-    src/socket.cc
+    src/module.cc
+    src/mutex.cc
+    src/protocol.cc
+    src/rock/rock_protocol.cc
+    src/rock/rock_server.cc
+    src/rock/rock_stream.cc
     src/scheduler.cc
-    src/thread.cc
+    src/socket.cc
+    src/stream.cc
+    src/streams/async_socket_stream.cc
+    src/streams/socket_stream.cc
+    src/streams/load_balance.cc
+    src/streams/service_discovery.cc
+    src/streams/zlib_stream.cc
+    src/tcp_server.cc
     src/timer.cc
+    src/thread.cc
 	src/util.cc
+    src/util/crypto_util.cc
+    src/util/json_util.cc
+    src/util/hash_util.cc
+    src/worker.cc
+    src/application.cc
+    src/zk_client.cc
     )
 
 add_library(src SHARED ${LIB_SRC})

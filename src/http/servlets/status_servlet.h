@@ -1,7 +1,7 @@
 #ifndef __SRC_HTTP_SERVLETS_STATUS_SERVLET_H__
 #define __SRC_HTTP_SERVLETS_STATUS_SERVLET_H__
 
-#include "../http/servlet.h"
+#include "../servlet.h"
 
 namespace jujimeizuo {
 namespace http {
