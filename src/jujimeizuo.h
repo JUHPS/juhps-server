@@ -2,6 +2,7 @@
 #define __SRC_JUJIMEIZUO_H__
 
 #include "address.h"
+#include "bytearray.h"
 #include "config.h"
 #include "fiber.h"
 #include "fd_manager.h"

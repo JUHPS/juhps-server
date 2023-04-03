@@ -23,6 +23,7 @@ endif()
 
 set(LIB_SRC
     src/address.cc
+    src/bytearray.cc
     src/config.cc
     src/fd_manager.cc
     src/fiber.cc
@@ -99,6 +100,10 @@ add_dependencies(test_socket src)
 force_redefine_file_macro_for_sources(test_socket) #__FILE__
 target_link_libraries(test_socket src "${LIBS}")
 
+add_executable(test_bytearray tests/test_bytearray.cc)
+add_dependencies(test_bytearray src)
+force_redefine_file_macro_for_sources(test_bytearray) #__FILE__
+target_link_libraries(test_bytearray src "${LIBS}") 
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
