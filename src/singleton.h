@@ -1,6 +1,8 @@
 #ifndef __SRC_SINGLETON_H__
 #define __SRC_SINGLETON_H__
 
+#include <memory>
+
 namespace jujimeizuo {
 
 namespace {

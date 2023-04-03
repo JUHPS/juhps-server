@@ -31,11 +31,11 @@ FiberSemaphore::FiberSemaphore(size_t initial_concurrency)
 }
 
 FiberSemaphore::~FiberSemaphore() {
-    SYLAR_ASSERT(m_waiters.empty());
+    JUJIMEIZUO_ASSERT(m_waiters.empty());
 }
 
 bool FiberSemaphore::tryWait() {
-    SYLAR_ASSERT(Scheduler::GetThis());
+    JUJIMEIZUO_ASSERT(Scheduler::GetThis());
     {
         MutexType::Lock lock(m_mutex);
         if(m_concurrency > 0u) {
@@ -47,7 +47,7 @@ bool FiberSemaphore::tryWait() {
 }
 
 void FiberSemaphore::wait() {
-    SYLAR_ASSERT(Scheduler::GetThis());
+    JUJIMEIZUO_ASSERT(Scheduler::GetThis());
     {
         MutexType::Lock lock(m_mutex);
         if(m_concurrency > 0u) {

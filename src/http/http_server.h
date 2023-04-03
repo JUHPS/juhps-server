@@ -5,7 +5,7 @@
 #include "http_session.h"
 #include "servlet.h"
 
-namespace sylar {
+namespace jujimeizuo {
 namespace http {
 
 /**
@@ -23,9 +23,9 @@ public:
      * @param[in] accept_worker 接收连接调度器
      */
     HttpServer(bool keepalive = false
-               ,sylar::IOManager* worker = sylar::IOManager::GetThis()
-               ,sylar::IOManager* io_worker = sylar::IOManager::GetThis()
-               ,sylar::IOManager* accept_worker = sylar::IOManager::GetThis());
+               ,jujimeizuo::IOManager* worker = jujimeizuo::IOManager::GetThis()
+               ,jujimeizuo::IOManager* io_worker = jujimeizuo::IOManager::GetThis()
+               ,jujimeizuo::IOManager* accept_worker = jujimeizuo::IOManager::GetThis());
 
     /**
      * @brief 获取ServletDispatch

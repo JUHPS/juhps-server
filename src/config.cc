@@ -1,19 +1,24 @@
 #include "config.h"
-#include <unistd.h>
+#include "env.h"
+#include "util.h"
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <iostream>
+#include <unistd.h>
 
 namespace jujimeizuo {
 
 static jujimeizuo::Logger::ptr g_logger = JUJIMEIZUO_LOG_NAME("system");
 
-
 ConfigVarBase::ptr Config::LookupBase(const std::string& name) {
     RWMutexType::ReadLock lock(GetMutex());
-	auto it = GetDatas().find(name);
-	return it == GetDatas().end() ? nullptr : it -> second;
+    auto it = GetDatas().find(name);
+    return it == GetDatas().end() ? nullptr : it->second;
 }
+
+//"A.B", 10
+//A:
+//  B: 10
+//  C: str
 
 static void ListAllMember(const std::string& prefix,
                           const YAML::Node& node,
@@ -58,13 +63,44 @@ void Config::LoadFromYaml(const YAML::Node& root) {
     }
 }
 
+static std::map<std::string, uint64_t> s_file2modifytime;
+static jujimeizuo::Mutex s_mutex;
+
+void Config::LoadFromConfDir(const std::string& path, bool force) {
+    std::string absoulte_path = jujimeizuo::EnvMgr::GetInstance()->getAbsolutePath(path);
+    std::vector<std::string> files;
+    FSUtil::ListAllFile(files, absoulte_path, ".yml");
+
+    for(auto& i : files) {
+        {
+            struct stat st;
+            lstat(i.c_str(), &st);
+            jujimeizuo::Mutex::Lock lock(s_mutex);
+            if(!force && s_file2modifytime[i] == (uint64_t)st.st_mtime) {
+                continue;
+            }
+            s_file2modifytime[i] = st.st_mtime;
+        }
+        try {
+            YAML::Node root = YAML::LoadFile(i);
+            LoadFromYaml(root);
+            JUJIMEIZUO_LOG_INFO(g_logger) << "LoadConfFile file="
+                << i << " ok";
+        } catch (...) {
+            JUJIMEIZUO_LOG_ERROR(g_logger) << "LoadConfFile file="
+                << i << " failed";
+        }
+    }
+}
+
 void Config::Visit(std::function<void(ConfigVarBase::ptr)> cb) {
     RWMutexType::ReadLock lock(GetMutex());
     ConfigVarMap& m = GetDatas();
-    for (auto it = m.begin();
+    for(auto it = m.begin();
             it != m.end(); ++it) {
-        cb(it -> second);
+        cb(it->second);
     }
+
 }
 
 }

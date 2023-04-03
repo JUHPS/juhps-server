@@ -1,5 +1,5 @@
-#ifndef __SYLAR_HTTP_WS_SESSION_H__
-#define __SYLAR_HTTP_WS_SESSION_H__
+#ifndef __SRC_HTTP_WS_SESSION_H__
+#define __SRC_HTTP_WS_SESSION_H__
 
 #include "../config.h"
 #include "../http/http_session.h"
