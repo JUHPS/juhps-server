@@ -60,10 +60,10 @@ RM = /usr/local/cmake/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/dev/sylar
+CMAKE_SOURCE_DIR = /home/dev/server
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/dev/sylar/build
+CMAKE_BINARY_DIR = /home/dev/server/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -90,9 +90,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dev/sylar/build/CMakeFiles /home/dev/sylar/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dev/server/build/CMakeFiles /home/dev/server/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dev/sylar/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dev/server/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -120,17 +120,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named sylar
+# Target rules for targets named src
 
 # Build rule for target.
-sylar: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sylar
-.PHONY : sylar
+src: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src
+.PHONY : src
 
 # fast build rule for target.
-sylar/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/build
-.PHONY : sylar/fast
+src/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/build
+.PHONY : src/fast
 
 #=============================================================================
 # Target rules for targets named test_log
@@ -418,653 +418,653 @@ test_daemon/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_daemon.dir/build.make CMakeFiles/test_daemon.dir/build
 .PHONY : test_daemon/fast
 
-sylar/address.o: sylar/address.cc.o
-.PHONY : sylar/address.o
+src/address.o: src/address.cc.o
+.PHONY : src/address.o
 
 # target to build an object file
-sylar/address.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/address.cc.o
-.PHONY : sylar/address.cc.o
+src/address.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/address.cc.o
+.PHONY : src/address.cc.o
 
-sylar/address.i: sylar/address.cc.i
-.PHONY : sylar/address.i
+src/address.i: src/address.cc.i
+.PHONY : src/address.i
 
 # target to preprocess a source file
-sylar/address.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/address.cc.i
-.PHONY : sylar/address.cc.i
+src/address.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/address.cc.i
+.PHONY : src/address.cc.i
 
-sylar/address.s: sylar/address.cc.s
-.PHONY : sylar/address.s
+src/address.s: src/address.cc.s
+.PHONY : src/address.s
 
 # target to generate assembly for a file
-sylar/address.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/address.cc.s
-.PHONY : sylar/address.cc.s
+src/address.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/address.cc.s
+.PHONY : src/address.cc.s
 
-sylar/bytearray.o: sylar/bytearray.cc.o
-.PHONY : sylar/bytearray.o
+src/bytearray.o: src/bytearray.cc.o
+.PHONY : src/bytearray.o
 
 # target to build an object file
-sylar/bytearray.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/bytearray.cc.o
-.PHONY : sylar/bytearray.cc.o
+src/bytearray.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/bytearray.cc.o
+.PHONY : src/bytearray.cc.o
 
-sylar/bytearray.i: sylar/bytearray.cc.i
-.PHONY : sylar/bytearray.i
+src/bytearray.i: src/bytearray.cc.i
+.PHONY : src/bytearray.i
 
 # target to preprocess a source file
-sylar/bytearray.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/bytearray.cc.i
-.PHONY : sylar/bytearray.cc.i
+src/bytearray.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/bytearray.cc.i
+.PHONY : src/bytearray.cc.i
 
-sylar/bytearray.s: sylar/bytearray.cc.s
-.PHONY : sylar/bytearray.s
+src/bytearray.s: src/bytearray.cc.s
+.PHONY : src/bytearray.s
 
 # target to generate assembly for a file
-sylar/bytearray.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/bytearray.cc.s
-.PHONY : sylar/bytearray.cc.s
+src/bytearray.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/bytearray.cc.s
+.PHONY : src/bytearray.cc.s
 
-sylar/config.o: sylar/config.cc.o
-.PHONY : sylar/config.o
+src/config.o: src/config.cc.o
+.PHONY : src/config.o
 
 # target to build an object file
-sylar/config.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/config.cc.o
-.PHONY : sylar/config.cc.o
+src/config.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/config.cc.o
+.PHONY : src/config.cc.o
 
-sylar/config.i: sylar/config.cc.i
-.PHONY : sylar/config.i
+src/config.i: src/config.cc.i
+.PHONY : src/config.i
 
 # target to preprocess a source file
-sylar/config.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/config.cc.i
-.PHONY : sylar/config.cc.i
+src/config.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/config.cc.i
+.PHONY : src/config.cc.i
 
-sylar/config.s: sylar/config.cc.s
-.PHONY : sylar/config.s
+src/config.s: src/config.cc.s
+.PHONY : src/config.s
 
 # target to generate assembly for a file
-sylar/config.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/config.cc.s
-.PHONY : sylar/config.cc.s
+src/config.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/config.cc.s
+.PHONY : src/config.cc.s
 
-sylar/daemon.o: sylar/daemon.cc.o
-.PHONY : sylar/daemon.o
+src/daemon.o: src/daemon.cc.o
+.PHONY : src/daemon.o
 
 # target to build an object file
-sylar/daemon.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/daemon.cc.o
-.PHONY : sylar/daemon.cc.o
+src/daemon.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/daemon.cc.o
+.PHONY : src/daemon.cc.o
 
-sylar/daemon.i: sylar/daemon.cc.i
-.PHONY : sylar/daemon.i
+src/daemon.i: src/daemon.cc.i
+.PHONY : src/daemon.i
 
 # target to preprocess a source file
-sylar/daemon.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/daemon.cc.i
-.PHONY : sylar/daemon.cc.i
+src/daemon.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/daemon.cc.i
+.PHONY : src/daemon.cc.i
 
-sylar/daemon.s: sylar/daemon.cc.s
-.PHONY : sylar/daemon.s
+src/daemon.s: src/daemon.cc.s
+.PHONY : src/daemon.s
 
 # target to generate assembly for a file
-sylar/daemon.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/daemon.cc.s
-.PHONY : sylar/daemon.cc.s
+src/daemon.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/daemon.cc.s
+.PHONY : src/daemon.cc.s
 
-sylar/env.o: sylar/env.cc.o
-.PHONY : sylar/env.o
+src/env.o: src/env.cc.o
+.PHONY : src/env.o
 
 # target to build an object file
-sylar/env.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/env.cc.o
-.PHONY : sylar/env.cc.o
+src/env.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/env.cc.o
+.PHONY : src/env.cc.o
 
-sylar/env.i: sylar/env.cc.i
-.PHONY : sylar/env.i
+src/env.i: src/env.cc.i
+.PHONY : src/env.i
 
 # target to preprocess a source file
-sylar/env.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/env.cc.i
-.PHONY : sylar/env.cc.i
+src/env.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/env.cc.i
+.PHONY : src/env.cc.i
 
-sylar/env.s: sylar/env.cc.s
-.PHONY : sylar/env.s
+src/env.s: src/env.cc.s
+.PHONY : src/env.s
 
 # target to generate assembly for a file
-sylar/env.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/env.cc.s
-.PHONY : sylar/env.cc.s
+src/env.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/env.cc.s
+.PHONY : src/env.cc.s
 
-sylar/fd_manager.o: sylar/fd_manager.cc.o
-.PHONY : sylar/fd_manager.o
+src/fd_manager.o: src/fd_manager.cc.o
+.PHONY : src/fd_manager.o
 
 # target to build an object file
-sylar/fd_manager.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fd_manager.cc.o
-.PHONY : sylar/fd_manager.cc.o
+src/fd_manager.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/fd_manager.cc.o
+.PHONY : src/fd_manager.cc.o
 
-sylar/fd_manager.i: sylar/fd_manager.cc.i
-.PHONY : sylar/fd_manager.i
+src/fd_manager.i: src/fd_manager.cc.i
+.PHONY : src/fd_manager.i
 
 # target to preprocess a source file
-sylar/fd_manager.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fd_manager.cc.i
-.PHONY : sylar/fd_manager.cc.i
+src/fd_manager.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/fd_manager.cc.i
+.PHONY : src/fd_manager.cc.i
 
-sylar/fd_manager.s: sylar/fd_manager.cc.s
-.PHONY : sylar/fd_manager.s
+src/fd_manager.s: src/fd_manager.cc.s
+.PHONY : src/fd_manager.s
 
 # target to generate assembly for a file
-sylar/fd_manager.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fd_manager.cc.s
-.PHONY : sylar/fd_manager.cc.s
+src/fd_manager.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/fd_manager.cc.s
+.PHONY : src/fd_manager.cc.s
 
-sylar/fiber.o: sylar/fiber.cc.o
-.PHONY : sylar/fiber.o
+src/fiber.o: src/fiber.cc.o
+.PHONY : src/fiber.o
 
 # target to build an object file
-sylar/fiber.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fiber.cc.o
-.PHONY : sylar/fiber.cc.o
+src/fiber.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/fiber.cc.o
+.PHONY : src/fiber.cc.o
 
-sylar/fiber.i: sylar/fiber.cc.i
-.PHONY : sylar/fiber.i
+src/fiber.i: src/fiber.cc.i
+.PHONY : src/fiber.i
 
 # target to preprocess a source file
-sylar/fiber.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fiber.cc.i
-.PHONY : sylar/fiber.cc.i
+src/fiber.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/fiber.cc.i
+.PHONY : src/fiber.cc.i
 
-sylar/fiber.s: sylar/fiber.cc.s
-.PHONY : sylar/fiber.s
+src/fiber.s: src/fiber.cc.s
+.PHONY : src/fiber.s
 
 # target to generate assembly for a file
-sylar/fiber.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fiber.cc.s
-.PHONY : sylar/fiber.cc.s
+src/fiber.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/fiber.cc.s
+.PHONY : src/fiber.cc.s
 
-sylar/hook.o: sylar/hook.cc.o
-.PHONY : sylar/hook.o
+src/hook.o: src/hook.cc.o
+.PHONY : src/hook.o
 
 # target to build an object file
-sylar/hook.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/hook.cc.o
-.PHONY : sylar/hook.cc.o
+src/hook.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/hook.cc.o
+.PHONY : src/hook.cc.o
 
-sylar/hook.i: sylar/hook.cc.i
-.PHONY : sylar/hook.i
+src/hook.i: src/hook.cc.i
+.PHONY : src/hook.i
 
 # target to preprocess a source file
-sylar/hook.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/hook.cc.i
-.PHONY : sylar/hook.cc.i
+src/hook.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/hook.cc.i
+.PHONY : src/hook.cc.i
 
-sylar/hook.s: sylar/hook.cc.s
-.PHONY : sylar/hook.s
+src/hook.s: src/hook.cc.s
+.PHONY : src/hook.s
 
 # target to generate assembly for a file
-sylar/hook.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/hook.cc.s
-.PHONY : sylar/hook.cc.s
+src/hook.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/hook.cc.s
+.PHONY : src/hook.cc.s
 
-sylar/http/http-parser/http_parser.o: sylar/http/http-parser/http_parser.c.o
-.PHONY : sylar/http/http-parser/http_parser.o
+src/http/http-parser/http_parser.o: src/http/http-parser/http_parser.c.o
+.PHONY : src/http/http-parser/http_parser.o
 
 # target to build an object file
-sylar/http/http-parser/http_parser.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.o
-.PHONY : sylar/http/http-parser/http_parser.c.o
+src/http/http-parser/http_parser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http-parser/http_parser.c.o
+.PHONY : src/http/http-parser/http_parser.c.o
 
-sylar/http/http-parser/http_parser.i: sylar/http/http-parser/http_parser.c.i
-.PHONY : sylar/http/http-parser/http_parser.i
+src/http/http-parser/http_parser.i: src/http/http-parser/http_parser.c.i
+.PHONY : src/http/http-parser/http_parser.i
 
 # target to preprocess a source file
-sylar/http/http-parser/http_parser.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.i
-.PHONY : sylar/http/http-parser/http_parser.c.i
+src/http/http-parser/http_parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http-parser/http_parser.c.i
+.PHONY : src/http/http-parser/http_parser.c.i
 
-sylar/http/http-parser/http_parser.s: sylar/http/http-parser/http_parser.c.s
-.PHONY : sylar/http/http-parser/http_parser.s
+src/http/http-parser/http_parser.s: src/http/http-parser/http_parser.c.s
+.PHONY : src/http/http-parser/http_parser.s
 
 # target to generate assembly for a file
-sylar/http/http-parser/http_parser.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.s
-.PHONY : sylar/http/http-parser/http_parser.c.s
+src/http/http-parser/http_parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http-parser/http_parser.c.s
+.PHONY : src/http/http-parser/http_parser.c.s
 
-sylar/http/http.o: sylar/http/http.cc.o
-.PHONY : sylar/http/http.o
+src/http/http.o: src/http/http.cc.o
+.PHONY : src/http/http.o
 
 # target to build an object file
-sylar/http/http.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http.cc.o
-.PHONY : sylar/http/http.cc.o
+src/http/http.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http.cc.o
+.PHONY : src/http/http.cc.o
 
-sylar/http/http.i: sylar/http/http.cc.i
-.PHONY : sylar/http/http.i
+src/http/http.i: src/http/http.cc.i
+.PHONY : src/http/http.i
 
 # target to preprocess a source file
-sylar/http/http.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http.cc.i
-.PHONY : sylar/http/http.cc.i
+src/http/http.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http.cc.i
+.PHONY : src/http/http.cc.i
 
-sylar/http/http.s: sylar/http/http.cc.s
-.PHONY : sylar/http/http.s
+src/http/http.s: src/http/http.cc.s
+.PHONY : src/http/http.s
 
 # target to generate assembly for a file
-sylar/http/http.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http.cc.s
-.PHONY : sylar/http/http.cc.s
+src/http/http.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http.cc.s
+.PHONY : src/http/http.cc.s
 
-sylar/http/http_connection.o: sylar/http/http_connection.cc.o
-.PHONY : sylar/http/http_connection.o
+src/http/http_connection.o: src/http/http_connection.cc.o
+.PHONY : src/http/http_connection.o
 
 # target to build an object file
-sylar/http/http_connection.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_connection.cc.o
-.PHONY : sylar/http/http_connection.cc.o
+src/http/http_connection.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_connection.cc.o
+.PHONY : src/http/http_connection.cc.o
 
-sylar/http/http_connection.i: sylar/http/http_connection.cc.i
-.PHONY : sylar/http/http_connection.i
+src/http/http_connection.i: src/http/http_connection.cc.i
+.PHONY : src/http/http_connection.i
 
 # target to preprocess a source file
-sylar/http/http_connection.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_connection.cc.i
-.PHONY : sylar/http/http_connection.cc.i
+src/http/http_connection.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_connection.cc.i
+.PHONY : src/http/http_connection.cc.i
 
-sylar/http/http_connection.s: sylar/http/http_connection.cc.s
-.PHONY : sylar/http/http_connection.s
+src/http/http_connection.s: src/http/http_connection.cc.s
+.PHONY : src/http/http_connection.s
 
 # target to generate assembly for a file
-sylar/http/http_connection.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_connection.cc.s
-.PHONY : sylar/http/http_connection.cc.s
+src/http/http_connection.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_connection.cc.s
+.PHONY : src/http/http_connection.cc.s
 
-sylar/http/http_parser.o: sylar/http/http_parser.cc.o
-.PHONY : sylar/http/http_parser.o
+src/http/http_parser.o: src/http/http_parser.cc.o
+.PHONY : src/http/http_parser.o
 
 # target to build an object file
-sylar/http/http_parser.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_parser.cc.o
-.PHONY : sylar/http/http_parser.cc.o
+src/http/http_parser.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_parser.cc.o
+.PHONY : src/http/http_parser.cc.o
 
-sylar/http/http_parser.i: sylar/http/http_parser.cc.i
-.PHONY : sylar/http/http_parser.i
+src/http/http_parser.i: src/http/http_parser.cc.i
+.PHONY : src/http/http_parser.i
 
 # target to preprocess a source file
-sylar/http/http_parser.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_parser.cc.i
-.PHONY : sylar/http/http_parser.cc.i
+src/http/http_parser.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_parser.cc.i
+.PHONY : src/http/http_parser.cc.i
 
-sylar/http/http_parser.s: sylar/http/http_parser.cc.s
-.PHONY : sylar/http/http_parser.s
+src/http/http_parser.s: src/http/http_parser.cc.s
+.PHONY : src/http/http_parser.s
 
 # target to generate assembly for a file
-sylar/http/http_parser.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_parser.cc.s
-.PHONY : sylar/http/http_parser.cc.s
+src/http/http_parser.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_parser.cc.s
+.PHONY : src/http/http_parser.cc.s
 
-sylar/http/http_server.o: sylar/http/http_server.cc.o
-.PHONY : sylar/http/http_server.o
+src/http/http_server.o: src/http/http_server.cc.o
+.PHONY : src/http/http_server.o
 
 # target to build an object file
-sylar/http/http_server.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_server.cc.o
-.PHONY : sylar/http/http_server.cc.o
+src/http/http_server.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_server.cc.o
+.PHONY : src/http/http_server.cc.o
 
-sylar/http/http_server.i: sylar/http/http_server.cc.i
-.PHONY : sylar/http/http_server.i
+src/http/http_server.i: src/http/http_server.cc.i
+.PHONY : src/http/http_server.i
 
 # target to preprocess a source file
-sylar/http/http_server.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_server.cc.i
-.PHONY : sylar/http/http_server.cc.i
+src/http/http_server.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_server.cc.i
+.PHONY : src/http/http_server.cc.i
 
-sylar/http/http_server.s: sylar/http/http_server.cc.s
-.PHONY : sylar/http/http_server.s
+src/http/http_server.s: src/http/http_server.cc.s
+.PHONY : src/http/http_server.s
 
 # target to generate assembly for a file
-sylar/http/http_server.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_server.cc.s
-.PHONY : sylar/http/http_server.cc.s
+src/http/http_server.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_server.cc.s
+.PHONY : src/http/http_server.cc.s
 
-sylar/http/http_session.o: sylar/http/http_session.cc.o
-.PHONY : sylar/http/http_session.o
+src/http/http_session.o: src/http/http_session.cc.o
+.PHONY : src/http/http_session.o
 
 # target to build an object file
-sylar/http/http_session.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_session.cc.o
-.PHONY : sylar/http/http_session.cc.o
+src/http/http_session.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_session.cc.o
+.PHONY : src/http/http_session.cc.o
 
-sylar/http/http_session.i: sylar/http/http_session.cc.i
-.PHONY : sylar/http/http_session.i
+src/http/http_session.i: src/http/http_session.cc.i
+.PHONY : src/http/http_session.i
 
 # target to preprocess a source file
-sylar/http/http_session.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_session.cc.i
-.PHONY : sylar/http/http_session.cc.i
+src/http/http_session.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_session.cc.i
+.PHONY : src/http/http_session.cc.i
 
-sylar/http/http_session.s: sylar/http/http_session.cc.s
-.PHONY : sylar/http/http_session.s
+src/http/http_session.s: src/http/http_session.cc.s
+.PHONY : src/http/http_session.s
 
 # target to generate assembly for a file
-sylar/http/http_session.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_session.cc.s
-.PHONY : sylar/http/http_session.cc.s
+src/http/http_session.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/http_session.cc.s
+.PHONY : src/http/http_session.cc.s
 
-sylar/http/servlet.o: sylar/http/servlet.cc.o
-.PHONY : sylar/http/servlet.o
+src/http/servlet.o: src/http/servlet.cc.o
+.PHONY : src/http/servlet.o
 
 # target to build an object file
-sylar/http/servlet.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/servlet.cc.o
-.PHONY : sylar/http/servlet.cc.o
+src/http/servlet.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/servlet.cc.o
+.PHONY : src/http/servlet.cc.o
 
-sylar/http/servlet.i: sylar/http/servlet.cc.i
-.PHONY : sylar/http/servlet.i
+src/http/servlet.i: src/http/servlet.cc.i
+.PHONY : src/http/servlet.i
 
 # target to preprocess a source file
-sylar/http/servlet.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/servlet.cc.i
-.PHONY : sylar/http/servlet.cc.i
+src/http/servlet.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/servlet.cc.i
+.PHONY : src/http/servlet.cc.i
 
-sylar/http/servlet.s: sylar/http/servlet.cc.s
-.PHONY : sylar/http/servlet.s
+src/http/servlet.s: src/http/servlet.cc.s
+.PHONY : src/http/servlet.s
 
 # target to generate assembly for a file
-sylar/http/servlet.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/servlet.cc.s
-.PHONY : sylar/http/servlet.cc.s
+src/http/servlet.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/http/servlet.cc.s
+.PHONY : src/http/servlet.cc.s
 
-sylar/iomanager.o: sylar/iomanager.cc.o
-.PHONY : sylar/iomanager.o
+src/iomanager.o: src/iomanager.cc.o
+.PHONY : src/iomanager.o
 
 # target to build an object file
-sylar/iomanager.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/iomanager.cc.o
-.PHONY : sylar/iomanager.cc.o
+src/iomanager.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/iomanager.cc.o
+.PHONY : src/iomanager.cc.o
 
-sylar/iomanager.i: sylar/iomanager.cc.i
-.PHONY : sylar/iomanager.i
+src/iomanager.i: src/iomanager.cc.i
+.PHONY : src/iomanager.i
 
 # target to preprocess a source file
-sylar/iomanager.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/iomanager.cc.i
-.PHONY : sylar/iomanager.cc.i
+src/iomanager.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/iomanager.cc.i
+.PHONY : src/iomanager.cc.i
 
-sylar/iomanager.s: sylar/iomanager.cc.s
-.PHONY : sylar/iomanager.s
+src/iomanager.s: src/iomanager.cc.s
+.PHONY : src/iomanager.s
 
 # target to generate assembly for a file
-sylar/iomanager.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/iomanager.cc.s
-.PHONY : sylar/iomanager.cc.s
+src/iomanager.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/iomanager.cc.s
+.PHONY : src/iomanager.cc.s
 
-sylar/log.o: sylar/log.cpp.o
-.PHONY : sylar/log.o
+src/log.o: src/log.cpp.o
+.PHONY : src/log.o
 
 # target to build an object file
-sylar/log.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/log.cpp.o
-.PHONY : sylar/log.cpp.o
+src/log.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/log.cpp.o
+.PHONY : src/log.cpp.o
 
-sylar/log.i: sylar/log.cpp.i
-.PHONY : sylar/log.i
+src/log.i: src/log.cpp.i
+.PHONY : src/log.i
 
 # target to preprocess a source file
-sylar/log.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/log.cpp.i
-.PHONY : sylar/log.cpp.i
+src/log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/log.cpp.i
+.PHONY : src/log.cpp.i
 
-sylar/log.s: sylar/log.cpp.s
-.PHONY : sylar/log.s
+src/log.s: src/log.cpp.s
+.PHONY : src/log.s
 
 # target to generate assembly for a file
-sylar/log.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/log.cpp.s
-.PHONY : sylar/log.cpp.s
+src/log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/log.cpp.s
+.PHONY : src/log.cpp.s
 
-sylar/mutex.o: sylar/mutex.cc.o
-.PHONY : sylar/mutex.o
+src/mutex.o: src/mutex.cc.o
+.PHONY : src/mutex.o
 
 # target to build an object file
-sylar/mutex.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/mutex.cc.o
-.PHONY : sylar/mutex.cc.o
+src/mutex.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/mutex.cc.o
+.PHONY : src/mutex.cc.o
 
-sylar/mutex.i: sylar/mutex.cc.i
-.PHONY : sylar/mutex.i
+src/mutex.i: src/mutex.cc.i
+.PHONY : src/mutex.i
 
 # target to preprocess a source file
-sylar/mutex.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/mutex.cc.i
-.PHONY : sylar/mutex.cc.i
+src/mutex.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/mutex.cc.i
+.PHONY : src/mutex.cc.i
 
-sylar/mutex.s: sylar/mutex.cc.s
-.PHONY : sylar/mutex.s
+src/mutex.s: src/mutex.cc.s
+.PHONY : src/mutex.s
 
 # target to generate assembly for a file
-sylar/mutex.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/mutex.cc.s
-.PHONY : sylar/mutex.cc.s
+src/mutex.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/mutex.cc.s
+.PHONY : src/mutex.cc.s
 
-sylar/scheduler.o: sylar/scheduler.cc.o
-.PHONY : sylar/scheduler.o
+src/scheduler.o: src/scheduler.cc.o
+.PHONY : src/scheduler.o
 
 # target to build an object file
-sylar/scheduler.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/scheduler.cc.o
-.PHONY : sylar/scheduler.cc.o
+src/scheduler.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/scheduler.cc.o
+.PHONY : src/scheduler.cc.o
 
-sylar/scheduler.i: sylar/scheduler.cc.i
-.PHONY : sylar/scheduler.i
+src/scheduler.i: src/scheduler.cc.i
+.PHONY : src/scheduler.i
 
 # target to preprocess a source file
-sylar/scheduler.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/scheduler.cc.i
-.PHONY : sylar/scheduler.cc.i
+src/scheduler.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/scheduler.cc.i
+.PHONY : src/scheduler.cc.i
 
-sylar/scheduler.s: sylar/scheduler.cc.s
-.PHONY : sylar/scheduler.s
+src/scheduler.s: src/scheduler.cc.s
+.PHONY : src/scheduler.s
 
 # target to generate assembly for a file
-sylar/scheduler.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/scheduler.cc.s
-.PHONY : sylar/scheduler.cc.s
+src/scheduler.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/scheduler.cc.s
+.PHONY : src/scheduler.cc.s
 
-sylar/socket.o: sylar/socket.cc.o
-.PHONY : sylar/socket.o
+src/socket.o: src/socket.cc.o
+.PHONY : src/socket.o
 
 # target to build an object file
-sylar/socket.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/socket.cc.o
-.PHONY : sylar/socket.cc.o
+src/socket.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/socket.cc.o
+.PHONY : src/socket.cc.o
 
-sylar/socket.i: sylar/socket.cc.i
-.PHONY : sylar/socket.i
+src/socket.i: src/socket.cc.i
+.PHONY : src/socket.i
 
 # target to preprocess a source file
-sylar/socket.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/socket.cc.i
-.PHONY : sylar/socket.cc.i
+src/socket.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/socket.cc.i
+.PHONY : src/socket.cc.i
 
-sylar/socket.s: sylar/socket.cc.s
-.PHONY : sylar/socket.s
+src/socket.s: src/socket.cc.s
+.PHONY : src/socket.s
 
 # target to generate assembly for a file
-sylar/socket.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/socket.cc.s
-.PHONY : sylar/socket.cc.s
+src/socket.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/socket.cc.s
+.PHONY : src/socket.cc.s
 
-sylar/stream.o: sylar/stream.cc.o
-.PHONY : sylar/stream.o
+src/stream.o: src/stream.cc.o
+.PHONY : src/stream.o
 
 # target to build an object file
-sylar/stream.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/stream.cc.o
-.PHONY : sylar/stream.cc.o
+src/stream.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/stream.cc.o
+.PHONY : src/stream.cc.o
 
-sylar/stream.i: sylar/stream.cc.i
-.PHONY : sylar/stream.i
+src/stream.i: src/stream.cc.i
+.PHONY : src/stream.i
 
 # target to preprocess a source file
-sylar/stream.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/stream.cc.i
-.PHONY : sylar/stream.cc.i
+src/stream.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/stream.cc.i
+.PHONY : src/stream.cc.i
 
-sylar/stream.s: sylar/stream.cc.s
-.PHONY : sylar/stream.s
+src/stream.s: src/stream.cc.s
+.PHONY : src/stream.s
 
 # target to generate assembly for a file
-sylar/stream.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/stream.cc.s
-.PHONY : sylar/stream.cc.s
+src/stream.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/stream.cc.s
+.PHONY : src/stream.cc.s
 
-sylar/streams/socket_stream.o: sylar/streams/socket_stream.cc.o
-.PHONY : sylar/streams/socket_stream.o
+src/streams/socket_stream.o: src/streams/socket_stream.cc.o
+.PHONY : src/streams/socket_stream.o
 
 # target to build an object file
-sylar/streams/socket_stream.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.o
-.PHONY : sylar/streams/socket_stream.cc.o
+src/streams/socket_stream.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/streams/socket_stream.cc.o
+.PHONY : src/streams/socket_stream.cc.o
 
-sylar/streams/socket_stream.i: sylar/streams/socket_stream.cc.i
-.PHONY : sylar/streams/socket_stream.i
+src/streams/socket_stream.i: src/streams/socket_stream.cc.i
+.PHONY : src/streams/socket_stream.i
 
 # target to preprocess a source file
-sylar/streams/socket_stream.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.i
-.PHONY : sylar/streams/socket_stream.cc.i
+src/streams/socket_stream.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/streams/socket_stream.cc.i
+.PHONY : src/streams/socket_stream.cc.i
 
-sylar/streams/socket_stream.s: sylar/streams/socket_stream.cc.s
-.PHONY : sylar/streams/socket_stream.s
+src/streams/socket_stream.s: src/streams/socket_stream.cc.s
+.PHONY : src/streams/socket_stream.s
 
 # target to generate assembly for a file
-sylar/streams/socket_stream.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.s
-.PHONY : sylar/streams/socket_stream.cc.s
+src/streams/socket_stream.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/streams/socket_stream.cc.s
+.PHONY : src/streams/socket_stream.cc.s
 
-sylar/tcp_server.o: sylar/tcp_server.cc.o
-.PHONY : sylar/tcp_server.o
+src/tcp_server.o: src/tcp_server.cc.o
+.PHONY : src/tcp_server.o
 
 # target to build an object file
-sylar/tcp_server.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/tcp_server.cc.o
-.PHONY : sylar/tcp_server.cc.o
+src/tcp_server.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/tcp_server.cc.o
+.PHONY : src/tcp_server.cc.o
 
-sylar/tcp_server.i: sylar/tcp_server.cc.i
-.PHONY : sylar/tcp_server.i
+src/tcp_server.i: src/tcp_server.cc.i
+.PHONY : src/tcp_server.i
 
 # target to preprocess a source file
-sylar/tcp_server.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/tcp_server.cc.i
-.PHONY : sylar/tcp_server.cc.i
+src/tcp_server.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/tcp_server.cc.i
+.PHONY : src/tcp_server.cc.i
 
-sylar/tcp_server.s: sylar/tcp_server.cc.s
-.PHONY : sylar/tcp_server.s
+src/tcp_server.s: src/tcp_server.cc.s
+.PHONY : src/tcp_server.s
 
 # target to generate assembly for a file
-sylar/tcp_server.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/tcp_server.cc.s
-.PHONY : sylar/tcp_server.cc.s
+src/tcp_server.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/tcp_server.cc.s
+.PHONY : src/tcp_server.cc.s
 
-sylar/thread.o: sylar/thread.cc.o
-.PHONY : sylar/thread.o
+src/thread.o: src/thread.cc.o
+.PHONY : src/thread.o
 
 # target to build an object file
-sylar/thread.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/thread.cc.o
-.PHONY : sylar/thread.cc.o
+src/thread.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/thread.cc.o
+.PHONY : src/thread.cc.o
 
-sylar/thread.i: sylar/thread.cc.i
-.PHONY : sylar/thread.i
+src/thread.i: src/thread.cc.i
+.PHONY : src/thread.i
 
 # target to preprocess a source file
-sylar/thread.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/thread.cc.i
-.PHONY : sylar/thread.cc.i
+src/thread.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/thread.cc.i
+.PHONY : src/thread.cc.i
 
-sylar/thread.s: sylar/thread.cc.s
-.PHONY : sylar/thread.s
+src/thread.s: src/thread.cc.s
+.PHONY : src/thread.s
 
 # target to generate assembly for a file
-sylar/thread.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/thread.cc.s
-.PHONY : sylar/thread.cc.s
+src/thread.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/thread.cc.s
+.PHONY : src/thread.cc.s
 
-sylar/timer.o: sylar/timer.cc.o
-.PHONY : sylar/timer.o
+src/timer.o: src/timer.cc.o
+.PHONY : src/timer.o
 
 # target to build an object file
-sylar/timer.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/timer.cc.o
-.PHONY : sylar/timer.cc.o
+src/timer.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/timer.cc.o
+.PHONY : src/timer.cc.o
 
-sylar/timer.i: sylar/timer.cc.i
-.PHONY : sylar/timer.i
+src/timer.i: src/timer.cc.i
+.PHONY : src/timer.i
 
 # target to preprocess a source file
-sylar/timer.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/timer.cc.i
-.PHONY : sylar/timer.cc.i
+src/timer.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/timer.cc.i
+.PHONY : src/timer.cc.i
 
-sylar/timer.s: sylar/timer.cc.s
-.PHONY : sylar/timer.s
+src/timer.s: src/timer.cc.s
+.PHONY : src/timer.s
 
 # target to generate assembly for a file
-sylar/timer.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/timer.cc.s
-.PHONY : sylar/timer.cc.s
+src/timer.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/timer.cc.s
+.PHONY : src/timer.cc.s
 
-sylar/uri.o: sylar/uri.cc.o
-.PHONY : sylar/uri.o
+src/uri.o: src/uri.cc.o
+.PHONY : src/uri.o
 
 # target to build an object file
-sylar/uri.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/uri.cc.o
-.PHONY : sylar/uri.cc.o
+src/uri.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/uri.cc.o
+.PHONY : src/uri.cc.o
 
-sylar/uri.i: sylar/uri.cc.i
-.PHONY : sylar/uri.i
+src/uri.i: src/uri.cc.i
+.PHONY : src/uri.i
 
 # target to preprocess a source file
-sylar/uri.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/uri.cc.i
-.PHONY : sylar/uri.cc.i
+src/uri.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/uri.cc.i
+.PHONY : src/uri.cc.i
 
-sylar/uri.s: sylar/uri.cc.s
-.PHONY : sylar/uri.s
+src/uri.s: src/uri.cc.s
+.PHONY : src/uri.s
 
 # target to generate assembly for a file
-sylar/uri.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/uri.cc.s
-.PHONY : sylar/uri.cc.s
+src/uri.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/uri.cc.s
+.PHONY : src/uri.cc.s
 
-sylar/util.o: sylar/util.cpp.o
-.PHONY : sylar/util.o
+src/util.o: src/util.cpp.o
+.PHONY : src/util.o
 
 # target to build an object file
-sylar/util.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/util.cpp.o
-.PHONY : sylar/util.cpp.o
+src/util.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/util.cpp.o
+.PHONY : src/util.cpp.o
 
-sylar/util.i: sylar/util.cpp.i
-.PHONY : sylar/util.i
+src/util.i: src/util.cpp.i
+.PHONY : src/util.i
 
 # target to preprocess a source file
-sylar/util.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/util.cpp.i
-.PHONY : sylar/util.cpp.i
+src/util.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/util.cpp.i
+.PHONY : src/util.cpp.i
 
-sylar/util.s: sylar/util.cpp.s
-.PHONY : sylar/util.s
+src/util.s: src/util.cpp.s
+.PHONY : src/util.s
 
 # target to generate assembly for a file
-sylar/util.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/util.cpp.s
-.PHONY : sylar/util.cpp.s
+src/util.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/src.dir/build.make CMakeFiles/src.dir/src/util.cpp.s
+.PHONY : src/util.cpp.s
 
 tests/test_address.o: tests/test_address.cc.o
 .PHONY : tests/test_address.o
@@ -1602,7 +1602,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... sylar"
+	@echo "... src"
 	@echo "... test_address"
 	@echo "... test_bytearray"
 	@echo "... test_config"
@@ -1625,87 +1625,87 @@ help:
 	@echo "... test_timer"
 	@echo "... test_uri"
 	@echo "... test_util"
-	@echo "... sylar/address.o"
-	@echo "... sylar/address.i"
-	@echo "... sylar/address.s"
-	@echo "... sylar/bytearray.o"
-	@echo "... sylar/bytearray.i"
-	@echo "... sylar/bytearray.s"
-	@echo "... sylar/config.o"
-	@echo "... sylar/config.i"
-	@echo "... sylar/config.s"
-	@echo "... sylar/daemon.o"
-	@echo "... sylar/daemon.i"
-	@echo "... sylar/daemon.s"
-	@echo "... sylar/env.o"
-	@echo "... sylar/env.i"
-	@echo "... sylar/env.s"
-	@echo "... sylar/fd_manager.o"
-	@echo "... sylar/fd_manager.i"
-	@echo "... sylar/fd_manager.s"
-	@echo "... sylar/fiber.o"
-	@echo "... sylar/fiber.i"
-	@echo "... sylar/fiber.s"
-	@echo "... sylar/hook.o"
-	@echo "... sylar/hook.i"
-	@echo "... sylar/hook.s"
-	@echo "... sylar/http/http-parser/http_parser.o"
-	@echo "... sylar/http/http-parser/http_parser.i"
-	@echo "... sylar/http/http-parser/http_parser.s"
-	@echo "... sylar/http/http.o"
-	@echo "... sylar/http/http.i"
-	@echo "... sylar/http/http.s"
-	@echo "... sylar/http/http_connection.o"
-	@echo "... sylar/http/http_connection.i"
-	@echo "... sylar/http/http_connection.s"
-	@echo "... sylar/http/http_parser.o"
-	@echo "... sylar/http/http_parser.i"
-	@echo "... sylar/http/http_parser.s"
-	@echo "... sylar/http/http_server.o"
-	@echo "... sylar/http/http_server.i"
-	@echo "... sylar/http/http_server.s"
-	@echo "... sylar/http/http_session.o"
-	@echo "... sylar/http/http_session.i"
-	@echo "... sylar/http/http_session.s"
-	@echo "... sylar/http/servlet.o"
-	@echo "... sylar/http/servlet.i"
-	@echo "... sylar/http/servlet.s"
-	@echo "... sylar/iomanager.o"
-	@echo "... sylar/iomanager.i"
-	@echo "... sylar/iomanager.s"
-	@echo "... sylar/log.o"
-	@echo "... sylar/log.i"
-	@echo "... sylar/log.s"
-	@echo "... sylar/mutex.o"
-	@echo "... sylar/mutex.i"
-	@echo "... sylar/mutex.s"
-	@echo "... sylar/scheduler.o"
-	@echo "... sylar/scheduler.i"
-	@echo "... sylar/scheduler.s"
-	@echo "... sylar/socket.o"
-	@echo "... sylar/socket.i"
-	@echo "... sylar/socket.s"
-	@echo "... sylar/stream.o"
-	@echo "... sylar/stream.i"
-	@echo "... sylar/stream.s"
-	@echo "... sylar/streams/socket_stream.o"
-	@echo "... sylar/streams/socket_stream.i"
-	@echo "... sylar/streams/socket_stream.s"
-	@echo "... sylar/tcp_server.o"
-	@echo "... sylar/tcp_server.i"
-	@echo "... sylar/tcp_server.s"
-	@echo "... sylar/thread.o"
-	@echo "... sylar/thread.i"
-	@echo "... sylar/thread.s"
-	@echo "... sylar/timer.o"
-	@echo "... sylar/timer.i"
-	@echo "... sylar/timer.s"
-	@echo "... sylar/uri.o"
-	@echo "... sylar/uri.i"
-	@echo "... sylar/uri.s"
-	@echo "... sylar/util.o"
-	@echo "... sylar/util.i"
-	@echo "... sylar/util.s"
+	@echo "... src/address.o"
+	@echo "... src/address.i"
+	@echo "... src/address.s"
+	@echo "... src/bytearray.o"
+	@echo "... src/bytearray.i"
+	@echo "... src/bytearray.s"
+	@echo "... src/config.o"
+	@echo "... src/config.i"
+	@echo "... src/config.s"
+	@echo "... src/daemon.o"
+	@echo "... src/daemon.i"
+	@echo "... src/daemon.s"
+	@echo "... src/env.o"
+	@echo "... src/env.i"
+	@echo "... src/env.s"
+	@echo "... src/fd_manager.o"
+	@echo "... src/fd_manager.i"
+	@echo "... src/fd_manager.s"
+	@echo "... src/fiber.o"
+	@echo "... src/fiber.i"
+	@echo "... src/fiber.s"
+	@echo "... src/hook.o"
+	@echo "... src/hook.i"
+	@echo "... src/hook.s"
+	@echo "... src/http/http-parser/http_parser.o"
+	@echo "... src/http/http-parser/http_parser.i"
+	@echo "... src/http/http-parser/http_parser.s"
+	@echo "... src/http/http.o"
+	@echo "... src/http/http.i"
+	@echo "... src/http/http.s"
+	@echo "... src/http/http_connection.o"
+	@echo "... src/http/http_connection.i"
+	@echo "... src/http/http_connection.s"
+	@echo "... src/http/http_parser.o"
+	@echo "... src/http/http_parser.i"
+	@echo "... src/http/http_parser.s"
+	@echo "... src/http/http_server.o"
+	@echo "... src/http/http_server.i"
+	@echo "... src/http/http_server.s"
+	@echo "... src/http/http_session.o"
+	@echo "... src/http/http_session.i"
+	@echo "... src/http/http_session.s"
+	@echo "... src/http/servlet.o"
+	@echo "... src/http/servlet.i"
+	@echo "... src/http/servlet.s"
+	@echo "... src/iomanager.o"
+	@echo "... src/iomanager.i"
+	@echo "... src/iomanager.s"
+	@echo "... src/log.o"
+	@echo "... src/log.i"
+	@echo "... src/log.s"
+	@echo "... src/mutex.o"
+	@echo "... src/mutex.i"
+	@echo "... src/mutex.s"
+	@echo "... src/scheduler.o"
+	@echo "... src/scheduler.i"
+	@echo "... src/scheduler.s"
+	@echo "... src/socket.o"
+	@echo "... src/socket.i"
+	@echo "... src/socket.s"
+	@echo "... src/stream.o"
+	@echo "... src/stream.i"
+	@echo "... src/stream.s"
+	@echo "... src/streams/socket_stream.o"
+	@echo "... src/streams/socket_stream.i"
+	@echo "... src/streams/socket_stream.s"
+	@echo "... src/tcp_server.o"
+	@echo "... src/tcp_server.i"
+	@echo "... src/tcp_server.s"
+	@echo "... src/thread.o"
+	@echo "... src/thread.i"
+	@echo "... src/thread.s"
+	@echo "... src/timer.o"
+	@echo "... src/timer.i"
+	@echo "... src/timer.s"
+	@echo "... src/uri.o"
+	@echo "... src/uri.i"
+	@echo "... src/uri.s"
+	@echo "... src/util.o"
+	@echo "... src/util.i"
+	@echo "... src/util.s"
 	@echo "... tests/test_address.o"
 	@echo "... tests/test_address.i"
 	@echo "... tests/test_address.s"

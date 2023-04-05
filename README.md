@@ -1,8 +1,8 @@
-# sylar-from-scratch
+# jujimeizuo-from-scratch
 
-从零开始重写[sylar C++高性能分布式服务器框架](https://github.com/sylar-yin/sylar)。
+从零开始重写[jujimeizuo C++高性能分布式服务器框架](https://github.com/jujimeizuo-yin/jujimeizuo)。
 
-在线文档：[从零开始重写sylar C++高性能分布式服务器框架](https://www.midlane.top/wiki/pages/viewpage.action?pageId=10060952)。
+在线文档：[从零开始重写jujimeizuo C++高性能分布式服务器框架](https://www.midlane.top/wiki/pages/viewpage.action?pageId=10060952)。
 
 ## 当前进度
 
@@ -31,13 +31,13 @@
 流式日志使用：
 
 ```cpp
-SYLAR_LOG_INFO(g_logger) << "this is a log";
+JUJIMEIZUO_LOG_INFO(g_logger) << "this is a log";
 ```
 
 格式化日志使用：
 
 ```cpp
-SYLAR_LOG_FMT_INFO(g_logger, "%s", "this is a log"); 
+JUJIMEIZUO_LOG_FMT_INFO(g_logger, "%s", "this is a log"); 
 ```
 
 日志支持自由配置日期时间，累计运行毫秒数，线程id，线程名称，协程id，日志线别，日志名称，文件名，行号。
@@ -54,7 +54,7 @@ SYLAR_LOG_FMT_INFO(g_logger, "%s", "this is a log");
 
 `LoggerManager`：日志器管理类，单例模式，包含全部的日志器集合，并且提供工厂方法，用于创建或获取日志器。LoggerManager初始化时自带一个root日志器，这为日志模块提供一个初始可用的日志器。
 
-本项目的日志模块基于sylar的进行了简化，同时参考了log4cpp的一些设计，在保证功能可用的情况下，简化了几个类的设计，降低了耦合度。目前来看，在LogAppender上仍然需要丰富，以下几种类型的Appender在实际项目中都非常有必要实现：
+本项目的日志模块基于jujimeizuo的进行了简化，同时参考了log4cpp的一些设计，在保证功能可用的情况下，简化了几个类的设计，降低了耦合度。目前来看，在LogAppender上仍然需要丰富，以下几种类型的Appender在实际项目中都非常有必要实现：
 
 1. Rolling File Appender，循环覆盖写文件
 2. 内存Rolling Appender
@@ -63,7 +63,7 @@ SYLAR_LOG_FMT_INFO(g_logger, "%s", "this is a log");
 
 ### Util与Marco模块
 
-工具接口与工具类，功能宏定义。包括获取时间，日期时间格式转换，栈回溯，文件系统操作接口，类型转换接口，以及SYLAR_ASSERT宏。详细接口参考util.h，macro.h。
+工具接口与工具类，功能宏定义。包括获取时间，日期时间格式转换，栈回溯，文件系统操作接口，类型转换接口，以及JUJIMEIZUO_ASSERT宏。详细接口参考util.h，macro.h。
 
 ### 环境变量模块
 
@@ -79,8 +79,8 @@ SYLAR_LOG_FMT_INFO(g_logger, "%s", "this is a log");
 使用方式如下：
 
 ```cpp
-static sylar::ConfigVar<int>::ptr g_tcp_connect_timeout = 
-    sylar::Config::Lookup("tcp.connect.timeout", 5000, "tcp connect timeout");
+static jujimeizuo::ConfigVar<int>::ptr g_tcp_connect_timeout = 
+    jujimeizuo::Config::Lookup("tcp.connect.timeout", 5000, "tcp connect timeout");
 ```
 
 定义了一个tcp连接超时参数，可以直接使用`g_tcp_connect_timeout->getValue()`获取参数的值，当配置修改重新加载，该值自动更新（并触发对应的值更新回调函数），上述配置格式如下：
@@ -146,7 +146,7 @@ yield和resume是同步的，也就是，一个协程的resume必然对应另一
 
 在IO协程调度器之上再增加定时器调度功能，也就是在指定超时时间结束之后执行回调函数。定时的实现机制是idle协程的epoll_wait超时，大体思路是创建定时器时指定超时时间和回调函数，然后以当前时间加上超时时间计算出超时的绝对时间点，然后所有的定时器按这个超时时间点排序，从最早的时间点开始取出超时时间作为idle协程的epoll_wait超时时间，epoll_wait超时结束时把所有已超时的定时器收集起来，执行它们的回调函数。
 
-sylar的定时器以gettimeofday()来获取绝对时间点并判断超时，所以依赖系统时间，如果系统进行了校时，比如NTP时间同步，那这套定时机制就失效了。sylar的解决办法是设置一个较小的超时步长，比如3秒钟，也就是epoll_wait最多3秒超时，如果最近一个定时器的超时时间是10秒以后，那epoll_wait需要超时3次才会触发。每次超时之后除了要检查有没有要触发的定时器，还顺便检查一下系统时间有没有被往回调。如果系统时间往回调了1个小时以上，那就触发全部定时器。个人感觉这个办法有些粗糙，其实只需要换个时间源就可以解决校时问题，换成clock_gettime(CLOCK_MONOTONIC_RAW)的方式获取系统的单调时间，就可以解决这个问题了。
+jujimeizuo的定时器以gettimeofday()来获取绝对时间点并判断超时，所以依赖系统时间，如果系统进行了校时，比如NTP时间同步，那这套定时机制就失效了。jujimeizuo的解决办法是设置一个较小的超时步长，比如3秒钟，也就是epoll_wait最多3秒超时，如果最近一个定时器的超时时间是10秒以后，那epoll_wait需要超时3次才会触发。每次超时之后除了要检查有没有要触发的定时器，还顺便检查一下系统时间有没有被往回调。如果系统时间往回调了1个小时以上，那就触发全部定时器。个人感觉这个办法有些粗糙，其实只需要换个时间源就可以解决校时问题，换成clock_gettime(CLOCK_MONOTONIC_RAW)的方式获取系统的单调时间，就可以解决这个问题了。
 
 ### Hook模块
 
@@ -174,7 +174,7 @@ hook实际就是把系统提供的api再进行一层封装，以便于在执行�
 
 hook的重点是在替换api的底层实现的同时完全模拟其原本的行为，因为调用方是不知道hook的细节的，在调用被hook的api时，如果其行为与原本的行为不一致，就会给调用方造成困惑。比如，所有的socket fd在进行io调度时都会被设置成NONBLOCK模式，如果用户未显式地对fd设置NONBLOCK，那就要处理好fcntl，不要对用户暴露fd已经是NONBLOCK的事实，这点也说明，除了io相关的函数要进行hook外，对fcntl, setsockopt之类的功能函数也要进行hook，才能保证api的一致性。
 
-sylar对以下函数进行了hook，并且只对socket fd进行了hook，如果操作的不是socket fd，那会直接调用系统原本的api，而不是hook之后的api：  
+jujimeizuo对以下函数进行了hook，并且只对socket fd进行了hook，如果操作的不是socket fd，那会直接调用系统原本的api，而不是hook之后的api：  
 
 ```cpp
 sleep
