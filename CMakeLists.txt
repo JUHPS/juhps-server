@@ -1,153 +1,90 @@
 cmake_minimum_required(VERSION 3.0)
-project(server)
+project(sylar-from-scratch)
 
-include(cmake/utils.cmake)
+include (cmake/utils.cmake)
 
-add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -rdynamic -fPIC -ggdb -std=c++11 -Wall -Wno-deprecated  -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -ldl")
-set(CMAKE_C_FLAGS "$ENV{CXXFLAGS} -rdynamic -O3 -fPIC -ggdb -std=c11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -ldl")
+
+# 指定编译选项
+set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -std=c++11 -O0 -ggdb -Wall -Werror")
+
+# -rdynamic: 将所有符号都加入到符号表中，便于使用dlopen或者backtrace追踪到符号
+# -fPIC: 生成位置无关的代码，便于动态链接
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic -fPIC")
+
+# -Wno-unused-function: 不要警告未使用函数
+# -Wno-builtin-macro-redefined: 不要警告内置宏重定义，用于重定义内置的__FILE__宏
+# -Wno-deprecated: 不要警告过时的特性
+# -Wno-deprecated-declarations: 不要警告使用带deprecated属性的变量，类型，函数
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations")
 
 include_directories(.)
-include_directories(/usr/local/include)
-link_directories(/usr/local/lib)
-link_directories(/usr/local/lib64)
 
+option(BUILD_TEST "ON for complile test" OFF)
 
-find_package(Boost REQUIRED)
-find_package(yaml-cpp REQUIRED)
-
+find_package(Boost REQUIRED) 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
 set(LIB_SRC
-    src/address.cc
-    src/bytearray.cc
-    src/config.cc
-    src/env.cc
-    src/daemon.cc
-    src/fd_manager.cc
-    src/fiber.cc
-    src/http/http.cc
-    src/http/http_connection.cc
-    src/http/http_parser.cc
-    src/http/http_session.cc
-    src/http/http_server.cc
-    src/http/servlet.cc
-    src/http/servlets/config_servlet.cc
-    src/http/servlets/status_servlet.cc
-    src/http/session_data.cc
-    src/http/ws_connection.cc
-    src/http/ws_session.cc
-    src/http/ws_server.cc
-    src/http/ws_servlet.cc
-    src/hook.cc
-    src/iomanager.cc
-    src/library.cc
-	src/log.cc
-    src/module.cc
-    src/mutex.cc
-    src/protocol.cc
-    src/rock/rock_protocol.cc
-    src/rock/rock_server.cc
-    src/rock/rock_stream.cc
-    src/scheduler.cc
-    src/socket.cc
-    src/stream.cc
-    src/streams/async_socket_stream.cc
-    src/streams/socket_stream.cc
-    src/streams/load_balance.cc
-    src/streams/service_discovery.cc
-    src/streams/zlib_stream.cc
-    src/tcp_server.cc
-    src/timer.cc
-    src/thread.cc
-	src/util.cc
-    src/util/crypto_util.cc
-    src/util/json_util.cc
-    src/util/hash_util.cc
-    src/worker.cc
-    src/application.cc
-    src/zk_client.cc
+    sylar/log.cpp
+    sylar/util.cpp
+    sylar/mutex.cc
+    sylar/env.cc
+    sylar/config.cc
+    sylar/thread.cc
+    sylar/fiber.cc
+    sylar/scheduler.cc
+    sylar/iomanager.cc
+    sylar/timer.cc
+    sylar/fd_manager.cc
+    sylar/hook.cc
+    sylar/address.cc 
+    sylar/socket.cc 
+    sylar/bytearray.cc 
+    sylar/tcp_server.cc 
+    sylar/http/http-parser/http_parser.c 
+    sylar/http/http.cc
+    sylar/http/http_parser.cc 
+    sylar/stream.cc 
+    sylar/streams/socket_stream.cc
+    sylar/http/http_session.cc 
+    sylar/http/servlet.cc
+    sylar/http/http_server.cc 
     )
 
-add_library(src SHARED ${LIB_SRC})
-force_redefine_file_macro_for_sources(src) #__FILE__
-#add_library(WebServer_static STATIC ${LIB_SRC})
-#SET_TARGET_PROPERTIES (WebServer_static PROPERTIES OUTPUT_NAME "WebServer")
-
+add_library(sylar SHARED ${LIB_SRC})
+force_redefine_file_macro_for_sources(sylar)
 
 set(LIBS
-    src
-    yaml-cpp
+    sylar
     pthread
-    jsoncpp
-    ${ZLIB_LIBRARIES}
-    ${OPENSSL_LIBRARIES}
-    ${PROTOBUF_LIBRARIES}
-    event
-    hiredis_vip
-    mysqlclient_r
-    zookeeper_mt
-    sqlite3
-    )
+    dl
+    yaml-cpp
+)
 
+if(BUILD_TEST)
+sylar_add_executable(test_log "tests/test_log.cpp" sylar "${LIBS}")
+sylar_add_executable(test_util "tests/test_util.cpp" sylar "${LIBS}")
+sylar_add_executable(test_env "tests/test_env.cc" sylar "${LIBS}")
+sylar_add_executable(test_config "tests/test_config.cc" sylar "${LIBS}")
+sylar_add_executable(test_thread "tests/test_thread.cc" sylar "${LIBS}")
+sylar_add_executable(test_fiber "tests/test_fiber.cc" sylar "${LIBS}")
+sylar_add_executable(test_fiber2 "tests/test_fiber2.cc" sylar "${LIBS}")
+sylar_add_executable(test_scheduler "tests/test_scheduler.cc" sylar "${LIBS}")
+sylar_add_executable(test_iomanager "tests/test_iomanager.cc" sylar "${LIBS}")
+sylar_add_executable(test_timer "tests/test_timer.cc" sylar "${LIBS}")
+sylar_add_executable(test_hook "tests/test_hook.cc" sylar "${LIBS}")
+sylar_add_executable(test_address "tests/test_address.cc" sylar "${LIBS}")
+sylar_add_executable(test_socket_tcp_server "tests/test_socket_tcp_server.cc" sylar "${LIBS}")
+sylar_add_executable(test_socket_tcp_client "tests/test_socket_tcp_client.cc" sylar "${LIBS}")
+sylar_add_executable(test_bytearray "tests/test_bytearray.cc" sylar "${LIBS}")
+sylar_add_executable(test_tcp_server "tests/test_tcp_server.cc" sylar "${LIBS}")
+sylar_add_executable(test_http "tests/test_http.cc" sylar "${LIBS}")
+sylar_add_executable(test_http_parser "tests/test_http_parser.cc" sylar "${LIBS}")
+sylar_add_executable(test_http_server "tests/test_http_server.cc" sylar "${LIBS}")
+endif()
 
-add_executable(test_logger tests/test_logger.cc)
-add_dependencies(test_logger src)
-force_redefine_file_macro_for_sources(test_logger) #__FILE__
-target_link_libraries(test_logger src "${LIBS}")
-
-add_executable(test_config tests/test_config.cc)
-add_dependencies(test_config src)
-force_redefine_file_macro_for_sources(test_config) #__FILE__
-target_link_libraries(test_config src "${LIBS}")
-
-add_executable(test_thread tests/test_thread.cc)
-add_dependencies(test_thread src)
-force_redefine_file_macro_for_sources(test_thread) #__FILE__
-target_link_libraries(test_thread src "${LIBS}")
-
-add_executable(test_util tests/test_util.cc)
-add_dependencies(test_util src)
-force_redefine_file_macro_for_sources(test_util) #__FILE__
-target_link_libraries(test_util src "${LIBS}")
-
-add_executable(test_fiber tests/test_fiber.cc)
-add_dependencies(test_fiber src)
-force_redefine_file_macro_for_sources(test_fiber) #__FILE__
-target_link_libraries(test_fiber src "${LIBS}")
-
-add_executable(test_scheduler tests/test_scheduler.cc)
-add_dependencies(test_scheduler src)
-force_redefine_file_macro_for_sources(test_scheduler) #__FILE__
-target_link_libraries(test_scheduler src "${LIBS}")
-
-add_executable(test_iomanager tests/test_iomanager.cc)
-add_dependencies(test_iomanager src)
-force_redefine_file_macro_for_sources(test_iomanager) #__FILE__
-target_link_libraries(test_iomanager src "${LIBS}")
-
-add_executable(test_hook tests/test_hook.cc)
-add_dependencies(test_hook src)
-force_redefine_file_macro_for_sources(test_hook) #__FILE__
-target_link_libraries(test_hook src "${LIBS}")
-
-add_executable(test_address tests/test_address.cc)
-add_dependencies(test_address src)
-force_redefine_file_macro_for_sources(test_address) #__FILE__
-target_link_libraries(test_address src "${LIBS}")
-
-add_executable(test_socket tests/test_socket.cc)
-add_dependencies(test_socket src)
-force_redefine_file_macro_for_sources(test_socket) #__FILE__
-target_link_libraries(test_socket src "${LIBS}")
-
-add_executable(test_bytearray tests/test_bytearray.cc)
-add_dependencies(test_bytearray src)
-force_redefine_file_macro_for_sources(test_bytearray) #__FILE__
-target_link_libraries(test_bytearray src "${LIBS}") 
-
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
