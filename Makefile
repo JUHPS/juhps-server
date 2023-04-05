@@ -1,29 +1,15 @@
-all:
-	@if [ -d "build" ]; then \
-		cd build && make -j4; \
-	else \
-		mkdir build; \
-		cd build && cmake .. && make -j4; \
-	fi
+CXX ?= g++
 
-doc:
-	@doxygen Doxyfile
+DEBUG ?= 1
+ifeq ($(DEBUG), 1)
+    CXXFLAGS += -g
+else
+    CXXFLAGS += -O2
 
-%:
-	@if [ -d "build" ]; then \
-		cd build && make $@ -j4; \
-	else \
-		mkdir build; \
-		cd build && cmake .. && make $@ -j4; \
-	fi
+endif
 
-.PHONY: clean distclean
+server: main.cpp  ./timer/lst_timer.cpp ./http/http_conn.cpp ./log/log.cpp ./CGImysql/sql_connection_pool.cpp  webserver.cpp config.cpp
+	$(CXX) -o server  $^ $(CXXFLAGS) -I/usr/include/mysql -L/usr/lib64/mysql -lpthread -lmysqlclient
+
 clean:
-	@if [ -d "build" ]; then \
-		cd build && make clean;\
-	fi
-
-distclean:
-	rm build -fr
-	rm lib -fr
-	rm html -fr
+	rm  -r server
