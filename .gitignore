@@ -1,6 +1,6 @@
 .vscode
 build
-tests/*
+tests
 
 # Prerequisites
 *.d

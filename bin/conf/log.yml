@@ -9,7 +9,7 @@ logs:
       appenders:
           - type: StdoutLogAppender
           - type: FileLogAppender
-            file: /home/dev/sylar/system.txt
+            file: /home/dev/jujimeizuo/system.txt
     - name: http
       level: debug
       appenders:
