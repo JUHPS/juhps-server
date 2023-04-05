@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(WebServer)
+project(sylar-from-scratch)
 
 include (cmake/utils.cmake)
 
@@ -28,68 +28,68 @@ if(Boost_FOUND)
 endif()
 
 set(LIB_SRC
-    jujimeizuo/log.cpp
-    jujimeizuo/util.cpp
-    jujimeizuo/mutex.cc
-    jujimeizuo/env.cc
-    jujimeizuo/config.cc
-    jujimeizuo/thread.cc
-    jujimeizuo/fiber.cc
-    jujimeizuo/scheduler.cc
-    jujimeizuo/iomanager.cc
-    jujimeizuo/timer.cc
-    jujimeizuo/fd_manager.cc
-    jujimeizuo/hook.cc
-    jujimeizuo/address.cc 
-    jujimeizuo/socket.cc 
-    jujimeizuo/bytearray.cc 
-    jujimeizuo/tcp_server.cc 
-    jujimeizuo/http/http-parser/http_parser.c 
-    jujimeizuo/http/http.cc
-    jujimeizuo/http/http_parser.cc 
-    jujimeizuo/stream.cc 
-    jujimeizuo/streams/socket_stream.cc
-    jujimeizuo/http/http_session.cc 
-    jujimeizuo/http/servlet.cc
-    jujimeizuo/http/http_server.cc 
-    jujimeizuo/uri.cc 
-    jujimeizuo/http/http_connection.cc 
-    jujimeizuo/daemon.cc 
+    sylar/log.cpp
+    sylar/util.cpp
+    sylar/mutex.cc
+    sylar/env.cc
+    sylar/config.cc
+    sylar/thread.cc
+    sylar/fiber.cc
+    sylar/scheduler.cc
+    sylar/iomanager.cc
+    sylar/timer.cc
+    sylar/fd_manager.cc
+    sylar/hook.cc
+    sylar/address.cc 
+    sylar/socket.cc 
+    sylar/bytearray.cc 
+    sylar/tcp_server.cc 
+    sylar/http/http-parser/http_parser.c 
+    sylar/http/http.cc
+    sylar/http/http_parser.cc 
+    sylar/stream.cc 
+    sylar/streams/socket_stream.cc
+    sylar/http/http_session.cc 
+    sylar/http/servlet.cc
+    sylar/http/http_server.cc 
+    sylar/uri.cc 
+    sylar/http/http_connection.cc 
+    sylar/daemon.cc 
     )
 
-add_library(jujimeizuo SHARED ${LIB_SRC})
-force_redefine_file_macro_for_sources(jujimeizuo)
+add_library(sylar SHARED ${LIB_SRC})
+force_redefine_file_macro_for_sources(sylar)
 
 set(LIBS
-    jujimeizuo
+    sylar
     pthread
     dl
     yaml-cpp
 )
 
 if(BUILD_TEST)
-jujimeizuo_add_executable(test_log "tests/test_log.cpp" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_util "tests/test_util.cpp" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_env "tests/test_env.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_config "tests/test_config.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_thread "tests/test_thread.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_fiber "tests/test_fiber.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_fiber2 "tests/test_fiber2.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_scheduler "tests/test_scheduler.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_iomanager "tests/test_iomanager.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_timer "tests/test_timer.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_hook "tests/test_hook.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_address "tests/test_address.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_socket_tcp_server "tests/test_socket_tcp_server.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_socket_tcp_client "tests/test_socket_tcp_client.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_bytearray "tests/test_bytearray.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_tcp_server "tests/test_tcp_server.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_http "tests/test_http.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_http_parser "tests/test_http_parser.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_http_server "tests/test_http_server.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_uri "tests/test_uri.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_http_connection "tests/test_http_connection.cc" jujimeizuo "${LIBS}")
-jujimeizuo_add_executable(test_daemon "tests/test_daemon.cc" jujimeizuo "${LIBS}")
+sylar_add_executable(test_log "tests/test_log.cpp" sylar "${LIBS}")
+sylar_add_executable(test_util "tests/test_util.cpp" sylar "${LIBS}")
+sylar_add_executable(test_env "tests/test_env.cc" sylar "${LIBS}")
+sylar_add_executable(test_config "tests/test_config.cc" sylar "${LIBS}")
+sylar_add_executable(test_thread "tests/test_thread.cc" sylar "${LIBS}")
+sylar_add_executable(test_fiber "tests/test_fiber.cc" sylar "${LIBS}")
+sylar_add_executable(test_fiber2 "tests/test_fiber2.cc" sylar "${LIBS}")
+sylar_add_executable(test_scheduler "tests/test_scheduler.cc" sylar "${LIBS}")
+sylar_add_executable(test_iomanager "tests/test_iomanager.cc" sylar "${LIBS}")
+sylar_add_executable(test_timer "tests/test_timer.cc" sylar "${LIBS}")
+sylar_add_executable(test_hook "tests/test_hook.cc" sylar "${LIBS}")
+sylar_add_executable(test_address "tests/test_address.cc" sylar "${LIBS}")
+sylar_add_executable(test_socket_tcp_server "tests/test_socket_tcp_server.cc" sylar "${LIBS}")
+sylar_add_executable(test_socket_tcp_client "tests/test_socket_tcp_client.cc" sylar "${LIBS}")
+sylar_add_executable(test_bytearray "tests/test_bytearray.cc" sylar "${LIBS}")
+sylar_add_executable(test_tcp_server "tests/test_tcp_server.cc" sylar "${LIBS}")
+sylar_add_executable(test_http "tests/test_http.cc" sylar "${LIBS}")
+sylar_add_executable(test_http_parser "tests/test_http_parser.cc" sylar "${LIBS}")
+sylar_add_executable(test_http_server "tests/test_http_server.cc" sylar "${LIBS}")
+sylar_add_executable(test_uri "tests/test_uri.cc" sylar "${LIBS}")
+sylar_add_executable(test_http_connection "tests/test_http_connection.cc" sylar "${LIBS}")
+sylar_add_executable(test_daemon "tests/test_daemon.cc" sylar "${LIBS}")
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

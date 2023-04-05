@@ -120,17 +120,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named jujimeizuo
+# Target rules for targets named sylar
 
 # Build rule for target.
-jujimeizuo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 jujimeizuo
-.PHONY : jujimeizuo
+sylar: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sylar
+.PHONY : sylar
 
 # fast build rule for target.
-jujimeizuo/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/build
-.PHONY : jujimeizuo/fast
+sylar/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/build
+.PHONY : sylar/fast
 
 #=============================================================================
 # Target rules for targets named test_log
@@ -418,653 +418,653 @@ test_daemon/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_daemon.dir/build.make CMakeFiles/test_daemon.dir/build
 .PHONY : test_daemon/fast
 
-jujimeizuo/address.o: jujimeizuo/address.cc.o
-.PHONY : jujimeizuo/address.o
+sylar/address.o: sylar/address.cc.o
+.PHONY : sylar/address.o
 
 # target to build an object file
-jujimeizuo/address.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/address.cc.o
-.PHONY : jujimeizuo/address.cc.o
+sylar/address.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/address.cc.o
+.PHONY : sylar/address.cc.o
 
-jujimeizuo/address.i: jujimeizuo/address.cc.i
-.PHONY : jujimeizuo/address.i
+sylar/address.i: sylar/address.cc.i
+.PHONY : sylar/address.i
 
 # target to preprocess a source file
-jujimeizuo/address.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/address.cc.i
-.PHONY : jujimeizuo/address.cc.i
+sylar/address.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/address.cc.i
+.PHONY : sylar/address.cc.i
 
-jujimeizuo/address.s: jujimeizuo/address.cc.s
-.PHONY : jujimeizuo/address.s
+sylar/address.s: sylar/address.cc.s
+.PHONY : sylar/address.s
 
 # target to generate assembly for a file
-jujimeizuo/address.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/address.cc.s
-.PHONY : jujimeizuo/address.cc.s
+sylar/address.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/address.cc.s
+.PHONY : sylar/address.cc.s
 
-jujimeizuo/bytearray.o: jujimeizuo/bytearray.cc.o
-.PHONY : jujimeizuo/bytearray.o
+sylar/bytearray.o: sylar/bytearray.cc.o
+.PHONY : sylar/bytearray.o
 
 # target to build an object file
-jujimeizuo/bytearray.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/bytearray.cc.o
-.PHONY : jujimeizuo/bytearray.cc.o
+sylar/bytearray.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/bytearray.cc.o
+.PHONY : sylar/bytearray.cc.o
 
-jujimeizuo/bytearray.i: jujimeizuo/bytearray.cc.i
-.PHONY : jujimeizuo/bytearray.i
+sylar/bytearray.i: sylar/bytearray.cc.i
+.PHONY : sylar/bytearray.i
 
 # target to preprocess a source file
-jujimeizuo/bytearray.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/bytearray.cc.i
-.PHONY : jujimeizuo/bytearray.cc.i
+sylar/bytearray.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/bytearray.cc.i
+.PHONY : sylar/bytearray.cc.i
 
-jujimeizuo/bytearray.s: jujimeizuo/bytearray.cc.s
-.PHONY : jujimeizuo/bytearray.s
+sylar/bytearray.s: sylar/bytearray.cc.s
+.PHONY : sylar/bytearray.s
 
 # target to generate assembly for a file
-jujimeizuo/bytearray.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/bytearray.cc.s
-.PHONY : jujimeizuo/bytearray.cc.s
+sylar/bytearray.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/bytearray.cc.s
+.PHONY : sylar/bytearray.cc.s
 
-jujimeizuo/config.o: jujimeizuo/config.cc.o
-.PHONY : jujimeizuo/config.o
+sylar/config.o: sylar/config.cc.o
+.PHONY : sylar/config.o
 
 # target to build an object file
-jujimeizuo/config.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/config.cc.o
-.PHONY : jujimeizuo/config.cc.o
+sylar/config.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/config.cc.o
+.PHONY : sylar/config.cc.o
 
-jujimeizuo/config.i: jujimeizuo/config.cc.i
-.PHONY : jujimeizuo/config.i
+sylar/config.i: sylar/config.cc.i
+.PHONY : sylar/config.i
 
 # target to preprocess a source file
-jujimeizuo/config.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/config.cc.i
-.PHONY : jujimeizuo/config.cc.i
+sylar/config.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/config.cc.i
+.PHONY : sylar/config.cc.i
 
-jujimeizuo/config.s: jujimeizuo/config.cc.s
-.PHONY : jujimeizuo/config.s
+sylar/config.s: sylar/config.cc.s
+.PHONY : sylar/config.s
 
 # target to generate assembly for a file
-jujimeizuo/config.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/config.cc.s
-.PHONY : jujimeizuo/config.cc.s
+sylar/config.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/config.cc.s
+.PHONY : sylar/config.cc.s
 
-jujimeizuo/daemon.o: jujimeizuo/daemon.cc.o
-.PHONY : jujimeizuo/daemon.o
+sylar/daemon.o: sylar/daemon.cc.o
+.PHONY : sylar/daemon.o
 
 # target to build an object file
-jujimeizuo/daemon.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/daemon.cc.o
-.PHONY : jujimeizuo/daemon.cc.o
+sylar/daemon.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/daemon.cc.o
+.PHONY : sylar/daemon.cc.o
 
-jujimeizuo/daemon.i: jujimeizuo/daemon.cc.i
-.PHONY : jujimeizuo/daemon.i
+sylar/daemon.i: sylar/daemon.cc.i
+.PHONY : sylar/daemon.i
 
 # target to preprocess a source file
-jujimeizuo/daemon.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/daemon.cc.i
-.PHONY : jujimeizuo/daemon.cc.i
+sylar/daemon.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/daemon.cc.i
+.PHONY : sylar/daemon.cc.i
 
-jujimeizuo/daemon.s: jujimeizuo/daemon.cc.s
-.PHONY : jujimeizuo/daemon.s
+sylar/daemon.s: sylar/daemon.cc.s
+.PHONY : sylar/daemon.s
 
 # target to generate assembly for a file
-jujimeizuo/daemon.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/daemon.cc.s
-.PHONY : jujimeizuo/daemon.cc.s
+sylar/daemon.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/daemon.cc.s
+.PHONY : sylar/daemon.cc.s
 
-jujimeizuo/env.o: jujimeizuo/env.cc.o
-.PHONY : jujimeizuo/env.o
+sylar/env.o: sylar/env.cc.o
+.PHONY : sylar/env.o
 
 # target to build an object file
-jujimeizuo/env.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/env.cc.o
-.PHONY : jujimeizuo/env.cc.o
+sylar/env.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/env.cc.o
+.PHONY : sylar/env.cc.o
 
-jujimeizuo/env.i: jujimeizuo/env.cc.i
-.PHONY : jujimeizuo/env.i
+sylar/env.i: sylar/env.cc.i
+.PHONY : sylar/env.i
 
 # target to preprocess a source file
-jujimeizuo/env.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/env.cc.i
-.PHONY : jujimeizuo/env.cc.i
+sylar/env.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/env.cc.i
+.PHONY : sylar/env.cc.i
 
-jujimeizuo/env.s: jujimeizuo/env.cc.s
-.PHONY : jujimeizuo/env.s
+sylar/env.s: sylar/env.cc.s
+.PHONY : sylar/env.s
 
 # target to generate assembly for a file
-jujimeizuo/env.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/env.cc.s
-.PHONY : jujimeizuo/env.cc.s
+sylar/env.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/env.cc.s
+.PHONY : sylar/env.cc.s
 
-jujimeizuo/fd_manager.o: jujimeizuo/fd_manager.cc.o
-.PHONY : jujimeizuo/fd_manager.o
+sylar/fd_manager.o: sylar/fd_manager.cc.o
+.PHONY : sylar/fd_manager.o
 
 # target to build an object file
-jujimeizuo/fd_manager.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/fd_manager.cc.o
-.PHONY : jujimeizuo/fd_manager.cc.o
+sylar/fd_manager.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fd_manager.cc.o
+.PHONY : sylar/fd_manager.cc.o
 
-jujimeizuo/fd_manager.i: jujimeizuo/fd_manager.cc.i
-.PHONY : jujimeizuo/fd_manager.i
+sylar/fd_manager.i: sylar/fd_manager.cc.i
+.PHONY : sylar/fd_manager.i
 
 # target to preprocess a source file
-jujimeizuo/fd_manager.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/fd_manager.cc.i
-.PHONY : jujimeizuo/fd_manager.cc.i
+sylar/fd_manager.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fd_manager.cc.i
+.PHONY : sylar/fd_manager.cc.i
 
-jujimeizuo/fd_manager.s: jujimeizuo/fd_manager.cc.s
-.PHONY : jujimeizuo/fd_manager.s
+sylar/fd_manager.s: sylar/fd_manager.cc.s
+.PHONY : sylar/fd_manager.s
 
 # target to generate assembly for a file
-jujimeizuo/fd_manager.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/fd_manager.cc.s
-.PHONY : jujimeizuo/fd_manager.cc.s
+sylar/fd_manager.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fd_manager.cc.s
+.PHONY : sylar/fd_manager.cc.s
 
-jujimeizuo/fiber.o: jujimeizuo/fiber.cc.o
-.PHONY : jujimeizuo/fiber.o
+sylar/fiber.o: sylar/fiber.cc.o
+.PHONY : sylar/fiber.o
 
 # target to build an object file
-jujimeizuo/fiber.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/fiber.cc.o
-.PHONY : jujimeizuo/fiber.cc.o
+sylar/fiber.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fiber.cc.o
+.PHONY : sylar/fiber.cc.o
 
-jujimeizuo/fiber.i: jujimeizuo/fiber.cc.i
-.PHONY : jujimeizuo/fiber.i
+sylar/fiber.i: sylar/fiber.cc.i
+.PHONY : sylar/fiber.i
 
 # target to preprocess a source file
-jujimeizuo/fiber.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/fiber.cc.i
-.PHONY : jujimeizuo/fiber.cc.i
+sylar/fiber.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fiber.cc.i
+.PHONY : sylar/fiber.cc.i
 
-jujimeizuo/fiber.s: jujimeizuo/fiber.cc.s
-.PHONY : jujimeizuo/fiber.s
+sylar/fiber.s: sylar/fiber.cc.s
+.PHONY : sylar/fiber.s
 
 # target to generate assembly for a file
-jujimeizuo/fiber.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/fiber.cc.s
-.PHONY : jujimeizuo/fiber.cc.s
+sylar/fiber.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/fiber.cc.s
+.PHONY : sylar/fiber.cc.s
 
-jujimeizuo/hook.o: jujimeizuo/hook.cc.o
-.PHONY : jujimeizuo/hook.o
+sylar/hook.o: sylar/hook.cc.o
+.PHONY : sylar/hook.o
 
 # target to build an object file
-jujimeizuo/hook.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/hook.cc.o
-.PHONY : jujimeizuo/hook.cc.o
+sylar/hook.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/hook.cc.o
+.PHONY : sylar/hook.cc.o
 
-jujimeizuo/hook.i: jujimeizuo/hook.cc.i
-.PHONY : jujimeizuo/hook.i
+sylar/hook.i: sylar/hook.cc.i
+.PHONY : sylar/hook.i
 
 # target to preprocess a source file
-jujimeizuo/hook.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/hook.cc.i
-.PHONY : jujimeizuo/hook.cc.i
+sylar/hook.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/hook.cc.i
+.PHONY : sylar/hook.cc.i
 
-jujimeizuo/hook.s: jujimeizuo/hook.cc.s
-.PHONY : jujimeizuo/hook.s
+sylar/hook.s: sylar/hook.cc.s
+.PHONY : sylar/hook.s
 
 # target to generate assembly for a file
-jujimeizuo/hook.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/hook.cc.s
-.PHONY : jujimeizuo/hook.cc.s
+sylar/hook.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/hook.cc.s
+.PHONY : sylar/hook.cc.s
 
-jujimeizuo/http/http-parser/http_parser.o: jujimeizuo/http/http-parser/http_parser.c.o
-.PHONY : jujimeizuo/http/http-parser/http_parser.o
+sylar/http/http-parser/http_parser.o: sylar/http/http-parser/http_parser.c.o
+.PHONY : sylar/http/http-parser/http_parser.o
 
 # target to build an object file
-jujimeizuo/http/http-parser/http_parser.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http-parser/http_parser.c.o
-.PHONY : jujimeizuo/http/http-parser/http_parser.c.o
+sylar/http/http-parser/http_parser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.o
+.PHONY : sylar/http/http-parser/http_parser.c.o
 
-jujimeizuo/http/http-parser/http_parser.i: jujimeizuo/http/http-parser/http_parser.c.i
-.PHONY : jujimeizuo/http/http-parser/http_parser.i
+sylar/http/http-parser/http_parser.i: sylar/http/http-parser/http_parser.c.i
+.PHONY : sylar/http/http-parser/http_parser.i
 
 # target to preprocess a source file
-jujimeizuo/http/http-parser/http_parser.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http-parser/http_parser.c.i
-.PHONY : jujimeizuo/http/http-parser/http_parser.c.i
+sylar/http/http-parser/http_parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.i
+.PHONY : sylar/http/http-parser/http_parser.c.i
 
-jujimeizuo/http/http-parser/http_parser.s: jujimeizuo/http/http-parser/http_parser.c.s
-.PHONY : jujimeizuo/http/http-parser/http_parser.s
+sylar/http/http-parser/http_parser.s: sylar/http/http-parser/http_parser.c.s
+.PHONY : sylar/http/http-parser/http_parser.s
 
 # target to generate assembly for a file
-jujimeizuo/http/http-parser/http_parser.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http-parser/http_parser.c.s
-.PHONY : jujimeizuo/http/http-parser/http_parser.c.s
+sylar/http/http-parser/http_parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http-parser/http_parser.c.s
+.PHONY : sylar/http/http-parser/http_parser.c.s
 
-jujimeizuo/http/http.o: jujimeizuo/http/http.cc.o
-.PHONY : jujimeizuo/http/http.o
+sylar/http/http.o: sylar/http/http.cc.o
+.PHONY : sylar/http/http.o
 
 # target to build an object file
-jujimeizuo/http/http.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http.cc.o
-.PHONY : jujimeizuo/http/http.cc.o
+sylar/http/http.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http.cc.o
+.PHONY : sylar/http/http.cc.o
 
-jujimeizuo/http/http.i: jujimeizuo/http/http.cc.i
-.PHONY : jujimeizuo/http/http.i
+sylar/http/http.i: sylar/http/http.cc.i
+.PHONY : sylar/http/http.i
 
 # target to preprocess a source file
-jujimeizuo/http/http.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http.cc.i
-.PHONY : jujimeizuo/http/http.cc.i
+sylar/http/http.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http.cc.i
+.PHONY : sylar/http/http.cc.i
 
-jujimeizuo/http/http.s: jujimeizuo/http/http.cc.s
-.PHONY : jujimeizuo/http/http.s
+sylar/http/http.s: sylar/http/http.cc.s
+.PHONY : sylar/http/http.s
 
 # target to generate assembly for a file
-jujimeizuo/http/http.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http.cc.s
-.PHONY : jujimeizuo/http/http.cc.s
+sylar/http/http.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http.cc.s
+.PHONY : sylar/http/http.cc.s
 
-jujimeizuo/http/http_connection.o: jujimeizuo/http/http_connection.cc.o
-.PHONY : jujimeizuo/http/http_connection.o
+sylar/http/http_connection.o: sylar/http/http_connection.cc.o
+.PHONY : sylar/http/http_connection.o
 
 # target to build an object file
-jujimeizuo/http/http_connection.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_connection.cc.o
-.PHONY : jujimeizuo/http/http_connection.cc.o
+sylar/http/http_connection.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_connection.cc.o
+.PHONY : sylar/http/http_connection.cc.o
 
-jujimeizuo/http/http_connection.i: jujimeizuo/http/http_connection.cc.i
-.PHONY : jujimeizuo/http/http_connection.i
+sylar/http/http_connection.i: sylar/http/http_connection.cc.i
+.PHONY : sylar/http/http_connection.i
 
 # target to preprocess a source file
-jujimeizuo/http/http_connection.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_connection.cc.i
-.PHONY : jujimeizuo/http/http_connection.cc.i
+sylar/http/http_connection.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_connection.cc.i
+.PHONY : sylar/http/http_connection.cc.i
 
-jujimeizuo/http/http_connection.s: jujimeizuo/http/http_connection.cc.s
-.PHONY : jujimeizuo/http/http_connection.s
+sylar/http/http_connection.s: sylar/http/http_connection.cc.s
+.PHONY : sylar/http/http_connection.s
 
 # target to generate assembly for a file
-jujimeizuo/http/http_connection.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_connection.cc.s
-.PHONY : jujimeizuo/http/http_connection.cc.s
+sylar/http/http_connection.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_connection.cc.s
+.PHONY : sylar/http/http_connection.cc.s
 
-jujimeizuo/http/http_parser.o: jujimeizuo/http/http_parser.cc.o
-.PHONY : jujimeizuo/http/http_parser.o
+sylar/http/http_parser.o: sylar/http/http_parser.cc.o
+.PHONY : sylar/http/http_parser.o
 
 # target to build an object file
-jujimeizuo/http/http_parser.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_parser.cc.o
-.PHONY : jujimeizuo/http/http_parser.cc.o
+sylar/http/http_parser.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_parser.cc.o
+.PHONY : sylar/http/http_parser.cc.o
 
-jujimeizuo/http/http_parser.i: jujimeizuo/http/http_parser.cc.i
-.PHONY : jujimeizuo/http/http_parser.i
+sylar/http/http_parser.i: sylar/http/http_parser.cc.i
+.PHONY : sylar/http/http_parser.i
 
 # target to preprocess a source file
-jujimeizuo/http/http_parser.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_parser.cc.i
-.PHONY : jujimeizuo/http/http_parser.cc.i
+sylar/http/http_parser.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_parser.cc.i
+.PHONY : sylar/http/http_parser.cc.i
 
-jujimeizuo/http/http_parser.s: jujimeizuo/http/http_parser.cc.s
-.PHONY : jujimeizuo/http/http_parser.s
+sylar/http/http_parser.s: sylar/http/http_parser.cc.s
+.PHONY : sylar/http/http_parser.s
 
 # target to generate assembly for a file
-jujimeizuo/http/http_parser.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_parser.cc.s
-.PHONY : jujimeizuo/http/http_parser.cc.s
+sylar/http/http_parser.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_parser.cc.s
+.PHONY : sylar/http/http_parser.cc.s
 
-jujimeizuo/http/http_server.o: jujimeizuo/http/http_server.cc.o
-.PHONY : jujimeizuo/http/http_server.o
+sylar/http/http_server.o: sylar/http/http_server.cc.o
+.PHONY : sylar/http/http_server.o
 
 # target to build an object file
-jujimeizuo/http/http_server.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_server.cc.o
-.PHONY : jujimeizuo/http/http_server.cc.o
+sylar/http/http_server.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_server.cc.o
+.PHONY : sylar/http/http_server.cc.o
 
-jujimeizuo/http/http_server.i: jujimeizuo/http/http_server.cc.i
-.PHONY : jujimeizuo/http/http_server.i
+sylar/http/http_server.i: sylar/http/http_server.cc.i
+.PHONY : sylar/http/http_server.i
 
 # target to preprocess a source file
-jujimeizuo/http/http_server.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_server.cc.i
-.PHONY : jujimeizuo/http/http_server.cc.i
+sylar/http/http_server.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_server.cc.i
+.PHONY : sylar/http/http_server.cc.i
 
-jujimeizuo/http/http_server.s: jujimeizuo/http/http_server.cc.s
-.PHONY : jujimeizuo/http/http_server.s
+sylar/http/http_server.s: sylar/http/http_server.cc.s
+.PHONY : sylar/http/http_server.s
 
 # target to generate assembly for a file
-jujimeizuo/http/http_server.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_server.cc.s
-.PHONY : jujimeizuo/http/http_server.cc.s
+sylar/http/http_server.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_server.cc.s
+.PHONY : sylar/http/http_server.cc.s
 
-jujimeizuo/http/http_session.o: jujimeizuo/http/http_session.cc.o
-.PHONY : jujimeizuo/http/http_session.o
+sylar/http/http_session.o: sylar/http/http_session.cc.o
+.PHONY : sylar/http/http_session.o
 
 # target to build an object file
-jujimeizuo/http/http_session.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_session.cc.o
-.PHONY : jujimeizuo/http/http_session.cc.o
+sylar/http/http_session.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_session.cc.o
+.PHONY : sylar/http/http_session.cc.o
 
-jujimeizuo/http/http_session.i: jujimeizuo/http/http_session.cc.i
-.PHONY : jujimeizuo/http/http_session.i
+sylar/http/http_session.i: sylar/http/http_session.cc.i
+.PHONY : sylar/http/http_session.i
 
 # target to preprocess a source file
-jujimeizuo/http/http_session.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_session.cc.i
-.PHONY : jujimeizuo/http/http_session.cc.i
+sylar/http/http_session.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_session.cc.i
+.PHONY : sylar/http/http_session.cc.i
 
-jujimeizuo/http/http_session.s: jujimeizuo/http/http_session.cc.s
-.PHONY : jujimeizuo/http/http_session.s
+sylar/http/http_session.s: sylar/http/http_session.cc.s
+.PHONY : sylar/http/http_session.s
 
 # target to generate assembly for a file
-jujimeizuo/http/http_session.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/http_session.cc.s
-.PHONY : jujimeizuo/http/http_session.cc.s
+sylar/http/http_session.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/http_session.cc.s
+.PHONY : sylar/http/http_session.cc.s
 
-jujimeizuo/http/servlet.o: jujimeizuo/http/servlet.cc.o
-.PHONY : jujimeizuo/http/servlet.o
+sylar/http/servlet.o: sylar/http/servlet.cc.o
+.PHONY : sylar/http/servlet.o
 
 # target to build an object file
-jujimeizuo/http/servlet.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/servlet.cc.o
-.PHONY : jujimeizuo/http/servlet.cc.o
+sylar/http/servlet.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/servlet.cc.o
+.PHONY : sylar/http/servlet.cc.o
 
-jujimeizuo/http/servlet.i: jujimeizuo/http/servlet.cc.i
-.PHONY : jujimeizuo/http/servlet.i
+sylar/http/servlet.i: sylar/http/servlet.cc.i
+.PHONY : sylar/http/servlet.i
 
 # target to preprocess a source file
-jujimeizuo/http/servlet.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/servlet.cc.i
-.PHONY : jujimeizuo/http/servlet.cc.i
+sylar/http/servlet.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/servlet.cc.i
+.PHONY : sylar/http/servlet.cc.i
 
-jujimeizuo/http/servlet.s: jujimeizuo/http/servlet.cc.s
-.PHONY : jujimeizuo/http/servlet.s
+sylar/http/servlet.s: sylar/http/servlet.cc.s
+.PHONY : sylar/http/servlet.s
 
 # target to generate assembly for a file
-jujimeizuo/http/servlet.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/http/servlet.cc.s
-.PHONY : jujimeizuo/http/servlet.cc.s
+sylar/http/servlet.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/http/servlet.cc.s
+.PHONY : sylar/http/servlet.cc.s
 
-jujimeizuo/iomanager.o: jujimeizuo/iomanager.cc.o
-.PHONY : jujimeizuo/iomanager.o
+sylar/iomanager.o: sylar/iomanager.cc.o
+.PHONY : sylar/iomanager.o
 
 # target to build an object file
-jujimeizuo/iomanager.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/iomanager.cc.o
-.PHONY : jujimeizuo/iomanager.cc.o
+sylar/iomanager.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/iomanager.cc.o
+.PHONY : sylar/iomanager.cc.o
 
-jujimeizuo/iomanager.i: jujimeizuo/iomanager.cc.i
-.PHONY : jujimeizuo/iomanager.i
+sylar/iomanager.i: sylar/iomanager.cc.i
+.PHONY : sylar/iomanager.i
 
 # target to preprocess a source file
-jujimeizuo/iomanager.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/iomanager.cc.i
-.PHONY : jujimeizuo/iomanager.cc.i
+sylar/iomanager.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/iomanager.cc.i
+.PHONY : sylar/iomanager.cc.i
 
-jujimeizuo/iomanager.s: jujimeizuo/iomanager.cc.s
-.PHONY : jujimeizuo/iomanager.s
+sylar/iomanager.s: sylar/iomanager.cc.s
+.PHONY : sylar/iomanager.s
 
 # target to generate assembly for a file
-jujimeizuo/iomanager.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/iomanager.cc.s
-.PHONY : jujimeizuo/iomanager.cc.s
+sylar/iomanager.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/iomanager.cc.s
+.PHONY : sylar/iomanager.cc.s
 
-jujimeizuo/log.o: jujimeizuo/log.cpp.o
-.PHONY : jujimeizuo/log.o
+sylar/log.o: sylar/log.cpp.o
+.PHONY : sylar/log.o
 
 # target to build an object file
-jujimeizuo/log.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/log.cpp.o
-.PHONY : jujimeizuo/log.cpp.o
+sylar/log.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/log.cpp.o
+.PHONY : sylar/log.cpp.o
 
-jujimeizuo/log.i: jujimeizuo/log.cpp.i
-.PHONY : jujimeizuo/log.i
+sylar/log.i: sylar/log.cpp.i
+.PHONY : sylar/log.i
 
 # target to preprocess a source file
-jujimeizuo/log.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/log.cpp.i
-.PHONY : jujimeizuo/log.cpp.i
+sylar/log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/log.cpp.i
+.PHONY : sylar/log.cpp.i
 
-jujimeizuo/log.s: jujimeizuo/log.cpp.s
-.PHONY : jujimeizuo/log.s
+sylar/log.s: sylar/log.cpp.s
+.PHONY : sylar/log.s
 
 # target to generate assembly for a file
-jujimeizuo/log.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/log.cpp.s
-.PHONY : jujimeizuo/log.cpp.s
+sylar/log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/log.cpp.s
+.PHONY : sylar/log.cpp.s
 
-jujimeizuo/mutex.o: jujimeizuo/mutex.cc.o
-.PHONY : jujimeizuo/mutex.o
+sylar/mutex.o: sylar/mutex.cc.o
+.PHONY : sylar/mutex.o
 
 # target to build an object file
-jujimeizuo/mutex.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/mutex.cc.o
-.PHONY : jujimeizuo/mutex.cc.o
+sylar/mutex.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/mutex.cc.o
+.PHONY : sylar/mutex.cc.o
 
-jujimeizuo/mutex.i: jujimeizuo/mutex.cc.i
-.PHONY : jujimeizuo/mutex.i
+sylar/mutex.i: sylar/mutex.cc.i
+.PHONY : sylar/mutex.i
 
 # target to preprocess a source file
-jujimeizuo/mutex.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/mutex.cc.i
-.PHONY : jujimeizuo/mutex.cc.i
+sylar/mutex.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/mutex.cc.i
+.PHONY : sylar/mutex.cc.i
 
-jujimeizuo/mutex.s: jujimeizuo/mutex.cc.s
-.PHONY : jujimeizuo/mutex.s
+sylar/mutex.s: sylar/mutex.cc.s
+.PHONY : sylar/mutex.s
 
 # target to generate assembly for a file
-jujimeizuo/mutex.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/mutex.cc.s
-.PHONY : jujimeizuo/mutex.cc.s
+sylar/mutex.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/mutex.cc.s
+.PHONY : sylar/mutex.cc.s
 
-jujimeizuo/scheduler.o: jujimeizuo/scheduler.cc.o
-.PHONY : jujimeizuo/scheduler.o
+sylar/scheduler.o: sylar/scheduler.cc.o
+.PHONY : sylar/scheduler.o
 
 # target to build an object file
-jujimeizuo/scheduler.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/scheduler.cc.o
-.PHONY : jujimeizuo/scheduler.cc.o
+sylar/scheduler.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/scheduler.cc.o
+.PHONY : sylar/scheduler.cc.o
 
-jujimeizuo/scheduler.i: jujimeizuo/scheduler.cc.i
-.PHONY : jujimeizuo/scheduler.i
+sylar/scheduler.i: sylar/scheduler.cc.i
+.PHONY : sylar/scheduler.i
 
 # target to preprocess a source file
-jujimeizuo/scheduler.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/scheduler.cc.i
-.PHONY : jujimeizuo/scheduler.cc.i
+sylar/scheduler.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/scheduler.cc.i
+.PHONY : sylar/scheduler.cc.i
 
-jujimeizuo/scheduler.s: jujimeizuo/scheduler.cc.s
-.PHONY : jujimeizuo/scheduler.s
+sylar/scheduler.s: sylar/scheduler.cc.s
+.PHONY : sylar/scheduler.s
 
 # target to generate assembly for a file
-jujimeizuo/scheduler.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/scheduler.cc.s
-.PHONY : jujimeizuo/scheduler.cc.s
+sylar/scheduler.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/scheduler.cc.s
+.PHONY : sylar/scheduler.cc.s
 
-jujimeizuo/socket.o: jujimeizuo/socket.cc.o
-.PHONY : jujimeizuo/socket.o
+sylar/socket.o: sylar/socket.cc.o
+.PHONY : sylar/socket.o
 
 # target to build an object file
-jujimeizuo/socket.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/socket.cc.o
-.PHONY : jujimeizuo/socket.cc.o
+sylar/socket.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/socket.cc.o
+.PHONY : sylar/socket.cc.o
 
-jujimeizuo/socket.i: jujimeizuo/socket.cc.i
-.PHONY : jujimeizuo/socket.i
+sylar/socket.i: sylar/socket.cc.i
+.PHONY : sylar/socket.i
 
 # target to preprocess a source file
-jujimeizuo/socket.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/socket.cc.i
-.PHONY : jujimeizuo/socket.cc.i
+sylar/socket.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/socket.cc.i
+.PHONY : sylar/socket.cc.i
 
-jujimeizuo/socket.s: jujimeizuo/socket.cc.s
-.PHONY : jujimeizuo/socket.s
+sylar/socket.s: sylar/socket.cc.s
+.PHONY : sylar/socket.s
 
 # target to generate assembly for a file
-jujimeizuo/socket.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/socket.cc.s
-.PHONY : jujimeizuo/socket.cc.s
+sylar/socket.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/socket.cc.s
+.PHONY : sylar/socket.cc.s
 
-jujimeizuo/stream.o: jujimeizuo/stream.cc.o
-.PHONY : jujimeizuo/stream.o
+sylar/stream.o: sylar/stream.cc.o
+.PHONY : sylar/stream.o
 
 # target to build an object file
-jujimeizuo/stream.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/stream.cc.o
-.PHONY : jujimeizuo/stream.cc.o
+sylar/stream.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/stream.cc.o
+.PHONY : sylar/stream.cc.o
 
-jujimeizuo/stream.i: jujimeizuo/stream.cc.i
-.PHONY : jujimeizuo/stream.i
+sylar/stream.i: sylar/stream.cc.i
+.PHONY : sylar/stream.i
 
 # target to preprocess a source file
-jujimeizuo/stream.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/stream.cc.i
-.PHONY : jujimeizuo/stream.cc.i
+sylar/stream.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/stream.cc.i
+.PHONY : sylar/stream.cc.i
 
-jujimeizuo/stream.s: jujimeizuo/stream.cc.s
-.PHONY : jujimeizuo/stream.s
+sylar/stream.s: sylar/stream.cc.s
+.PHONY : sylar/stream.s
 
 # target to generate assembly for a file
-jujimeizuo/stream.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/stream.cc.s
-.PHONY : jujimeizuo/stream.cc.s
+sylar/stream.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/stream.cc.s
+.PHONY : sylar/stream.cc.s
 
-jujimeizuo/streams/socket_stream.o: jujimeizuo/streams/socket_stream.cc.o
-.PHONY : jujimeizuo/streams/socket_stream.o
+sylar/streams/socket_stream.o: sylar/streams/socket_stream.cc.o
+.PHONY : sylar/streams/socket_stream.o
 
 # target to build an object file
-jujimeizuo/streams/socket_stream.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/streams/socket_stream.cc.o
-.PHONY : jujimeizuo/streams/socket_stream.cc.o
+sylar/streams/socket_stream.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.o
+.PHONY : sylar/streams/socket_stream.cc.o
 
-jujimeizuo/streams/socket_stream.i: jujimeizuo/streams/socket_stream.cc.i
-.PHONY : jujimeizuo/streams/socket_stream.i
+sylar/streams/socket_stream.i: sylar/streams/socket_stream.cc.i
+.PHONY : sylar/streams/socket_stream.i
 
 # target to preprocess a source file
-jujimeizuo/streams/socket_stream.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/streams/socket_stream.cc.i
-.PHONY : jujimeizuo/streams/socket_stream.cc.i
+sylar/streams/socket_stream.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.i
+.PHONY : sylar/streams/socket_stream.cc.i
 
-jujimeizuo/streams/socket_stream.s: jujimeizuo/streams/socket_stream.cc.s
-.PHONY : jujimeizuo/streams/socket_stream.s
+sylar/streams/socket_stream.s: sylar/streams/socket_stream.cc.s
+.PHONY : sylar/streams/socket_stream.s
 
 # target to generate assembly for a file
-jujimeizuo/streams/socket_stream.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/streams/socket_stream.cc.s
-.PHONY : jujimeizuo/streams/socket_stream.cc.s
+sylar/streams/socket_stream.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/streams/socket_stream.cc.s
+.PHONY : sylar/streams/socket_stream.cc.s
 
-jujimeizuo/tcp_server.o: jujimeizuo/tcp_server.cc.o
-.PHONY : jujimeizuo/tcp_server.o
+sylar/tcp_server.o: sylar/tcp_server.cc.o
+.PHONY : sylar/tcp_server.o
 
 # target to build an object file
-jujimeizuo/tcp_server.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/tcp_server.cc.o
-.PHONY : jujimeizuo/tcp_server.cc.o
+sylar/tcp_server.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/tcp_server.cc.o
+.PHONY : sylar/tcp_server.cc.o
 
-jujimeizuo/tcp_server.i: jujimeizuo/tcp_server.cc.i
-.PHONY : jujimeizuo/tcp_server.i
+sylar/tcp_server.i: sylar/tcp_server.cc.i
+.PHONY : sylar/tcp_server.i
 
 # target to preprocess a source file
-jujimeizuo/tcp_server.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/tcp_server.cc.i
-.PHONY : jujimeizuo/tcp_server.cc.i
+sylar/tcp_server.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/tcp_server.cc.i
+.PHONY : sylar/tcp_server.cc.i
 
-jujimeizuo/tcp_server.s: jujimeizuo/tcp_server.cc.s
-.PHONY : jujimeizuo/tcp_server.s
+sylar/tcp_server.s: sylar/tcp_server.cc.s
+.PHONY : sylar/tcp_server.s
 
 # target to generate assembly for a file
-jujimeizuo/tcp_server.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/tcp_server.cc.s
-.PHONY : jujimeizuo/tcp_server.cc.s
+sylar/tcp_server.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/tcp_server.cc.s
+.PHONY : sylar/tcp_server.cc.s
 
-jujimeizuo/thread.o: jujimeizuo/thread.cc.o
-.PHONY : jujimeizuo/thread.o
+sylar/thread.o: sylar/thread.cc.o
+.PHONY : sylar/thread.o
 
 # target to build an object file
-jujimeizuo/thread.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/thread.cc.o
-.PHONY : jujimeizuo/thread.cc.o
+sylar/thread.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/thread.cc.o
+.PHONY : sylar/thread.cc.o
 
-jujimeizuo/thread.i: jujimeizuo/thread.cc.i
-.PHONY : jujimeizuo/thread.i
+sylar/thread.i: sylar/thread.cc.i
+.PHONY : sylar/thread.i
 
 # target to preprocess a source file
-jujimeizuo/thread.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/thread.cc.i
-.PHONY : jujimeizuo/thread.cc.i
+sylar/thread.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/thread.cc.i
+.PHONY : sylar/thread.cc.i
 
-jujimeizuo/thread.s: jujimeizuo/thread.cc.s
-.PHONY : jujimeizuo/thread.s
+sylar/thread.s: sylar/thread.cc.s
+.PHONY : sylar/thread.s
 
 # target to generate assembly for a file
-jujimeizuo/thread.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/thread.cc.s
-.PHONY : jujimeizuo/thread.cc.s
+sylar/thread.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/thread.cc.s
+.PHONY : sylar/thread.cc.s
 
-jujimeizuo/timer.o: jujimeizuo/timer.cc.o
-.PHONY : jujimeizuo/timer.o
+sylar/timer.o: sylar/timer.cc.o
+.PHONY : sylar/timer.o
 
 # target to build an object file
-jujimeizuo/timer.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/timer.cc.o
-.PHONY : jujimeizuo/timer.cc.o
+sylar/timer.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/timer.cc.o
+.PHONY : sylar/timer.cc.o
 
-jujimeizuo/timer.i: jujimeizuo/timer.cc.i
-.PHONY : jujimeizuo/timer.i
+sylar/timer.i: sylar/timer.cc.i
+.PHONY : sylar/timer.i
 
 # target to preprocess a source file
-jujimeizuo/timer.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/timer.cc.i
-.PHONY : jujimeizuo/timer.cc.i
+sylar/timer.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/timer.cc.i
+.PHONY : sylar/timer.cc.i
 
-jujimeizuo/timer.s: jujimeizuo/timer.cc.s
-.PHONY : jujimeizuo/timer.s
+sylar/timer.s: sylar/timer.cc.s
+.PHONY : sylar/timer.s
 
 # target to generate assembly for a file
-jujimeizuo/timer.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/timer.cc.s
-.PHONY : jujimeizuo/timer.cc.s
+sylar/timer.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/timer.cc.s
+.PHONY : sylar/timer.cc.s
 
-jujimeizuo/uri.o: jujimeizuo/uri.cc.o
-.PHONY : jujimeizuo/uri.o
+sylar/uri.o: sylar/uri.cc.o
+.PHONY : sylar/uri.o
 
 # target to build an object file
-jujimeizuo/uri.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/uri.cc.o
-.PHONY : jujimeizuo/uri.cc.o
+sylar/uri.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/uri.cc.o
+.PHONY : sylar/uri.cc.o
 
-jujimeizuo/uri.i: jujimeizuo/uri.cc.i
-.PHONY : jujimeizuo/uri.i
+sylar/uri.i: sylar/uri.cc.i
+.PHONY : sylar/uri.i
 
 # target to preprocess a source file
-jujimeizuo/uri.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/uri.cc.i
-.PHONY : jujimeizuo/uri.cc.i
+sylar/uri.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/uri.cc.i
+.PHONY : sylar/uri.cc.i
 
-jujimeizuo/uri.s: jujimeizuo/uri.cc.s
-.PHONY : jujimeizuo/uri.s
+sylar/uri.s: sylar/uri.cc.s
+.PHONY : sylar/uri.s
 
 # target to generate assembly for a file
-jujimeizuo/uri.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/uri.cc.s
-.PHONY : jujimeizuo/uri.cc.s
+sylar/uri.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/uri.cc.s
+.PHONY : sylar/uri.cc.s
 
-jujimeizuo/util.o: jujimeizuo/util.cpp.o
-.PHONY : jujimeizuo/util.o
+sylar/util.o: sylar/util.cpp.o
+.PHONY : sylar/util.o
 
 # target to build an object file
-jujimeizuo/util.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/util.cpp.o
-.PHONY : jujimeizuo/util.cpp.o
+sylar/util.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/util.cpp.o
+.PHONY : sylar/util.cpp.o
 
-jujimeizuo/util.i: jujimeizuo/util.cpp.i
-.PHONY : jujimeizuo/util.i
+sylar/util.i: sylar/util.cpp.i
+.PHONY : sylar/util.i
 
 # target to preprocess a source file
-jujimeizuo/util.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/util.cpp.i
-.PHONY : jujimeizuo/util.cpp.i
+sylar/util.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/util.cpp.i
+.PHONY : sylar/util.cpp.i
 
-jujimeizuo/util.s: jujimeizuo/util.cpp.s
-.PHONY : jujimeizuo/util.s
+sylar/util.s: sylar/util.cpp.s
+.PHONY : sylar/util.s
 
 # target to generate assembly for a file
-jujimeizuo/util.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/jujimeizuo.dir/build.make CMakeFiles/jujimeizuo.dir/jujimeizuo/util.cpp.s
-.PHONY : jujimeizuo/util.cpp.s
+sylar/util.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sylar.dir/build.make CMakeFiles/sylar.dir/sylar/util.cpp.s
+.PHONY : sylar/util.cpp.s
 
 tests/test_address.o: tests/test_address.cc.o
 .PHONY : tests/test_address.o
@@ -1602,7 +1602,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... jujimeizuo"
+	@echo "... sylar"
 	@echo "... test_address"
 	@echo "... test_bytearray"
 	@echo "... test_config"
@@ -1625,87 +1625,87 @@ help:
 	@echo "... test_timer"
 	@echo "... test_uri"
 	@echo "... test_util"
-	@echo "... jujimeizuo/address.o"
-	@echo "... jujimeizuo/address.i"
-	@echo "... jujimeizuo/address.s"
-	@echo "... jujimeizuo/bytearray.o"
-	@echo "... jujimeizuo/bytearray.i"
-	@echo "... jujimeizuo/bytearray.s"
-	@echo "... jujimeizuo/config.o"
-	@echo "... jujimeizuo/config.i"
-	@echo "... jujimeizuo/config.s"
-	@echo "... jujimeizuo/daemon.o"
-	@echo "... jujimeizuo/daemon.i"
-	@echo "... jujimeizuo/daemon.s"
-	@echo "... jujimeizuo/env.o"
-	@echo "... jujimeizuo/env.i"
-	@echo "... jujimeizuo/env.s"
-	@echo "... jujimeizuo/fd_manager.o"
-	@echo "... jujimeizuo/fd_manager.i"
-	@echo "... jujimeizuo/fd_manager.s"
-	@echo "... jujimeizuo/fiber.o"
-	@echo "... jujimeizuo/fiber.i"
-	@echo "... jujimeizuo/fiber.s"
-	@echo "... jujimeizuo/hook.o"
-	@echo "... jujimeizuo/hook.i"
-	@echo "... jujimeizuo/hook.s"
-	@echo "... jujimeizuo/http/http-parser/http_parser.o"
-	@echo "... jujimeizuo/http/http-parser/http_parser.i"
-	@echo "... jujimeizuo/http/http-parser/http_parser.s"
-	@echo "... jujimeizuo/http/http.o"
-	@echo "... jujimeizuo/http/http.i"
-	@echo "... jujimeizuo/http/http.s"
-	@echo "... jujimeizuo/http/http_connection.o"
-	@echo "... jujimeizuo/http/http_connection.i"
-	@echo "... jujimeizuo/http/http_connection.s"
-	@echo "... jujimeizuo/http/http_parser.o"
-	@echo "... jujimeizuo/http/http_parser.i"
-	@echo "... jujimeizuo/http/http_parser.s"
-	@echo "... jujimeizuo/http/http_server.o"
-	@echo "... jujimeizuo/http/http_server.i"
-	@echo "... jujimeizuo/http/http_server.s"
-	@echo "... jujimeizuo/http/http_session.o"
-	@echo "... jujimeizuo/http/http_session.i"
-	@echo "... jujimeizuo/http/http_session.s"
-	@echo "... jujimeizuo/http/servlet.o"
-	@echo "... jujimeizuo/http/servlet.i"
-	@echo "... jujimeizuo/http/servlet.s"
-	@echo "... jujimeizuo/iomanager.o"
-	@echo "... jujimeizuo/iomanager.i"
-	@echo "... jujimeizuo/iomanager.s"
-	@echo "... jujimeizuo/log.o"
-	@echo "... jujimeizuo/log.i"
-	@echo "... jujimeizuo/log.s"
-	@echo "... jujimeizuo/mutex.o"
-	@echo "... jujimeizuo/mutex.i"
-	@echo "... jujimeizuo/mutex.s"
-	@echo "... jujimeizuo/scheduler.o"
-	@echo "... jujimeizuo/scheduler.i"
-	@echo "... jujimeizuo/scheduler.s"
-	@echo "... jujimeizuo/socket.o"
-	@echo "... jujimeizuo/socket.i"
-	@echo "... jujimeizuo/socket.s"
-	@echo "... jujimeizuo/stream.o"
-	@echo "... jujimeizuo/stream.i"
-	@echo "... jujimeizuo/stream.s"
-	@echo "... jujimeizuo/streams/socket_stream.o"
-	@echo "... jujimeizuo/streams/socket_stream.i"
-	@echo "... jujimeizuo/streams/socket_stream.s"
-	@echo "... jujimeizuo/tcp_server.o"
-	@echo "... jujimeizuo/tcp_server.i"
-	@echo "... jujimeizuo/tcp_server.s"
-	@echo "... jujimeizuo/thread.o"
-	@echo "... jujimeizuo/thread.i"
-	@echo "... jujimeizuo/thread.s"
-	@echo "... jujimeizuo/timer.o"
-	@echo "... jujimeizuo/timer.i"
-	@echo "... jujimeizuo/timer.s"
-	@echo "... jujimeizuo/uri.o"
-	@echo "... jujimeizuo/uri.i"
-	@echo "... jujimeizuo/uri.s"
-	@echo "... jujimeizuo/util.o"
-	@echo "... jujimeizuo/util.i"
-	@echo "... jujimeizuo/util.s"
+	@echo "... sylar/address.o"
+	@echo "... sylar/address.i"
+	@echo "... sylar/address.s"
+	@echo "... sylar/bytearray.o"
+	@echo "... sylar/bytearray.i"
+	@echo "... sylar/bytearray.s"
+	@echo "... sylar/config.o"
+	@echo "... sylar/config.i"
+	@echo "... sylar/config.s"
+	@echo "... sylar/daemon.o"
+	@echo "... sylar/daemon.i"
+	@echo "... sylar/daemon.s"
+	@echo "... sylar/env.o"
+	@echo "... sylar/env.i"
+	@echo "... sylar/env.s"
+	@echo "... sylar/fd_manager.o"
+	@echo "... sylar/fd_manager.i"
+	@echo "... sylar/fd_manager.s"
+	@echo "... sylar/fiber.o"
+	@echo "... sylar/fiber.i"
+	@echo "... sylar/fiber.s"
+	@echo "... sylar/hook.o"
+	@echo "... sylar/hook.i"
+	@echo "... sylar/hook.s"
+	@echo "... sylar/http/http-parser/http_parser.o"
+	@echo "... sylar/http/http-parser/http_parser.i"
+	@echo "... sylar/http/http-parser/http_parser.s"
+	@echo "... sylar/http/http.o"
+	@echo "... sylar/http/http.i"
+	@echo "... sylar/http/http.s"
+	@echo "... sylar/http/http_connection.o"
+	@echo "... sylar/http/http_connection.i"
+	@echo "... sylar/http/http_connection.s"
+	@echo "... sylar/http/http_parser.o"
+	@echo "... sylar/http/http_parser.i"
+	@echo "... sylar/http/http_parser.s"
+	@echo "... sylar/http/http_server.o"
+	@echo "... sylar/http/http_server.i"
+	@echo "... sylar/http/http_server.s"
+	@echo "... sylar/http/http_session.o"
+	@echo "... sylar/http/http_session.i"
+	@echo "... sylar/http/http_session.s"
+	@echo "... sylar/http/servlet.o"
+	@echo "... sylar/http/servlet.i"
+	@echo "... sylar/http/servlet.s"
+	@echo "... sylar/iomanager.o"
+	@echo "... sylar/iomanager.i"
+	@echo "... sylar/iomanager.s"
+	@echo "... sylar/log.o"
+	@echo "... sylar/log.i"
+	@echo "... sylar/log.s"
+	@echo "... sylar/mutex.o"
+	@echo "... sylar/mutex.i"
+	@echo "... sylar/mutex.s"
+	@echo "... sylar/scheduler.o"
+	@echo "... sylar/scheduler.i"
+	@echo "... sylar/scheduler.s"
+	@echo "... sylar/socket.o"
+	@echo "... sylar/socket.i"
+	@echo "... sylar/socket.s"
+	@echo "... sylar/stream.o"
+	@echo "... sylar/stream.i"
+	@echo "... sylar/stream.s"
+	@echo "... sylar/streams/socket_stream.o"
+	@echo "... sylar/streams/socket_stream.i"
+	@echo "... sylar/streams/socket_stream.s"
+	@echo "... sylar/tcp_server.o"
+	@echo "... sylar/tcp_server.i"
+	@echo "... sylar/tcp_server.s"
+	@echo "... sylar/thread.o"
+	@echo "... sylar/thread.i"
+	@echo "... sylar/thread.s"
+	@echo "... sylar/timer.o"
+	@echo "... sylar/timer.i"
+	@echo "... sylar/timer.s"
+	@echo "... sylar/uri.o"
+	@echo "... sylar/uri.i"
+	@echo "... sylar/uri.s"
+	@echo "... sylar/util.o"
+	@echo "... sylar/util.i"
+	@echo "... sylar/util.s"
 	@echo "... tests/test_address.o"
 	@echo "... tests/test_address.i"
 	@echo "... tests/test_address.s"
