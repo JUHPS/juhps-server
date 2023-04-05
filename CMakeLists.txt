@@ -86,7 +86,11 @@ set(LIBS
     ${ZLIB_LIBRARIES}
     ${OPENSSL_LIBRARIES}
     ${PROTOBUF_LIBRARIES}
+    event
+    hiredis_vip
+    mysqlclient_r
     zookeeper_mt
+    sqlite3
     )
 
 
