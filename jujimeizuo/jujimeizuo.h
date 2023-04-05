@@ -20,10 +20,13 @@
 #include "socket.h"
 #include "bytearray.h"
 #include "tcp_server.h"
+#include "uri.h"
 #include "http/http.h"
-#include "jujimeizuo/http/http_parser.h"
-#include "jujimeizuo/http/http_session.h"
-#include "jujimeizuo/http/servlet.h"
-#include "jujimeizuo/http/http_server.h"
+#include "http/http_parser.h"
+#include "http/http_session.h"
+#include "http/servlet.h"
+#include "http/http_server.h"
+#include "http/http_connection.h"
+#include "daemon.h"
 
 #endif

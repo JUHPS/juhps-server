@@ -1,11 +1,3 @@
-/**
- * @file socket_stream.h
- * @brief Socket流式接口封装
- * @author jujimeizuo.yin
- * @email 564628276@qq.com
- * @date 2019-06-06
- * @copyright Copyright (c) 2019年 jujimeizuo.yin All rights reserved (www.jujimeizuo.top)
- */
 #ifndef __JUJIMEIZUO_SOCKET_STREAM_H__
 #define __JUJIMEIZUO_SOCKET_STREAM_H__
 

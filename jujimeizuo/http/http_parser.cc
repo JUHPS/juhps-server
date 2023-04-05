@@ -1,9 +1,3 @@
-/**
- * @file http_parser.cc
- * @brief HTTP协议解析实现
- * @version 0.1
- * @date 2021-09-25
- */
 #include "http_parser.h"
 #include "../config.h"
 #include "../log.h"

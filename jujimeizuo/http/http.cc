@@ -1,9 +1,3 @@
-/**
- * @file http.cc
- * @brief HTTP相关方法实现
- * @version 0.1
- * @date 2021-09-24
- */
 #include "http.h"
 #include "jujimeizuo/util.h"
 

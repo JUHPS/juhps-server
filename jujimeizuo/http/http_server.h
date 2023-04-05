@@ -1,12 +1,3 @@
-/**
- * @file http_server.h
- * @brief HTTP服务器封装
- * @author jujimeizuo.yin
- * @email 564628276@qq.com
- * @date 2019-06-09
- * @copyright Copyright (c) 2019年 jujimeizuo.yin All rights reserved (www.jujimeizuo.top)
- */
-
 #ifndef __JUJIMEIZUO_HTTP_HTTP_SERVER_H__
 #define __JUJIMEIZUO_HTTP_HTTP_SERVER_H__
 

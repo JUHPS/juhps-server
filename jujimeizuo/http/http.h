@@ -1,9 +1,3 @@
-/**
- * @file http.h
- * @brief HTTP定义结构体封装
- * @version 0.1
- * @date 2021-09-24
- */
 #ifndef __JUJIMEIZUO_HTTP_HTTP_H__
 #define __JUJIMEIZUO_HTTP_HTTP_H__
 

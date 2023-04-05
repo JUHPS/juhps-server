@@ -1,9 +1,3 @@
-/**
- * @file http_parser.h
- * @brief HTTP协议解析封装
- * @version 0.1
- * @date 2021-09-25
- */
 #ifndef __JUJIMEIZUO_HTTP_PARSER_H__
 #define __JUJIMEIZUO_HTTP_PARSER_H__
 

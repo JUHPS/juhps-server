@@ -1,11 +1,3 @@
-/**
- * @file servlet.h
- * @brief Servlet封装
- * @author jujimeizuo.yin
- * @email 564628276@qq.com
- * @date 2019-06-08
- * @copyright Copyright (c) 2019年 jujimeizuo.yin All rights reserved (www.jujimeizuo.top)
- */
 #ifndef __JUJIMEIZUO_HTTP_SERVLET_H__
 #define __JUJIMEIZUO_HTTP_SERVLET_H__
 
