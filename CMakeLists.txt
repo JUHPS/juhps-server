@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(WebServer)
+project(JUHPS)
 
 include (cmake/utils.cmake)
 
@@ -20,8 +20,8 @@ if(Boost_FOUND)
 endif()
 
 set(LIB_SRC
-    src/log.cpp
-    src/util.cpp
+    src/log.cc
+    src/util.cc
     src/mutex.cc
     src/env.cc
     src/config.cc
