@@ -1,26 +1,5 @@
-# jujimeizuo-from-scratch
+# JUHPS-server
 
-从零开始重写[jujimeizuo C++高性能分布式服务器框架](https://github.com/jujimeizuo-yin/jujimeizuo)。
-
-在线文档：[从零开始重写jujimeizuo C++高性能分布式服务器框架](https://www.midlane.top/wiki/pages/viewpage.action?pageId=10060952)。
-
-## 当前进度
-
-| 日期       | 进度       |
-| ---------- | ---------- |
-| 2021.06.07 | 项目初始化 |
-| 2021.06.10 | 实现日志模块 |
-| 2021.06.12 | Util与Macro模块 |
-| 2021.06.13 | 环境变量模块 |
-| 2021.06.14 | 配置模块 |
-| 2021.06.15 | 线程模块，协程模块，协程调度模块 |
-| 2021.06.18 | IO协程调度模块 |
-| 2021.06.19 | 定时器 |
-| 2021.06.21 | Hook模块 |
-| 2021.09.18 | Address类，Socket类，ByteArray类，TcpServer类 |
-| 2021.09.25 | HttpRequest类，HttpResponse类，HttpRequestParser类，HttpResponseParser类 |
-| 2021.09.28 | 实现HttpServer |
-| 2021.12.09 | HttpConnection类，HttpConnectionPool类，守护进程 |
 
 ## 模块概述
 
@@ -174,7 +153,7 @@ hook实际就是把系统提供的api再进行一层封装，以便于在执行�
 
 hook的重点是在替换api的底层实现的同时完全模拟其原本的行为，因为调用方是不知道hook的细节的，在调用被hook的api时，如果其行为与原本的行为不一致，就会给调用方造成困惑。比如，所有的socket fd在进行io调度时都会被设置成NONBLOCK模式，如果用户未显式地对fd设置NONBLOCK，那就要处理好fcntl，不要对用户暴露fd已经是NONBLOCK的事实，这点也说明，除了io相关的函数要进行hook外，对fcntl, setsockopt之类的功能函数也要进行hook，才能保证api的一致性。
 
-jujimeizuo对以下函数进行了hook，并且只对socket fd进行了hook，如果操作的不是socket fd，那会直接调用系统原本的api，而不是hook之后的api：  
+对以下函数进行了hook，并且只对socket fd进行了hook，如果操作的不是socket fd，那会直接调用系统原本的api，而不是hook之后的api：  
 
 ```cpp
 sleep
