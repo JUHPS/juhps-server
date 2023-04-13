@@ -140,4 +140,12 @@ std::string Env::getConfigPath() {
     return getAbsolutePath(get("c", "conf"));
 }
 
+std::string Env::getStaticPath() {
+    return getAbsolutePath(get("s", "static"));
+}
+
+std::string Env::getPort() {
+    return get("p");
+}
+
 } // namespace jujimeizuo

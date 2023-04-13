@@ -96,6 +96,16 @@ public:
      */
     std::string getConfigPath();
 
+    /**
+     * @brief 获取配置文件路径，配置文件路径通过命令行-s选项指定，默认为当前目录下的static文件夹
+     */
+    std::string getStaticPath();
+
+    /**
+     * @brief 获取默认端口
+     */
+    std::string getPort();
+
 private:
     /// Mutex
     RWMutexType m_mutex;
