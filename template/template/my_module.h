@@ -1,18 +1,15 @@
-#ifndef __SRC_MY_MODULE_H__
-#define __SRC_MY_MODULE_H__
-
-#include "src/jujimeizuo.h"
+#include "src/module.h"
 
 namespace name_space {
 
-class MyModule {
+class MyModule : public jujimeizuo::Module {
 public:
     typedef std::shared_ptr<MyModule> ptr;
-    MyModule(int argc, char** argv);
-
-    bool run();
+    MyModule();
+    bool onLoad() override;
+    bool onUnload() override;
+    bool onServerReady() override;
+    bool onServerUp() override;
 };
 
 }
-
-#endif

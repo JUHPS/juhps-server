@@ -1,24 +1,48 @@
 #include "my_module.h"
-#include "src/config.h"
-#include "src/log.h"
+#include "config.h"
+#include "log.h"
 
 namespace name_space {
 
-jujimeizuo::IOManager::ptr worker;
-
 static jujimeizuo::Logger::ptr g_logger = JUJIMEIZUO_LOG_ROOT();
 
-MyModule::MyModule(int argc, char** argv) {
-    jujimeizuo::EnvMgr::GetInstance()->init(argc, argv);
-    jujimeizuo::Config::LoadFromConfDir(jujimeizuo::EnvMgr::GetInstance()->getConfigPath());
-    jujimeizuo::Config::LoadFromStaticDir(jujimeizuo::EnvMgr::GetInstance()->getStaticPath());
-    worker.reset(new jujimeizuo::IOManager(3, false, "default"));
-
-    worker->schedule(run);
+MyModule::MyModule()
+    :jujimeizuo::Module("project_name", "1.0", "") {
 }
 
-bool MyModule::run() {
+bool MyModule::onLoad() {
+    JUJIMEIZUO_LOG_INFO(g_logger) << "onLoad";
+    return true;
+}
 
+bool MyModule::onUnload() {
+    JUJIMEIZUO_LOG_INFO(g_logger) << "onUnload";
+    return true;
+}
+
+bool MyModule::onServerReady() {
+    JUJIMEIZUO_LOG_INFO(g_logger) << "onServerReady";
+    return true;
+}
+
+bool MyModule::onServerUp() {
+    JUJIMEIZUO_LOG_INFO(g_logger) << "onServerUp";
+    return true;
+}
+
+}
+
+extern "C" {
+
+jujimeizuo::Module* CreateModule() {
+    jujimeizuo::Module* module = new name_space::MyModule;
+    JUJIMEIZUO_LOG_INFO(name_space::g_logger) << "CreateModule " << module;
+    return module;
+}
+
+void DestoryModule(jujimeizuo::Module* module) {
+    JUJIMEIZUO_LOG_INFO(name_space::g_logger) << "CreateModule " << module;
+    delete module;
 }
 
 }
