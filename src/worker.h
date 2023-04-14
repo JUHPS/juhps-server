@@ -26,7 +26,7 @@ private:
     uint32_t m_batchSize;
     bool m_finish;
     Scheduler* m_scheduler;
-    FiberSemaphore m_sem;
+    Semaphore m_sem;
 };
 
 class WorkerManager {
@@ -42,8 +42,8 @@ public:
         if(s) {
             s->schedule(fc, thread);
         } else {
-            static jujimeizuo::Logger::ptr s_logger = SYLAR_LOG_NAME("system");
-            SYLAR_LOG_ERROR(s_logger) << "schedule name=" << name
+            static jujimeizuo::Logger::ptr s_logger = JUJIMEIZUO_LOG_NAME("system");
+            JUJIMEIZUO_LOG_ERROR(s_logger) << "schedule name=" << name
                 << " not exists";
         }
     }
@@ -54,8 +54,8 @@ public:
         if(s) {
             s->schedule(begin, end);
         } else {
-            static jujimeizuo::Logger::ptr s_logger = SYLAR_LOG_NAME("system");
-            SYLAR_LOG_ERROR(s_logger) << "schedule name=" << name
+            static jujimeizuo::Logger::ptr s_logger = JUJIMEIZUO_LOG_NAME("system");
+            JUJIMEIZUO_LOG_ERROR(s_logger) << "schedule name=" << name
                 << " not exists";
         }
     }

@@ -73,6 +73,22 @@ Fiber::ptr Fiber::GetThis() {
     return t_fiber->shared_from_this();
 }
 
+//协程切换到后台，并且设置为Ready状态
+void Fiber::YieldToReady() {
+    Fiber::ptr cur = GetThis();
+    // JUJIMEIZUO_ASSERT(cur->m_state == EXEC);
+    cur->m_state = READY;
+    cur->resume();
+}
+
+//协程切换到后台，并且设置为Hold状态
+void Fiber::YieldToHold() {
+    Fiber::ptr cur = GetThis();
+    // JUJIMEIZUO_ASSERT(cur->m_state == EXEC);
+    //cur->m_state = HOLD;
+    cur->yield();
+}
+
 /**
  * 带参数的构造函数用于创建其他协程，需要分配栈
  */

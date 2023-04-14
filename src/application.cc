@@ -138,12 +138,127 @@ int Application::main(int argc, char** argv) {
     m_mainIOManager.reset(new jujimeizuo::IOManager(1, true, "main"));
     m_mainIOManager->schedule(std::bind(&Application::run_fiber, this));
     m_mainIOManager->addTimer(2000, [](){
-            //JUJIMEIZUO_LOG_INFO(g_logger) << "hello";
+            //JUJIMEIZUO_LOG_INFO(g_logger) << "hello";x
     }, true);
     m_mainIOManager->stop();
     return 0;
 }
 
+int Application::run_fiber() {
+    std::vector<Module::ptr> modules;
+    ModuleMgr::GetInstance()->listAll(modules);
+    bool has_error = false;
+    for(auto& i : modules) {
+        if(!i->onLoad()) {
+            JUJIMEIZUO_LOG_ERROR(g_logger) << "module name="
+                << i->getName() << " version=" << i->getVersion()
+                << " filename=" << i->getFilename();
+            has_error = true;
+        }
+    }
+    if(has_error) {
+        _exit(0);
+    }
+
+    jujimeizuo::WorkerMgr::GetInstance()->init();
+
+    auto http_confs = g_servers_conf->getValue();
+    std::vector<TcpServer::ptr> svrs;
+    for(auto& i : http_confs) {
+        JUJIMEIZUO_LOG_DEBUG(g_logger) << std::endl << LexicalCast<TcpServerConf, std::string>()(i);
+
+        std::vector<Address::ptr> address;
+        for(auto& a : i.address) {
+            size_t pos = a.find(":");
+            if(pos == std::string::npos) {
+                //JUJIMEIZUO_LOG_ERROR(g_logger) << "invalid address: " << a;
+                address.push_back(UnixAddress::ptr(new UnixAddress(a)));
+                continue;
+            }
+            int32_t port = atoi(a.substr(pos + 1).c_str());
+            //127.0.0.1
+            auto addr = jujimeizuo::IPAddress::Create(a.substr(0, pos).c_str(), port);
+            if(addr) {
+                address.push_back(addr);
+                continue;
+            }
+            std::vector<std::pair<Address::ptr, uint32_t> > result;
+            if(jujimeizuo::Address::GetInterfaceAddresses(result,
+                                        a.substr(0, pos))) {
+                for(auto& x : result) {
+                    auto ipaddr = std::dynamic_pointer_cast<IPAddress>(x.first);
+                    if(ipaddr) {
+                        ipaddr->setPort(atoi(a.substr(pos + 1).c_str()));
+                    }
+                    address.push_back(ipaddr);
+                }
+                continue;
+            }
+
+            auto aaddr = jujimeizuo::Address::LookupAny(a);
+            if(aaddr) {
+                address.push_back(aaddr);
+                continue;
+            }
+            JUJIMEIZUO_LOG_ERROR(g_logger) << "invalid address: " << a;
+            _exit(0);
+        }
+        IOManager* accept_worker = jujimeizuo::IOManager::GetThis();
+        IOManager* io_worker = jujimeizuo::IOManager::GetThis();
+        IOManager* process_worker = jujimeizuo::IOManager::GetThis();
+        if(!i.accept_worker.empty()) {
+            accept_worker = jujimeizuo::WorkerMgr::GetInstance()->getAsIOManager(i.accept_worker).get();
+            if(!accept_worker) {
+                JUJIMEIZUO_LOG_ERROR(g_logger) << "accept_worker: " << i.accept_worker
+                    << " not exists";
+                _exit(0);
+            }
+        }
+        if(!i.io_worker.empty()) {
+            io_worker = jujimeizuo::WorkerMgr::GetInstance()->getAsIOManager(i.io_worker).get();
+            if(!io_worker) {
+                JUJIMEIZUO_LOG_ERROR(g_logger) << "io_worker: " << i.io_worker
+                    << " not exists";
+                _exit(0);
+            }
+        }
+        if(!i.process_worker.empty()) {
+            process_worker = jujimeizuo::WorkerMgr::GetInstance()->getAsIOManager(i.process_worker).get();
+            if(!process_worker) {
+                JUJIMEIZUO_LOG_ERROR(g_logger) << "process_worker: " << i.process_worker
+                    << " not exists";
+                _exit(0);
+            }
+        }
+
+        TcpServer::ptr server;
+        if(i.type == "http") {
+            server.reset(new jujimeizuo::http::HttpServer(i.keepalive,
+                            process_worker, io_worker, accept_worker));
+        } else {
+            JUJIMEIZUO_LOG_ERROR(g_logger) << "invalid server type=" << i.type
+                << LexicalCast<TcpServerConf, std::string>()(i);
+            _exit(0);
+        }
+        //server->start();
+        m_servers[i.type].push_back(server);
+        svrs.push_back(server);
+    }
+
+    for(auto& i : modules) {
+        i->onServerReady();
+    }
+
+    for(auto& i : svrs) {
+        i->start();
+    }
+
+
+    for(auto& i : modules) {
+        i->onServerUp();
+    }
+    return 0;
+}
 
 
 bool Application::getServer(const std::string& type, std::vector<TcpServer::ptr>& svrs) {

@@ -20,6 +20,10 @@ if(Boost_FOUND)
 endif()
 
 set(LIB_SRC
+    src/application.cc
+    src/library.cc
+    src/worker.cc
+    src/module.cc
     src/log.cc
     src/util.cc
     src/mutex.cc
@@ -85,7 +89,7 @@ jujimeizuo_add_executable(test_daemon "tests/test_daemon.cc" src "${LIBS}")
 endif()
 
 jujimeizuo_add_executable(bin_server "src/main.cc" src "${LIBS}")
-set_target_properties(bin_server PROPERTIES OUTPUT_NAME "jujimeizuo")
+set_target_properties(bin_server PROPERTIES OUTPUT_NAME "juhps-server")
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

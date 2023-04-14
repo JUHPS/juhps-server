@@ -11,7 +11,7 @@ namespace jujimeizuo {
 static jujimeizuo::ConfigVar<std::string>::ptr g_module_path
     = Config::Lookup("module.path", std::string("module"), "module path");
 
-static jujimeizuo::Logger::ptr g_logger = SYLAR_LOG_NAME("system");
+static jujimeizuo::Logger::ptr g_logger = JUJIMEIZUO_LOG_NAME("system");
 
 Module::Module(const std::string& name
             ,const std::string& version

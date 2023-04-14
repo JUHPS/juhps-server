@@ -96,6 +96,18 @@ public:
     static Fiber::ptr GetThis();
 
     /**
+     * @brief 将当前协程切换到后台,并设置为READY状态
+     * @post getState() = READY
+     */
+    static void YieldToReady();
+
+    /**
+     * @brief 将当前协程切换到后台,并设置为HOLD状态
+     * @post getState() = HOLD
+     */
+    static void YieldToHold();
+
+    /**
      * @brief 获取总协程数
      */
     static uint64_t TotalFibers();
