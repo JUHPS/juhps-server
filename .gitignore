@@ -1,7 +1,6 @@
 .VSCodeCounter
 .vscode
 build
-tests
 
 # Prerequisites
 *.d
