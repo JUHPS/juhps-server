@@ -1,6 +1,6 @@
 #include "my_module.h"
-#include "config.h"
-#include "log.h"
+#include "src/config.h"
+#include "src/log.h"
 
 namespace name_space {
 
