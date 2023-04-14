@@ -20,9 +20,9 @@ namespace=$2
 command_error_exit mkdir $project_name
 command_error_exit cd $project_name
 command_error_exit git clone https://github.com/JUHPS/juhps-server.git
-command_error_exit cp server/Makefile .
-command_error_exit cp -rf server/template/* .
-command_error_exit cp -rf server/template/* .
+command_error_exit cp juhps-server/Makefile .
+command_error_exit cp -rf juhps-server/template/* .
+command_error_exit cp -rf juhps-server/template/* .
 command_error_exit mv template ${namespace}
 command_error_exit sed -i "s/project_name/${project_name}/g" CMakeLists.txt
 command_error_exit sed -i "s/template/${namespace}/g" CMakeLists.txt
