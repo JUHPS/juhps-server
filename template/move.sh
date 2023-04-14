@@ -8,5 +8,5 @@ else
     unlink bin/module/libproject_name.so
 fi
 
-cp server/bin/src bin/project_name
+cp juhps-server/bin/juhps-server bin/project_name
 cp lib/libproject_name.so bin/module/

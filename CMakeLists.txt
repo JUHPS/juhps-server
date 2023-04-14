@@ -84,5 +84,8 @@ jujimeizuo_add_executable(test_http_connection "tests/test_http_connection.cc" s
 jujimeizuo_add_executable(test_daemon "tests/test_daemon.cc" src "${LIBS}")
 endif()
 
+jujimeizuo_add_executable(bin_server "src/main.cc" src "${LIBS}")
+set_target_properties(bin_server PROPERTIES OUTPUT_NAME "jujimeizuo")
+
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
