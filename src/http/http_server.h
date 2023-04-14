@@ -47,7 +47,28 @@ private:
     ServletDispatch::ptr m_dispatch;
 };
 
+class ServerManager {
+public:
+    typedef std::shared_ptr<ServerManager> ptr;
+
+    ServerManager();
+
+    HttpServer::ptr& getServer();
+
+    Address::ptr& getAddress();
+
+    ServletDispatch::ptr& getSd();
+
+private:
+    HttpServer::ptr m_server;
+    Address::ptr m_addr;
+    ServletDispatch::ptr m_sd;
+};
+
 }
+
+typedef jujimeizuo::Singleton<http::ServerManager> ServerMgr;
+
 }
 
 #endif

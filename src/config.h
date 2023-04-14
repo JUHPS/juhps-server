@@ -515,9 +515,20 @@ public:
     static void LoadFromYaml(const YAML::Node &root);
 
     /**
+     * @brief 静态文件进行servlet分发
+     */
+    static void LoadFromStatic(const std::vector<std::string>& files);
+
+    /**
      * @brief 加载path文件夹里面的配置文件
      */
     static void LoadFromConfDir(const std::string &path, bool force = false);
+
+    /**
+     * @brief 加载path文件夹里的静态文件
+     * 
+     */
+    static void LoadFromStaticDir(const std::string &path, bool force = false);
 
     /**
      * @brief 查找配置参数,返回配置参数的基类

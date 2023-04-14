@@ -1,15 +1,18 @@
-#include "src/module.h"
+#ifndef __SRC_MY_MODULE_H__
+#define __SRC_MY_MODULE_H__
+
+#include "src/jujimeizuo.h"
 
 namespace name_space {
 
-class MyModule : public sylar::Module {
+class MyModule {
 public:
     typedef std::shared_ptr<MyModule> ptr;
-    MyModule();
-    bool onLoad() override;
-    bool onUnload() override;
-    bool onServerReady() override;
-    bool onServerUp() override;
+    MyModule(int argc, char** argv);
+
+    bool run();
 };
 
 }
+
+#endif

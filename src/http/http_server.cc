@@ -1,5 +1,6 @@
 #include "http_server.h"
 #include "../log.h"
+#include "../env.h"
 //#include "servlets/config_servlet.h"
 //#include "servlets/status_servlet.h"
 
@@ -49,6 +50,29 @@ void HttpServer::handleClient(Socket::ptr client) {
         }
     } while(true);
     session->close();
+}
+
+ServerManager::ServerManager() {
+    m_server = jujimeizuo::http::HttpServer::ptr(new jujimeizuo::http::HttpServer(true));
+    std::string port = jujimeizuo::EnvMgr::GetInstance()->getPort();
+    std::string address = std::string("0.0.0.0:") + (port.empty() ? "8080" : port);
+    m_addr = jujimeizuo::Address::LookupAnyIPAddress(address);
+    while (!m_server->bind(m_addr)) {
+        sleep(2);
+    }
+    m_sd = m_server->getServletDispatch();
+}
+
+HttpServer::ptr& ServerManager::getServer() {
+    return m_server;
+}
+
+Address::ptr& ServerManager::getAddress() {
+    return m_addr;
+}
+
+ServletDispatch::ptr& ServerManager::getSd() {
+    return m_sd;
 }
 
 }

@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "http/http_server.h"
 
 namespace jujimeizuo {
 
@@ -93,6 +94,43 @@ void Config::LoadFromConfDir(const std::string &path, bool force) {
                                       << i << " failed";
         }
     }
+}
+
+void Config::LoadFromStatic(const std::vector<std::string> &files) {
+    for (auto &i : files) {
+        try {
+            std::string prefix = jujimeizuo::EnvMgr::GetInstance()->getStaticPath();
+            std::ifstream ifs(i);
+            std::stringstream ss;
+            ss << ifs.rdbuf();
+            std::string content(ss.str());
+            jujimeizuo::ServerMgr::GetInstance()->getSd()->addServlet(i.substr(i.find(prefix) + prefix.size()), [content](jujimeizuo::http::HttpRequest::ptr req, jujimeizuo::http::HttpResponse::ptr rsp, jujimeizuo::http::HttpSession::ptr session){
+                rsp->setBody(content);
+                return 0;
+            });
+            JUJIMEIZUO_LOG_INFO(g_logger) << "LoadStaticFile file="
+                                        << i << " ok";
+        } catch(...) {
+            JUJIMEIZUO_LOG_ERROR(g_logger) << "LoadStaticFile file="
+                                        << i << " failed";
+        }
+    }
+
+    jujimeizuo::ServerMgr::GetInstance()->getServer()->start();
+}
+
+void Config::LoadFromStaticDir(const std::string &path, bool force) {
+    jujimeizuo::IOManager iom(5, false, "default html");
+    // worker.reset(new jujimeizuo::IOManager(3, false, "Default"));
+    
+    std::string absoulte_path = jujimeizuo::EnvMgr::GetInstance()->getAbsolutePath(path);
+    std::vector<std::string> files;
+    jujimeizuo::FSUtil::ListAllFile(files, absoulte_path, "");
+
+    iom.schedule([files]() {
+        LoadFromStatic(files);
+    });
+
 }
 
 void Config::Visit(std::function<void(ConfigVarBase::ptr)> cb) {
