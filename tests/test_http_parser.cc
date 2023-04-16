@@ -7,7 +7,7 @@
 #include "src/jujimeizuo.h"
 
 const char test_request_data[] = "POST /login?aa=bb#sss HTTP/1.1\r\n"
-                                 "Host: www.jujimeizuo.top\r\n"
+                                 "Host: www.jujimeizuo.cn\r\n"
                                  "Content-Length: 10\r\n\r\n"
                                  "1234567890";
 

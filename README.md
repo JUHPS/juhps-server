@@ -86,7 +86,7 @@ tcp:
 
 `Thread`：线程类，构造函数传入线程入口函数和线程名称，线程入口函数类型为void()，如果带参数，则需要用std::bind进行绑定。线程类构造之后线程即开始运行，构造函数在线程真正开始运行之后返回。
 
-线程同步类（这部分被拆分到mutex.h)中：  
+线程同步类(这部分被拆分到mutex.h)中：  
 
 `Semaphore`: 计数信号量，基于sem_t实现  
 `Mutex`: 互斥锁，基于pthread_mutex_t实现  
@@ -131,7 +131,9 @@ jujimeizuo的定时器以gettimeofday()来获取绝对时间点并判断超时�
 
 hook系统底层和socket相关的API，socket io相关的API，以及sleep系列的API。hook的开启控制是线程粒度的。可以自由选择。通过hook模块，可以使一些不具异步功能的API，展现出异步的性能。如（mysql）
 
-hook实际就是把系统提供的api再进行一层封装，以便于在执行真正的系统调用之前进行一些操作。hook的目的是把socket io相关的api都转成异步，以便于提高性能。hook和io调度是密切相关的，如果不使用IO协程调度器，那hook没有任何意义。考虑IOManager要调度以下协程：  
+hook实际就是把系统提供的api再进行一层封装，以便于在执行真正的系统调用之前进行一些操作。hook的目的是把socket io相关的api都转成异步，以便于提高性能。hook和io调度是密切相关的，如果不使用IO协程调度器，那hook没有任何意义。
+
+<!-- 考虑IOManager要调度以下协程：  
 协程1：sleep(2) 睡眠两秒后返回  
 协程2：在scoket fd1上send 100k数据  
 协程3：在socket fd2上recv直到数据接收成功   
@@ -177,4 +179,28 @@ fcntl
 ioctl
 getsockopt
 setsockopt
-```
+``` -->
+
+### Address模块
+
+整个网络地址模块可以处理任何形式的地址，包括IPv4、IPv6、Unix和未知的Unknown地址，没有针对每种类型的地址都制定一套对应的API接口，而是拟定了一个通用的套接字地址结构sockaddr，用于表示任意类型的地址，所以的套接字API在传入地址参数时都只需要传入sockaddr类型，保证接口的通用性。还有一系列表示具体的网络地址的结构，这些具体的网络地址结构用于用户赋值，但在使用时，都要转化成sockaddr的形式。
+
+### Socket模块
+
+封装了Socket类，提供所有socket API功能，统一封装了地址类，将IPv4，IPv6，Unix地址统一起来。并且提供域名，IP解析功能。
+
+### ByteArray模块
+
+ByteArray二进制序列化模块，提供对二进制数据的常用操作。读写入基础类型int8_t,int16_t,int32_t,int64_t等，支持Varint,std::string的读写支持,支持字节序转化,支持序列化到文件，以及从文件反序列化等功能。
+
+### Stream模块
+
+封装流式的统一接口。将文件，socket封装成统一的接口。使用的时候，采用统一的风格操作。基于统一的风格，可以提供更灵活的扩展。
+
+### TcpServer模块
+
+基于Socket类，封装了一个通用的TcpServer的服务器类，提供简单的API，使用便捷，可以快速绑定一个或多个地址，启动服务，监听端口，accept连接，处理socket连接等功能。具体业务功能更的服务器实现，只需要继承该类就可以快速实现
+
+### HTTP模块
+
+采用Ragel（有限状态机，性能媲美汇编），实现了HTTP/1.1的简单协议实现和uri的解析。基于SocketStream实现了HttpConnection(HTTP的客户端)和HttpSession(HTTP服务器端的链接)。基于TcpServer实现了HttpServer。提供了完整的HTTP的客户端API请求功能，HTTP基础API服务器功能。

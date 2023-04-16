@@ -154,7 +154,7 @@ std::string HttpRequest::toString() const {
 
 std::ostream &HttpRequest::dump(std::ostream &os) const {
     //GET /uri HTTP/1.1
-    //Host: wwww.jujimeizuo.top
+    //Host: wwww.jujimeizuo.cn
     //
     //
     os << HttpMethodToString(m_method) << " "
