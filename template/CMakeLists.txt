@@ -13,6 +13,13 @@ include_directories(juhps-server/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/juhps-server)
 link_directories(juhps-server/lib)
 
+include_directories(/usr/include)
+include_directories(/usr/local/include)
+link_directories(/usr/local/lib)
+link_directories(/usr/lib)
+link_directories(/usr/lib64)
+link_directories(/usr/local/lib64)
+
 find_package(Boost REQUIRED)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})

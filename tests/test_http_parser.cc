@@ -1,9 +1,3 @@
-/**
- * @file test_http_parser.cc
- * @brief 测试HTTP协议解析
- * @version 0.1
- * @date 2021-09-25
- */
 #include "src/jujimeizuo.h"
 
 const char test_request_data[] = "POST /login?aa=bb#sss HTTP/1.1\r\n"

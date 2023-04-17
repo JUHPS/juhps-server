@@ -11,6 +11,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic -fPIC")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations")
 
 include_directories(.)
+include_directories(/usr/include)
+include_directories(/usr/local/include)
+link_directories(/usr/lib)
+link_directories(/usr/lib64)
+link_directories(/usr/local/lib)
+link_directories(/usr/local/lib64)
 
 option(BUILD_TEST "ON for complile test" OFF)
 

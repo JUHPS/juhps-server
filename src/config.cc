@@ -120,7 +120,7 @@ void Config::LoadFromStatic(const std::vector<std::string> &files) {
 }
 
 void Config::LoadFromStaticDir(const std::string &path, bool force) {
-    jujimeizuo::IOManager iom(5, false, "default html");
+    jujimeizuo::IOManager iom(4, false, "default html");
     // worker.reset(new jujimeizuo::IOManager(3, false, "Default"));
     
     std::string absoulte_path = jujimeizuo::EnvMgr::GetInstance()->getAbsolutePath(path);
