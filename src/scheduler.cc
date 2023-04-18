@@ -1,29 +1,37 @@
 #include "scheduler.h"
-#include "log.h"
 #include "macro.h"
+#include "hook.h"
 
 namespace jujimeizuo {
 
-static Logger::ptr g_logger = JUJIMEIZUO_LOG_NAME("system");
+static jujimeizuo::Logger::ptr g_logger = JUJIMEIZUO_LOG_NAME("system");
 
-static thread_local Scheduler* t_scheduler = nullptr;
-static thread_local Fiber* t_scheduler_fiber = nullptr;
+/// 当前线程的调度器，同一个调度器下的所有线程共享同一个实例
+static thread_local Scheduler *t_scheduler = nullptr;
+/// 当前线程的调度协程，每个线程都独有一份
+static thread_local Fiber *t_scheduler_fiber = nullptr;
 
-Scheduler::Scheduler(size_t threads, bool use_caller, const std::string& name)
-    : m_name(name) {
+Scheduler::Scheduler(size_t threads, bool use_caller, const std::string &name) {
     JUJIMEIZUO_ASSERT(threads > 0);
-    if (use_caller) {
-        Fiber::GetThis();
-        --threads;
 
+    m_useCaller = use_caller;
+    m_name      = name;
+
+    if (use_caller) {
+        --threads;
+        jujimeizuo::Fiber::GetThis();
         JUJIMEIZUO_ASSERT(GetThis() == nullptr);
         t_scheduler = this;
 
-        m_rootFiber.reset(new Fiber(std::bind(&Scheduler::run, this), 0, true));
-        Thread::SetName(m_name);
+        /**
+         * caller线程的主协程不会被线程的调度协程run进行调度，而且，线程的调度协程停止时，应该返回caller线程的主协程
+         * 在user caller情况下，把caller线程的主协程暂时保存起来，等调度协程结束时，再resume caller协程
+         */
+        m_rootFiber.reset(new Fiber(std::bind(&Scheduler::run, this), 0, false));
 
+        jujimeizuo::Thread::SetName(m_name);
         t_scheduler_fiber = m_rootFiber.get();
-        m_rootThread = GetThreadId();
+        m_rootThread      = jujimeizuo::GetThreadId();
         m_threadIds.push_back(m_rootThread);
     } else {
         m_rootThread = -1;
@@ -31,65 +39,73 @@ Scheduler::Scheduler(size_t threads, bool use_caller, const std::string& name)
     m_threadCount = threads;
 }
 
+Scheduler *Scheduler::GetThis() { 
+    return t_scheduler; 
+}
+
+Fiber *Scheduler::GetMainFiber() { 
+    return t_scheduler_fiber;
+}
+
+void Scheduler::setThis() {
+    t_scheduler = this;
+}
+
 Scheduler::~Scheduler() {
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "Scheduler::~Scheduler()";
     JUJIMEIZUO_ASSERT(m_stopping);
     if (GetThis() == this) {
         t_scheduler = nullptr;
     }
 }
 
-Scheduler* Scheduler::GetThis() {
-    return t_scheduler;
-}
-
-Fiber* Scheduler::GetMainFiber() {
-    return t_scheduler_fiber;
-}
-
 void Scheduler::start() {
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "start";
     MutexType::Lock lock(m_mutex);
-    if (!m_stopping) {
-        return ;
+    if (m_stopping) {
+        JUJIMEIZUO_LOG_ERROR(g_logger) << "Scheduler is stopped";
+        return;
     }
-    m_stopping = false;
     JUJIMEIZUO_ASSERT(m_threads.empty());
-
     m_threads.resize(m_threadCount);
-    for (size_t i = 0; i < m_threadCount; ++i) {
-        m_threads[i].reset(new Thread(std::bind(&Scheduler::run, this), m_name + "_" + std::to_string(i)));
-        m_threadIds.push_back(m_threads[i] -> getId());
+    for (size_t i = 0; i < m_threadCount; i++) {
+        m_threads[i].reset(new Thread(std::bind(&Scheduler::run, this),
+                                      m_name + "_" + std::to_string(i)));
+        m_threadIds.push_back(m_threads[i]->getId());
     }
-    lock.unlock();
+}
 
-    // if (m_rootFiber) {
-        // m_rootFiber->swapIn();
-        // m_rootFiber->call();
-        // JUJIMEIZUO_LOG_INFO(g_logger) << "call out " << m_rootFiber->getState();
-    // }
+bool Scheduler::stopping() {
+    MutexType::Lock lock(m_mutex);
+    return m_stopping && m_tasks.empty() && m_activeThreadCount == 0;
+}
+
+void Scheduler::tickle() { 
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "ticlke"; 
+}
+
+void Scheduler::idle() {
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "idle";
+    while (!stopping()) {
+        jujimeizuo::Fiber::GetThis()->yield();
+    }
 }
 
 void Scheduler::stop() {
-    m_autoStop = true;
-    if (m_rootFiber
-            && m_threadCount == 0
-            && (m_rootFiber -> getState() == Fiber::TERM
-                || m_rootFiber -> getState() == Fiber::INIT)) {
-        JUJIMEIZUO_LOG_INFO(g_logger) << this << " stopped";
-        m_stopping = true;
-
-        if (stopping()) {
-            return ;
-        }
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "stop";
+    if (stopping()) {
+        return;
     }
+    m_stopping = true;
 
-    if (m_rootThread != -1) {
+    /// 如果use caller，那只能由caller线程发起stop
+    if (m_useCaller) {
         JUJIMEIZUO_ASSERT(GetThis() == this);
     } else {
         JUJIMEIZUO_ASSERT(GetThis() != this);
     }
 
-    m_stopping = true;
-    for (size_t i = 0; i < m_threadCount; ++i) {
+    for (size_t i = 0; i < m_threadCount; i++) {
         tickle();
     }
 
@@ -97,10 +113,10 @@ void Scheduler::stop() {
         tickle();
     }
 
+    /// 在use caller情况下，调度器协程结束时，应该返回caller协程
     if (m_rootFiber) {
-        if (!stopping()) {
-            m_rootFiber->call();
-        }
+        m_rootFiber->resume();
+        JUJIMEIZUO_LOG_DEBUG(g_logger) << "m_rootFiber end";
     }
 
     std::vector<Thread::ptr> thrs;
@@ -108,150 +124,96 @@ void Scheduler::stop() {
         MutexType::Lock lock(m_mutex);
         thrs.swap(m_threads);
     }
-
-    for (auto& i : thrs) {
+    for (auto &i : thrs) {
         i->join();
     }
 }
 
-void Scheduler::setThis() {
-    t_scheduler = this;
-}
-
 void Scheduler::run() {
-    JUJIMEIZUO_LOG_DEBUG(g_logger) << m_name << "run";
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "run";
+    set_hook_enable(true);
     setThis();
-    if (GetThreadId() != m_rootThread) {
-        t_scheduler_fiber = Fiber::GetThis().get();
+    if (jujimeizuo::GetThreadId() != m_rootThread) {
+        t_scheduler_fiber = jujimeizuo::Fiber::GetThis().get();
     }
 
     Fiber::ptr idle_fiber(new Fiber(std::bind(&Scheduler::idle, this)));
     Fiber::ptr cb_fiber;
 
-    FiberAndThread ft;
+    ScheduleTask task;
     while (true) {
-        ft.reset();
-        bool tickle_me = false;
-        bool is_active = false;
+        task.reset();
+        bool tickle_me = false; // 是否tickle其他线程进行任务调度
         {
             MutexType::Lock lock(m_mutex);
-            auto it = m_fibers.begin();
-            while (it != m_fibers.end()) {
-                if (it->thread != -1 && it->thread != GetThreadId()) {
+            auto it = m_tasks.begin();
+            // 遍历所有调度任务
+            while (it != m_tasks.end()) {
+                if (it->thread != -1 && it->thread != jujimeizuo::GetThreadId()) {
+                    // 指定了调度线程，但不是在当前线程上调度，标记一下需要通知其他线程进行调度，然后跳过这个任务，继续下一个
                     ++it;
                     tickle_me = true;
-                    continue ;
-                }
-            
-                JUJIMEIZUO_ASSERT(it->fiber || it->cb);
-                if (it->fiber && it->fiber->getState() == Fiber::EXEC) {
-                    ++it;
-                    continue ;
+                    continue;
                 }
 
-                ft = *it;
-                m_fibers.erase(it++);
+                // 找到一个未指定线程，或是指定了当前线程的任务
+                JUJIMEIZUO_ASSERT(it->fiber || it->cb);
+
+                // if (it->fiber) {
+                //     // 任务队列时的协程一定是READY状态，谁会把RUNNING或TERM状态的协程加入调度呢？
+                //     JUJIMEIZUO_ASSERT(it->fiber->getState() == Fiber::READY);
+                // }
+
+                // [BUG FIX]: hook IO相关的系统调用时，在检测到IO未就绪的情况下，会先添加对应的读写事件，再yield当前协程，等IO就绪后再resume当前协程
+                // 多线程高并发情境下，有可能发生刚添加事件就被触发的情况，如果此时当前协程还未来得及yield，则这里就有可能出现协程状态仍为RUNNING的情况
+                // 这里简单地跳过这种情况，以损失一点性能为代价，否则整个协程框架都要大改
+                if(it->fiber && it->fiber->getState() == Fiber::RUNNING) {
+                    ++it;
+                    continue;
+                }
+                
+                // 当前调度线程找到一个任务，准备开始调度，将其从任务队列中剔除，活动线程数加1
+                task = *it;
+                m_tasks.erase(it++);
                 ++m_activeThreadCount;
-                is_active = true;
-                break ;
+                break;
             }
-            tickle_me |= it != m_fibers.end();
-        }   
+            // 当前线程拿完一个任务后，发现任务队列还有剩余，那么tickle一下其他线程
+            tickle_me |= (it != m_tasks.end());
+        }
 
         if (tickle_me) {
             tickle();
         }
 
-        if (ft.fiber && (ft.fiber->getState() != Fiber::TERM
-                        && ft.fiber->getState() != Fiber::EXCEPT)) {
-            ft.fiber->swapIn();
+        if (task.fiber) {
+            // resume协程，resume返回时，协程要么执行完了，要么半路yield了，总之这个任务就算完成了，活跃线程数减一
+            task.fiber->resume();
             --m_activeThreadCount;
-
-            if (ft.fiber->getState() == Fiber::READY) {
-                schedule(ft.fiber);
-            } else if (ft.fiber->getState() != Fiber::TERM && ft.fiber->getState() != Fiber::EXCEPT) {
-                ft.fiber->m_state = Fiber::HOLD;
-            }
-            ft.reset();
-        } else if (ft.cb) {
+            task.reset();
+        } else if (task.cb) {
             if (cb_fiber) {
-                cb_fiber->reset(ft.cb);
+                cb_fiber->reset(task.cb);
             } else {
-                cb_fiber.reset(new Fiber(ft.cb));
+                cb_fiber.reset(new Fiber(task.cb));
             }
-            ft.reset();
-            cb_fiber->swapIn();
+            task.reset();
+            cb_fiber->resume();
             --m_activeThreadCount;
-            if (cb_fiber->getState() == Fiber::READY) {
-                schedule(cb_fiber);
-                cb_fiber.reset();
-            } else if (cb_fiber->getState() == Fiber::EXCEPT || cb_fiber->getState() == Fiber::TERM) {
-                cb_fiber->reset(nullptr);  
-            } else {
-                cb_fiber->m_state = Fiber::HOLD;
-                cb_fiber.reset();
-            }
+            cb_fiber.reset();
         } else {
-            if (is_active) {
-                --m_activeThreadCount;
-                continue ;
-            }
+            // 进到这个分支情况一定是任务队列空了，调度idle协程即可
             if (idle_fiber->getState() == Fiber::TERM) {
-                JUJIMEIZUO_LOG_INFO(g_logger) << "idle fiber term";
-                break ;
+                // 如果调度器没有调度任务，那么idle协程会不停地resume/yield，不会结束，如果idle协程结束了，那一定是调度器停止了
+                JUJIMEIZUO_LOG_DEBUG(g_logger) << "idle fiber term";
+                break;
             }
-
             ++m_idleThreadCount;
-            idle_fiber->swapIn();
+            idle_fiber->resume();
             --m_idleThreadCount;
-            if (idle_fiber->getState() != Fiber::TERM && idle_fiber->getState() != Fiber::EXCEPT) {
-                idle_fiber->m_state = Fiber::HOLD;
-            }
         }
     }
+    JUJIMEIZUO_LOG_DEBUG(g_logger) << "Scheduler::run() exit";
 }
 
-void Scheduler::tickle() {
-    JUJIMEIZUO_LOG_INFO(g_logger) << "tickle";
-}
-
-bool Scheduler::stopping() {
-    MutexType::Lock lock(m_mutex);
-    return m_autoStop && m_stopping && m_fibers.empty() && m_activeThreadCount == 0;
-}
-
-void Scheduler::idle() {
-    JUJIMEIZUO_LOG_INFO(g_logger) << "idle";
-    while (!stopping()) {
-        Fiber::YieldToHold();
-    }
-}
-
-void Scheduler::switchTo(int thread) {
-    JUJIMEIZUO_ASSERT(Scheduler::GetThis() != nullptr);
-    if (Scheduler::GetThis() == this) {
-        if (thread == -1 || thread == GetThreadId()) {
-            return ;
-        }
-    }
-    schedule(Fiber::GetThis(), thread);
-    Fiber::YieldToHold();
-}
-
-std::ostream& Scheduler::dump(std::ostream& os) {
-    os << "[Scheduler name=" << m_name
-       << " size=" << m_threadCount
-       << " active_count=" << m_activeThreadCount
-       << " idle_count=" << m_idleThreadCount
-       << " stopping=" << m_stopping
-       << " ]" << std::endl << "    ";
-    for(size_t i = 0; i < m_threadIds.size(); ++i) {
-        if(i) {
-            os << ", ";
-        }
-        os << m_threadIds[i];
-    }
-    return os;
-}
-
-}
+} // end namespace jujimeizuo

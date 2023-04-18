@@ -1,91 +1,101 @@
 cmake_minimum_required(VERSION 3.0)
-project(server)
+project(JUHPS)
 
-include(cmake/utils.cmake)
+include (cmake/utils.cmake)
 
-add_definitions(-D_GLIBCXX_USE_CXX11_ABI=1)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -O3 -rdynamic -fPIC -ggdb -std=c++11 -Wall -Wno-deprecated  -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -ldl")
-set(CMAKE_C_FLAGS "$ENV{CXXFLAGS} -rdynamic -O3 -fPIC -ggdb -std=c11 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated-declarations -ldl")
+
+# 指定编译选项
+set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -std=c++11 -O0 -ggdb -Wall -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-function -Wno-builtin-macro-redefined -Wno-deprecated -Wno-deprecated-declarations")
 
 include_directories(.)
+include_directories(/usr/include)
 include_directories(/usr/local/include)
+link_directories(/usr/lib)
+link_directories(/usr/lib64)
 link_directories(/usr/local/lib)
 link_directories(/usr/local/lib64)
 
+option(BUILD_TEST "ON for complile test" OFF)
 
-find_package(Boost REQUIRED)
-find_package(yaml-cpp REQUIRED)
-
+find_package(Boost REQUIRED) 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
 set(LIB_SRC
+    src/application.cc
+    src/library.cc
+    src/worker.cc
+    src/module.cc
+    src/log.cc
+    src/util.cc
+    src/mutex.cc
+    src/env.cc
     src/config.cc
-    src/fd_manager.cc
-    src/fiber.cc
-    src/hook.cc
-    src/iomanager.cc
-	src/log.cc
-    src/scheduler.cc
     src/thread.cc
+    src/fiber.cc
+    src/scheduler.cc
+    src/iomanager.cc
     src/timer.cc
-	src/util.cc
+    src/fd_manager.cc
+    src/hook.cc
+    src/address.cc 
+    src/socket.cc 
+    src/bytearray.cc 
+    src/tcp_server.cc 
+    src/http/http-parser/http_parser.c 
+    src/http/http.cc
+    src/http/http_parser.cc 
+    src/stream.cc 
+    src/streams/socket_stream.cc
+    src/http/http_session.cc 
+    src/http/servlet.cc
+    src/http/http_server.cc 
+    src/uri.cc 
+    src/http/http_connection.cc 
+    src/daemon.cc 
     )
 
 add_library(src SHARED ${LIB_SRC})
-force_redefine_file_macro_for_sources(src) #__FILE__
-#add_library(WebServer_static STATIC ${LIB_SRC})
-#SET_TARGET_PROPERTIES (WebServer_static PROPERTIES OUTPUT_NAME "WebServer")
-
+force_redefine_file_macro_for_sources(src)
 
 set(LIBS
     src
-    yaml-cpp
     pthread
-    )
+    dl
+    yaml-cpp
+)
 
+if(BUILD_TEST)
+jujimeizuo_add_executable(test_log "tests/test_log.cpp" src "${LIBS}")
+jujimeizuo_add_executable(test_util "tests/test_util.cpp" src "${LIBS}")
+jujimeizuo_add_executable(test_env "tests/test_env.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_config "tests/test_config.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_thread "tests/test_thread.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_fiber "tests/test_fiber.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_fiber2 "tests/test_fiber2.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_scheduler "tests/test_scheduler.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_iomanager "tests/test_iomanager.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_timer "tests/test_timer.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_hook "tests/test_hook.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_address "tests/test_address.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_socket_tcp_server "tests/test_socket_tcp_server.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_socket_tcp_client "tests/test_socket_tcp_client.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_bytearray "tests/test_bytearray.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_tcp_server "tests/test_tcp_server.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_http "tests/test_http.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_http_parser "tests/test_http_parser.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_http_server "tests/test_http_server.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_uri "tests/test_uri.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_http_connection "tests/test_http_connection.cc" src "${LIBS}")
+jujimeizuo_add_executable(test_daemon "tests/test_daemon.cc" src "${LIBS}")
+endif()
 
-add_executable(test_logger tests/test_logger.cc)
-add_dependencies(test_logger src)
-force_redefine_file_macro_for_sources(test_logger) #__FILE__
-target_link_libraries(test_logger src "${LIBS}")
+jujimeizuo_add_executable(bin_server "src/main.cc" src "${LIBS}")
+set_target_properties(bin_server PROPERTIES OUTPUT_NAME "juhps-server")
 
-add_executable(test_config tests/test_config.cc)
-add_dependencies(test_config src)
-force_redefine_file_macro_for_sources(test_config) #__FILE__
-target_link_libraries(test_config src "${LIBS}")
-
-add_executable(test_thread tests/test_thread.cc)
-add_dependencies(test_thread src)
-force_redefine_file_macro_for_sources(test_thread) #__FILE__
-target_link_libraries(test_thread src "${LIBS}")
-
-add_executable(test_util tests/test_util.cc)
-add_dependencies(test_util src)
-force_redefine_file_macro_for_sources(test_util) #__FILE__
-target_link_libraries(test_util src "${LIBS}")
-
-add_executable(test_fiber tests/test_fiber.cc)
-add_dependencies(test_fiber src)
-force_redefine_file_macro_for_sources(test_fiber) #__FILE__
-target_link_libraries(test_fiber src "${LIBS}")
-
-add_executable(test_scheduler tests/test_scheduler.cc)
-add_dependencies(test_scheduler src)
-force_redefine_file_macro_for_sources(test_scheduler) #__FILE__
-target_link_libraries(test_scheduler src "${LIBS}")
-
-add_executable(test_iomanager tests/test_iomanager.cc)
-add_dependencies(test_iomanager src)
-force_redefine_file_macro_for_sources(test_iomanager) #__FILE__
-target_link_libraries(test_iomanager src "${LIBS}")
-
-add_executable(test_hook tests/test_hook.cc)
-add_dependencies(test_hook src)
-force_redefine_file_macro_for_sources(test_hook) #__FILE__
-target_link_libraries(test_hook src "${LIBS}")
-
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)

@@ -1,7 +1,6 @@
-#include <dlfcn.h>
-#include <cstdarg>
-
 #include "hook.h"
+#include <dlfcn.h>
+
 #include "config.h"
 #include "log.h"
 #include "fiber.h"
@@ -10,10 +9,9 @@
 #include "macro.h"
 
 jujimeizuo::Logger::ptr g_logger = JUJIMEIZUO_LOG_NAME("system");
-
 namespace jujimeizuo {
 
-static jujimeizuo::ConfigVar<int>::ptr g_tcp_connect_timeout = 
+static jujimeizuo::ConfigVar<int>::ptr g_tcp_connect_timeout =
     jujimeizuo::Config::Lookup("tcp.connect.timeout", 5000, "tcp connect timeout");
 
 static thread_local bool t_hook_enable = false;
@@ -43,7 +41,7 @@ static thread_local bool t_hook_enable = false;
 
 void hook_init() {
     static bool is_inited = false;
-    if (is_inited) {
+    if(is_inited) {
         return;
     }
 #define XX(name) name ## _f = (name ## _fun)dlsym(RTLD_NEXT, #name);
@@ -58,9 +56,9 @@ struct _HookIniter {
         s_connect_timeout = g_tcp_connect_timeout->getValue();
 
         g_tcp_connect_timeout->addListener([](const int& old_value, const int& new_value){
-            JUJIMEIZUO_LOG_INFO(g_logger) << "tcp connect timeout changed from "
-                                        << old_value << " to " << new_value;
-            s_connect_timeout = new_value;
+                JUJIMEIZUO_LOG_INFO(g_logger) << "tcp connect timeout changed from "
+                                         << old_value << " to " << new_value;
+                s_connect_timeout = new_value;
         });
     }
 };
@@ -107,10 +105,10 @@ static ssize_t do_io(int fd, OriginFun fun, const char* hook_fun_name,
 
 retry:
     ssize_t n = fun(fd, std::forward<Args>(args)...);
-    while (n == -1 && errno == EINTR) {
+    while(n == -1 && errno == EINTR) {
         n = fun(fd, std::forward<Args>(args)...);
     }
-    if (n == -1 && errno == EAGAIN) {
+    if(n == -1 && errno == EAGAIN) {
         jujimeizuo::IOManager* iom = jujimeizuo::IOManager::GetThis();
         jujimeizuo::Timer::ptr timer;
         std::weak_ptr<timer_info> winfo(tinfo);
@@ -127,7 +125,7 @@ retry:
         }
 
         int rt = iom->addEvent(fd, (jujimeizuo::IOManager::Event)(event));
-        if(rt) {
+        if(JUJIMEIZUO_UNLIKELY(rt)) {
             JUJIMEIZUO_LOG_ERROR(g_logger) << hook_fun_name << " addEvent("
                 << fd << ", " << event << ")";
             if(timer) {
@@ -135,7 +133,7 @@ retry:
             }
             return -1;
         } else {
-            jujimeizuo::Fiber::YieldToHold();
+            jujimeizuo::Fiber::GetThis()->yield();
             if(timer) {
                 timer->cancel();
             }
@@ -146,9 +144,10 @@ retry:
             goto retry;
         }
     }
-
+    
     return n;
 }
+
 
 extern "C" {
 #define XX(name) name ## _fun name ## _f = nullptr;
@@ -165,7 +164,7 @@ unsigned int sleep(unsigned int seconds) {
     iom->addTimer(seconds * 1000, std::bind((void(jujimeizuo::Scheduler::*)
             (jujimeizuo::Fiber::ptr, int thread))&jujimeizuo::IOManager::schedule
             ,iom, fiber, -1));
-    jujimeizuo::Fiber::YieldToHold();
+    jujimeizuo::Fiber::GetThis()->yield();
     return 0;
 }
 
@@ -178,7 +177,7 @@ int usleep(useconds_t usec) {
     iom->addTimer(usec / 1000, std::bind((void(jujimeizuo::Scheduler::*)
             (jujimeizuo::Fiber::ptr, int thread))&jujimeizuo::IOManager::schedule
             ,iom, fiber, -1));
-    jujimeizuo::Fiber::YieldToHold();
+    jujimeizuo::Fiber::GetThis()->yield();
     return 0;
 }
 
@@ -193,7 +192,7 @@ int nanosleep(const struct timespec *req, struct timespec *rem) {
     iom->addTimer(timeout_ms, std::bind((void(jujimeizuo::Scheduler::*)
             (jujimeizuo::Fiber::ptr, int thread))&jujimeizuo::IOManager::schedule
             ,iom, fiber, -1));
-    jujimeizuo::Fiber::YieldToHold();
+    jujimeizuo::Fiber::GetThis()->yield();
     return 0;
 }
 
@@ -252,7 +251,7 @@ int connect_with_timeout(int fd, const struct sockaddr* addr, socklen_t addrlen,
 
     int rt = iom->addEvent(fd, jujimeizuo::IOManager::WRITE);
     if(rt == 0) {
-        jujimeizuo::Fiber::YieldToHold();
+        jujimeizuo::Fiber::GetThis()->yield();
         if(timer) {
             timer->cancel();
         }
