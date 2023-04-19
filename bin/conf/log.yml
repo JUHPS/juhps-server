@@ -9,9 +9,11 @@ logs:
       appenders:
           - type: StdoutLogAppender
           - type: FileLogAppender
-            file: /home/dev/server/system.txt
+            file: ../system.log
     - name: http
       level: debug
       appenders:
           - type: StdoutLogAppender
             pattern: "%f:%l%T%m%n"
+          - type: FileLogAppender
+            file: ../http.log
