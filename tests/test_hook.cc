@@ -77,11 +77,11 @@ int main(int argc, char *argv[]) {
     jujimeizuo::EnvMgr::GetInstance()->init(argc, argv);
     jujimeizuo::Config::LoadFromConfDir(jujimeizuo::EnvMgr::GetInstance()->getConfigPath());
 
-    // test_sleep();
+    test_sleep();
 
     // 只有以协程调度的方式运行hook才能生效
-    jujimeizuo::IOManager iom;
-    iom.schedule(test_sock);
+    // jujimeizuo::IOManager iom;
+    // iom.schedule(test_sock);
 
     JUJIMEIZUO_LOG_INFO(g_logger) << "main end";
     return 0;
